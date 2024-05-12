@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    private List<GridCell> path = new List<GridCell>(); // List to store the movement path
+    [SerializeField] private List<GridCell> path = new List<GridCell>(); // List to store the movement path
     private bool isDragging = false; // Flag to track if the user is currently dragging
 
     [SerializeField] private PathData pathData;
@@ -79,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             GridCell hitCell = hit.collider.GetComponent<GridCell>();
-            if (hitCell != null && IsAdjacentToPreviousCell(hitCell))
+            if (hitCell != null && IsAdjacentToPreviousCell(hitCell)&& !path.Contains(hitCell))
             {
                 // Add the current cell to the path if it's adjacent to the previous cell
                 path.Add(hitCell);
