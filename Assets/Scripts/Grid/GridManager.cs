@@ -40,13 +40,15 @@ public class GridManager : MonoBehaviour
     }
 
     // Highlight a specific cell in the grid
-    public void HighlightCell(int row, int col)
+    public void HighlightCell(int row, int col,Color color)
     {
         if (row >= 0 && row < numRows && col >= 0 && col < numColumns)
         {
             GameObject cell = gridCells[row, col];
             Renderer renderer = cell.GetComponent<Renderer>();
             renderer.material = highlightMaterial;
+            renderer.material.color=color;
+            
         }
     }
 

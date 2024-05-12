@@ -6,49 +6,61 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
     [SerializeField] private List<GridCell> path = new List<GridCell>(); // List to store the movement path
+    [SerializeField] private List<Vector3> tempPath=new List<Vector3>();
+    
     private bool isDragging = false; // Flag to track if the user is currently dragging
 
     [SerializeField] private PathData pathData;
+    [SerializeField] private Color playerColor; // Color assigned to this player
 
+    private Renderer playerRenderer; // Renderer component to apply color to the player
 
-    
+    public bool isMe=false;
+
+    void Start()
+    {
+        playerRenderer = GetComponent<Renderer>(); // Get the Renderer component
+        playerRenderer.material.color = playerColor; // Set the player's color
+    }
 
     void Update()
     {
-        // Check for touch input
-        if (Input.touchCount > 0)
+         // Check for touch input
+        if (isMe)
         {
-            Touch touch = Input.GetTouch(0);
-
-            // Handle touch phase
-            switch (touch.phase)
+            if (Input.touchCount > 0)
             {
-                case TouchPhase.Began:
-                    StartDragging(touch.position);
-                    break;
-
-                case TouchPhase.Moved:
-                    if (isDragging)
-                    {
-                        ContinueDragging(touch.position);
-                    }
-                    break;
-
-                case TouchPhase.Ended:
-                    EndDragging();
-                    break;
+                Touch touch = Input.GetTouch(0);
+    
+                // Handle touch phase
+                switch (touch.phase)
+                {
+                    case TouchPhase.Began:
+                        StartDragging(touch.position);
+                        break;
+    
+                    case TouchPhase.Moved:
+                        if (isDragging)
+                        {
+                            ContinueDragging(touch.position);
+                        }
+                        break;
+    
+                    case TouchPhase.Ended:
+                        EndDragging();
+                        break;
+                }
             }
         }
 
         // Move the player along the path if it's not empty
-        if(pathData.playersCanMove)
+        if (pathData.playersCanMove)
         {
             if (path.Count > 0)
             {
                 MovePlayerAlongPath();
             }
         }
-        
     }
 
     void StartDragging(Vector2 touchPosition)
@@ -56,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
         // Perform a raycast to detect the grid cell the user started dragging from
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(touchPosition);
-        
+
         if (Physics.Raycast(ray, out hit))
         {
             GridCell hitCell = hit.collider.GetComponent<GridCell>();
@@ -70,19 +82,21 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void ContinueDragging(Vector2 touchPosition)
+    internal void ContinueDragging(Vector2 touchPosition)
     {
         // Perform a raycast to detect the grid cell the user is currently dragging over
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(touchPosition);
-        
+
         if (Physics.Raycast(ray, out hit))
         {
             GridCell hitCell = hit.collider.GetComponent<GridCell>();
-            if (hitCell != null && IsAdjacentToPreviousCell(hitCell)&& !path.Contains(hitCell))
+            if (hitCell != null && IsAdjacentToPreviousCell(hitCell) && !path.Contains(hitCell))
             {
                 // Add the current cell to the path if it's adjacent to the previous cell
                 path.Add(hitCell);
+                // Highlight the grid cell with the player's color
+                //hitCell.Highlight(playerColor);
             }
         }
     }
@@ -90,6 +104,21 @@ public class PlayerMovement : MonoBehaviour
     void EndDragging()
     {
         isDragging = false;
+        tempPath.Clear();
+
+        foreach ( GridCell cell in path)
+        {
+            tempPath.Add(cell.transform.position);
+        }
+
+
+        
+
+        // Reset highlight for all cells
+        /*foreach (GridCell cell in path)
+        {
+            cell.ResetHighlight();
+        }*/
         // Optionally, you can perform additional actions when the dragging ends
         // For example, you can trigger the player to move along the collected path
     }

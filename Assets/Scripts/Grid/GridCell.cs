@@ -10,6 +10,9 @@ public class GridCell : MonoBehaviour
     private GridManager gridManager;
     private bool isTouching = false;
 
+    //Bunu daha sonra array olarak tutki ust uste gectiklerinde renkler degisime ugrasin
+    internal Color cellColor;
+
     void Start()
     {
         gridManager = GetComponentInParent<GridManager>();
@@ -32,7 +35,7 @@ public class GridCell : MonoBehaviour
                         GridCell otherCell = hit.collider.GetComponent<GridCell>();
                         if (otherCell != null && (otherCell.row != row || otherCell.column != column))
                         {
-                            gridManager.HighlightCell(otherCell.row, otherCell.column);
+                            gridManager.HighlightCell(otherCell.row, otherCell.column,cellColor);
                         }
                     }
                 }
