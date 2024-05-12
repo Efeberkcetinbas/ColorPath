@@ -46,8 +46,12 @@ public class GridManager : MonoBehaviour
         {
             GameObject cell = gridCells[row, col];
             Renderer renderer = cell.GetComponent<Renderer>();
-            renderer.material = highlightMaterial;
-            renderer.material.color=color;
+            //renderer.material = highlightMaterial;
+            if(renderer!=null)
+                renderer.material.color=color;
+            else
+                Debug.LogWarning("WARNING");
+            
             
         }
     }

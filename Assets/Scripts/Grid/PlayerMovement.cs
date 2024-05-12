@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private PathData pathData;
     [SerializeField] private Color playerColor; // Color assigned to this player
+    [SerializeField] private GridManager gridManager;
 
     private Renderer playerRenderer; // Renderer component to apply color to the player
 
@@ -95,6 +96,13 @@ public class PlayerMovement : MonoBehaviour
             {
                 // Add the current cell to the path if it's adjacent to the previous cell
                 path.Add(hitCell);
+                Debug.Log("PATH ADDED");
+                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                hitCell.players.Add(this);
+                //hitCell.cellColor=playerColor;
+                gridManager.HighlightCell(hitCell.row,hitCell.column,playerColor);
+                //Debug.Log("CELL COLOR  : " + hitCell.cellColor);
+                //Debug.Log("PLAYER COLOR  : " + playerColor);
                 // Highlight the grid cell with the player's color
                 //hitCell.Highlight(playerColor);
             }

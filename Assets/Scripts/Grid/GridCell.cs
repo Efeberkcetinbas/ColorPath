@@ -9,16 +9,18 @@ public class GridCell : MonoBehaviour
 
     private GridManager gridManager;
     private bool isTouching = false;
-
+    [SerializeField] private bool isOne=false;
     //Bunu daha sonra array olarak tutki ust uste gectiklerinde renkler degisime ugrasin
     internal Color cellColor;
+
+    public List<PlayerMovement> players=new List<PlayerMovement>();
 
     void Start()
     {
         gridManager = GetComponentInParent<GridManager>();
     }
 
-    void Update()
+    /*void Update()
     {
         if (isTouching)
         {
@@ -35,7 +37,8 @@ public class GridCell : MonoBehaviour
                         GridCell otherCell = hit.collider.GetComponent<GridCell>();
                         if (otherCell != null && (otherCell.row != row || otherCell.column != column))
                         {
-                            gridManager.HighlightCell(otherCell.row, otherCell.column,cellColor);
+                            //gridManager.HighlightCell(otherCell.row, otherCell.column,cellColor);
+                            
                         }
                     }
                 }
@@ -45,7 +48,7 @@ public class GridCell : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 
     void OnTriggerEnter(Collider other)
     {
