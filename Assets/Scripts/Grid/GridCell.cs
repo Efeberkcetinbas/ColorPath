@@ -2,6 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CellType
+{
+    None,
+    Yellow,
+    Red,
+    Blue,
+    Green,
+    Purple,
+    Aqua,
+    Orange,
+    Pink
+}
 public class GridCell : MonoBehaviour
 {
     public int row;
@@ -14,6 +26,7 @@ public class GridCell : MonoBehaviour
     internal Color cellColor;
 
     public List<PlayerMovement> players=new List<PlayerMovement>();
+    public List<CellType> cellTypes=new List<CellType>();
 
     void Start()
     {
@@ -53,6 +66,10 @@ public class GridCell : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         isTouching = true;
+        if(other.CompareTag("Player"))
+        {
+            Debug.Log("ENTER PLAYER");
+        }
     }
 
     void OnTriggerExit(Collider other)
@@ -63,6 +80,12 @@ public class GridCell : MonoBehaviour
         {
             //Eger altinda baska bir renk yoksa
             gridManager.ResetCellMaterial(row, column);
+            /*if(players.Count!=0)
+            {
+                players.RemoveAt(players.Count-1);
+
+            }*/
+            
         }
     }
 }

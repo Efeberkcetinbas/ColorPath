@@ -464,9 +464,10 @@ MonoBehaviour:
   path: []
   tempPath: []
   pathData: {fileID: 11400000, guid: e2dd2110dc93c2e409cd76192e28a193, type: 2}
-  playerColor: {r: 0.3647059, g: 0.882353, b: 1, a: 1}
+  playerColor: {r: 1, g: 0.81456906, b: 0.36470592, a: 1}
   gridManager: {fileID: 1477036415}
   isMe: 0
+  playerType: 1
 --- !u!1 &2098226978
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,9 +552,10 @@ MonoBehaviour:
   path: []
   tempPath: []
   pathData: {fileID: 11400000, guid: e2dd2110dc93c2e409cd76192e28a193, type: 2}
-  playerColor: {r: 1, g: 0, b: 0, a: 1}
+  playerColor: {r: 0.495893, g: 0, b: 1, a: 1}
   gridManager: {fileID: 1477036415}
   isMe: 0
+  playerType: 5
 --- !u!65 &2132573965
 BoxCollider:
   m_ObjectHideFlags: 0

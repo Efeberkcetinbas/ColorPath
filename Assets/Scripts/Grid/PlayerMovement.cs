@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
@@ -17,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private Renderer playerRenderer; // Renderer component to apply color to the player
 
     public bool isMe=false;
+    public CellType playerType;
 
     void Start()
     {
@@ -101,6 +105,7 @@ public class PlayerMovement : MonoBehaviour
                 hitCell.players.Add(this);
                 //hitCell.cellColor=playerColor;
                 gridManager.HighlightCell(hitCell.row,hitCell.column,playerColor);
+                hitCell.cellTypes.Add(playerType);
                 //Debug.Log("CELL COLOR  : " + hitCell.cellColor);
                 //Debug.Log("PLAYER COLOR  : " + playerColor);
                 // Highlight the grid cell with the player's color
