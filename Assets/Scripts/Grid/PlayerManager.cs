@@ -54,6 +54,16 @@ public class PlayerManager : MonoBehaviour
                 selectedPlayer = player;
                 selectedPlayer.isMe=true;
                 Debug.Log(selectedPlayer.name);
+                //Burada liste kontrolunu yapabilirsin
+            }
+
+            else
+            {
+                for (int i = 0; i < players.Count; i++)
+                {
+                    players[i].isMe=false;
+                }
+
             }
         }
     }
@@ -70,5 +80,6 @@ public class PlayerManager : MonoBehaviour
     void HandleTouchEnd()
     {
         //selectedPlayer = null; // Deselect the player when touch ends
+        selectedPlayer=null;
     }
 }

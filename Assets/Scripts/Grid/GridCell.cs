@@ -23,7 +23,7 @@ public class GridCell : MonoBehaviour
     private bool isTouching = false;
     [SerializeField] private bool isOne=false;
     //Bunu daha sonra array olarak tutki ust uste gectiklerinde renkler degisime ugrasin
-    internal Color cellColor;
+    public List<Color> cellColors=new List<Color>();
 
     public List<PlayerMovement> players=new List<PlayerMovement>();
     public List<CellType> cellTypes=new List<CellType>();
@@ -69,6 +69,13 @@ public class GridCell : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             Debug.Log("ENTER PLAYER");
+            if(other.GetComponent<PlayerMovement>().playerType== cellTypes[cellTypes.Count-1])
+            {
+                Debug.Log("SUCCESS");
+            }
+
+            else
+                Debug.Log("FAIL");
         }
     }
 
@@ -80,11 +87,11 @@ public class GridCell : MonoBehaviour
         {
             //Eger altinda baska bir renk yoksa
             gridManager.ResetCellMaterial(row, column);
-            /*if(players.Count!=0)
+            if(players.Count!=0)
             {
                 players.RemoveAt(players.Count-1);
-
-            }*/
+                cellTypes.RemoveAt(cellTypes.Count-1);
+            }
             
         }
     }

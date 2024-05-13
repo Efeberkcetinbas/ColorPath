@@ -48,7 +48,12 @@ public class GridManager : MonoBehaviour
             Renderer renderer = cell.GetComponent<Renderer>();
             //renderer.material = highlightMaterial;
             if(renderer!=null)
-                renderer.material.color=color;
+            {
+                cell.GetComponent<GridCell>().cellColors.Add(color);
+                renderer.material.color=cell.GetComponent<GridCell>().cellColors[cell.GetComponent<GridCell>().cellColors.Count-1];
+                
+            }
+                
             else
                 Debug.LogWarning("WARNING");
             
@@ -63,7 +68,13 @@ public class GridManager : MonoBehaviour
         {
             GameObject cell = gridCells[row, col];
             Renderer renderer = cell.GetComponent<Renderer>();
-            renderer.material = defaultMaterial;
+            cell.GetComponent<GridCell>().cellColors.RemoveAt(cell.GetComponent<GridCell>().cellColors.Count-1);
+
+            if(cell.GetComponent<GridCell>().cellColors.Count!=0)
+                renderer.material.color=cell.GetComponent<GridCell>().cellColors[cell.GetComponent<GridCell>().cellColors.Count-1];
+            else
+                renderer.material = defaultMaterial;
+
         }
     }
 

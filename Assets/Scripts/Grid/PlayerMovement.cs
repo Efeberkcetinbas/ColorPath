@@ -141,9 +141,15 @@ public class PlayerMovement : MonoBehaviour
         if (path.Count > 0)
         {
             GridCell lastCell = path[path.Count - 1];
-            // Cells are adjacent if the difference in row or column is at most 1
-            return Mathf.Abs(lastCell.row - cell.row) <= 1 && Mathf.Abs(lastCell.column - cell.column) <= 1;
+            
+            // Check if the cells are adjacent horizontally or vertically
+            bool isHorizontalAdjacent = Mathf.Abs(lastCell.row - cell.row) == 1 && lastCell.column == cell.column;
+            bool isVerticalAdjacent = lastCell.row == cell.row && Mathf.Abs(lastCell.column - cell.column) == 1;
+            
+            // Return true if the cells are adjacent horizontally or vertically
+            return isHorizontalAdjacent || isVerticalAdjacent;
         }
+        
         return true; // Return true if there's no previous cell (first cell in the path)
     }
 
