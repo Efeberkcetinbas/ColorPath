@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c55ef93287901724cabb0bffc221e8bd, type: 3}
   m_Name: PathData
   m_EditorClassIdentifier: 
-  playersCanMove: 1
+  playersCanMove: 0

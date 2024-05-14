@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private Renderer playerRenderer; // Renderer component to apply color to the player
 
     public bool isMe=false;
+    public bool canCountOnMe=true;
     public CellType playerType;
 
     void Start()
@@ -100,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 // Add the current cell to the path if it's adjacent to the previous cell
                 path.Add(hitCell);
-                Debug.Log("PATH ADDED");
+                Debug.Log("EVENTSSSS WILLLL BEEE ADDED");
                 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 hitCell.players.Add(this);
                 //hitCell.cellColor=playerColor;

@@ -71,7 +71,8 @@ public class GridCell : MonoBehaviour
             Debug.Log("ENTER PLAYER");
             if(other.GetComponent<PlayerMovement>().playerType== cellTypes[cellTypes.Count-1])
             {
-                Debug.Log("SUCCESS");
+                Debug.Log("PARTICLE AND SUCCESS");
+                
             }
 
             else

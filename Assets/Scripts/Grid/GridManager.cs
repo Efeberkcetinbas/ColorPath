@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class GridManager : MonoBehaviour
 {
@@ -50,7 +51,7 @@ public class GridManager : MonoBehaviour
             if(renderer!=null)
             {
                 cell.GetComponent<GridCell>().cellColors.Add(color);
-                renderer.material.color=cell.GetComponent<GridCell>().cellColors[cell.GetComponent<GridCell>().cellColors.Count-1];
+                renderer.material.DOColor(cell.GetComponent<GridCell>().cellColors[cell.GetComponent<GridCell>().cellColors.Count-1],.5f);
                 
             }
                 

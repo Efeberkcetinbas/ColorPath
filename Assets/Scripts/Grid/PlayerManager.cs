@@ -8,6 +8,39 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] private PlayerMovement selectedPlayer; // Currently selected player
 
+    [SerializeField] private int numberOfPlayers;
+    [SerializeField] private int counter;
+
+
+    [SerializeField] private bool canCount;
+
+    [SerializeField] private PathData pathData;
+
+
+    private WaitForSeconds waitForSeconds;
+    void Start()
+    {
+        waitForSeconds=new WaitForSeconds(1);
+        OnGameStart();
+
+    }
+
+    private void OnEnable()
+    {
+        EventManager.AddHandler(GameEvent.OnGameStart,OnGameStart);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.RemoveHandler(GameEvent.OnGameStart,OnGameStart);
+    }
+
+    private void OnGameStart()
+    {
+        numberOfPlayers=players.Count;
+        counter=0;
+
+    }
     void Update()
     {
         // Check for touch input
@@ -51,9 +84,11 @@ public class PlayerManager : MonoBehaviour
                 {
                     players[i].isMe=false;
                 }
+                
                 selectedPlayer = player;
                 selectedPlayer.isMe=true;
                 Debug.Log(selectedPlayer.name);
+                canCount=true;
                 //Burada liste kontrolunu yapabilirsin
             }
 
@@ -63,6 +98,8 @@ public class PlayerManager : MonoBehaviour
                 {
                     players[i].isMe=false;
                 }
+
+                canCount=false;
 
             }
         }
@@ -80,6 +117,32 @@ public class PlayerManager : MonoBehaviour
     void HandleTouchEnd()
     {
         //selectedPlayer = null; // Deselect the player when touch ends
+        if(selectedPlayer!=null)
+        {
+            if(canCount && selectedPlayer.canCountOnMe)
+                counter++;
+
+            selectedPlayer.canCountOnMe=false;
+
+        }
+
         selectedPlayer=null;
+        
+
+        StartCoroutine(CheckCounter());
+        
+
+
+        
+    }
+
+    private IEnumerator CheckCounter()
+    {
+        yield return waitForSeconds;
+
+        if(numberOfPlayers==counter)
+            pathData.playersCanMove=true;
+
+        
     }
 }
