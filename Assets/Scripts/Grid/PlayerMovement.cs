@@ -13,9 +13,12 @@ public class PlayerMovement : MonoBehaviour
     
     private bool isDragging = false; // Flag to track if the user is currently dragging
 
+    [SerializeField] private GameData gameData;
+
     [SerializeField] private PathData pathData;
     [SerializeField] private Color playerColor; // Color assigned to this player
     [SerializeField] private GridManager gridManager;
+    [SerializeField] private Transform target;
 
     private Renderer playerRenderer; // Renderer component to apply color to the player
 
@@ -32,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
          // Check for touch input
-        if (isMe)
+        if (isMe && !gameData.isGameEnd)
         {
             if (Input.touchCount > 0)
             {
@@ -164,6 +167,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 // Remove the current cell from the path once reached
                 path.RemoveAt(0);
+                
             }
         }
         else if (path.Count == 1)
@@ -174,6 +178,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 // Clear the path once reached the last cell
                 path.Clear();
+                Debug.Log(name+ " FINISHED THE PATH CHECK IT"); 
+                if(transform.position==target.position)
+                {
+                    Debug.Log("SUCCESS PATH");
+                }
             }
         }
     }

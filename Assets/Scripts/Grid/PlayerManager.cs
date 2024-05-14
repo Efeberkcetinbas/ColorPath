@@ -6,15 +6,16 @@ public class PlayerManager : MonoBehaviour
 {
     public List<PlayerMovement> players=new List<PlayerMovement>(); // List of all players with PlayerMovement script attached
 
-    [SerializeField] private PlayerMovement selectedPlayer; // Currently selected player
+    private PlayerMovement selectedPlayer; // Currently selected player
 
-    [SerializeField] private int numberOfPlayers;
-    [SerializeField] private int counter;
+    private int numberOfPlayers;
+    private int counter;
 
 
-    [SerializeField] private bool canCount;
+    private bool canCount;
 
     [SerializeField] private PathData pathData;
+    [SerializeField] private GameData gameData;
 
 
     private WaitForSeconds waitForSeconds;
@@ -37,6 +38,10 @@ public class PlayerManager : MonoBehaviour
 
     private void OnGameStart()
     {
+        players.Clear();
+        players=FindObjectOfType<LevelProperty>().levelPlayersList;
+        
+
         numberOfPlayers=players.Count;
         counter=0;
 
@@ -44,7 +49,7 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         // Check for touch input
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && !gameData.isGameEnd)
         {
             Touch touch = Input.GetTouch(0);
 
@@ -141,7 +146,12 @@ public class PlayerManager : MonoBehaviour
         yield return waitForSeconds;
 
         if(numberOfPlayers==counter)
+        {
             pathData.playersCanMove=true;
+            gameData.isGameEnd=true;
+
+        }
+            
 
         
     }

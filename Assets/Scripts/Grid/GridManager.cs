@@ -69,6 +69,7 @@ public class GridManager : MonoBehaviour
         {
             GameObject cell = gridCells[row, col];
             Renderer renderer = cell.GetComponent<Renderer>();
+            
             cell.GetComponent<GridCell>().cellColors.RemoveAt(cell.GetComponent<GridCell>().cellColors.Count-1);
 
             if(cell.GetComponent<GridCell>().cellColors.Count!=0)
