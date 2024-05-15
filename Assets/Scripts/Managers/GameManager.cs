@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public GameData gameData;
     public PlayerData playerData;
+    public PathData pathData;
 
     [SerializeField] private GameObject FailPanel;
     [SerializeField] private Ease ease;
@@ -27,7 +28,6 @@ public class GameManager : MonoBehaviour
     {
         FailPanel.SetActive(true);
         FailPanel.transform.DOScale(Vector3.one,1f).SetEase(ease);
-        playerData.playerCanMove=false;
         gameData.isGameEnd=true;
 
     }
@@ -36,7 +36,8 @@ public class GameManager : MonoBehaviour
     
     void ClearData()
     {
-
+        gameData.isGameEnd=false;
+        pathData.playersCanMove=false;
     }
 
     

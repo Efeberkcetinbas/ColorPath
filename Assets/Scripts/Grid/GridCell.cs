@@ -69,14 +69,20 @@ public class GridCell : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             Debug.Log("ENTER PLAYER");
-            if(other.GetComponent<PlayerMovement>().playerType== cellTypes[cellTypes.Count-1])
-            {
-                Debug.Log("PARTICLE AND SUCCESS");
-                
-            }
 
-            else
-                Debug.Log("FAIL");
+            if(cellTypes.Count>0)
+            {
+
+            
+                if(other.GetComponent<PlayerMovement>().playerType== cellTypes[cellTypes.Count-1])
+                {
+                    Debug.Log("PARTICLE AND SUCCESS");
+                    
+                }
+
+                else
+                    Debug.Log("FAIL");
+            }
         }
     }
 
@@ -86,12 +92,15 @@ public class GridCell : MonoBehaviour
 
         if(other.CompareTag("Player"))
         {
-            //Eger altinda baska bir renk yoksa
-            gridManager.ResetCellMaterial(row, column);
-            if(players.Count!=0)
+            if(cellTypes.Count>0)
             {
-                players.RemoveAt(players.Count-1);
-                cellTypes.RemoveAt(cellTypes.Count-1);
+            //Eger altinda baska bir renk yoksa
+                gridManager.ResetCellMaterial(row, column);
+                if(players.Count!=0)
+                {
+                    players.RemoveAt(players.Count-1);
+                    cellTypes.RemoveAt(cellTypes.Count-1);
+                }
             }
             
         }

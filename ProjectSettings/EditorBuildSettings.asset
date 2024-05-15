@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/DreamGameScene.unity
+    guid: cb255a45973a6844985459f79c9a3349
   m_configObjects: {}

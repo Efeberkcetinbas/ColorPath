@@ -14,8 +14,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isDragging = false; // Flag to track if the user is currently dragging
 
     [SerializeField] private GameData gameData;
-
     [SerializeField] private PathData pathData;
+    [SerializeField] private PlayerData playerData;
     [SerializeField] private Color playerColor; // Color assigned to this player
     [SerializeField] private GridManager gridManager;
     [SerializeField] private Transform target;
@@ -179,9 +179,13 @@ public class PlayerMovement : MonoBehaviour
                 // Clear the path once reached the last cell
                 path.Clear();
                 Debug.Log(name+ " FINISHED THE PATH CHECK IT"); 
+                playerData.pathCompletedCounter++;
+
                 if(transform.position==target.position)
                 {
                     Debug.Log("SUCCESS PATH");
+                    playerData.successPathCompletedCounter++;
+                    
                 }
             }
         }
