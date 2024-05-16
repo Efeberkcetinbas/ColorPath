@@ -68,13 +68,13 @@ public class GridCell : MonoBehaviour
         isTouching = true;
         if(other.CompareTag("Player"))
         {
-            Debug.Log("ENTER PLAYER");
+            Debug.Log("ENTER PLAYER" + other.name);
 
             if(cellTypes.Count>0)
             {
 
-            
-                if(other.GetComponent<PlayerMovement>().playerType== cellTypes[cellTypes.Count-1])
+                //Parenta ver
+                if(other.transform.parent.GetComponent<PlayerMovement>().playerType== cellTypes[cellTypes.Count-1])
                 {
                     Debug.Log("PARTICLE AND SUCCESS");
                     

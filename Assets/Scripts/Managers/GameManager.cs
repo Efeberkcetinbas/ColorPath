@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
     {
         gameData.isGameEnd=false;
         pathData.playersCanMove=false;
+        playerData.successPathCompletedCounter=0;
+        playerData.pathCompletedCounter=0;
     }
 
     

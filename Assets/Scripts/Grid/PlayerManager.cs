@@ -6,7 +6,7 @@ public class PlayerManager : MonoBehaviour
 {
     public List<PlayerMovement> players=new List<PlayerMovement>(); // List of all players with PlayerMovement script attached
 
-    private PlayerMovement selectedPlayer; // Currently selected player
+    [SerializeField] private PlayerMovement selectedPlayer; // Currently selected player
 
     private int numberOfPlayers;
     private int counter;

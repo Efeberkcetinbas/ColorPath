@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GridManager gridManager;
     [SerializeField] private Transform target;
 
-    private Renderer playerRenderer; // Renderer component to apply color to the player
+    [SerializeField] private SkinnedMeshRenderer playerRenderer; // Renderer component to apply color to the player
 
     public bool isMe=false;
     public bool canCountOnMe=true;
@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        playerRenderer = GetComponent<Renderer>(); // Get the Renderer component
+        //playerRenderer = GetComponent<SkinnedMeshRenderer>(); // Get the Renderer component
         playerRenderer.material.color = playerColor; // Set the player's color
     }
 
@@ -105,15 +105,9 @@ public class PlayerMovement : MonoBehaviour
                 // Add the current cell to the path if it's adjacent to the previous cell
                 path.Add(hitCell);
                 Debug.Log("EVENTSSSS WILLLL BEEE ADDED");
-                //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 hitCell.players.Add(this);
-                //hitCell.cellColor=playerColor;
                 gridManager.HighlightCell(hitCell.row,hitCell.column,playerColor);
                 hitCell.cellTypes.Add(playerType);
-                //Debug.Log("CELL COLOR  : " + hitCell.cellColor);
-                //Debug.Log("PLAYER COLOR  : " + playerColor);
-                // Highlight the grid cell with the player's color
-                //hitCell.Highlight(playerColor);
             }
         }
     }
@@ -131,13 +125,7 @@ public class PlayerMovement : MonoBehaviour
 
         
 
-        // Reset highlight for all cells
-        /*foreach (GridCell cell in path)
-        {
-            cell.ResetHighlight();
-        }*/
-        // Optionally, you can perform additional actions when the dragging ends
-        // For example, you can trigger the player to move along the collected path
+       
     }
 
     bool IsAdjacentToPreviousCell(GridCell cell)
