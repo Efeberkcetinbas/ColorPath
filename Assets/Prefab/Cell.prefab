@@ -129,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   row: 0
   column: 0
+  gridManager: {fileID: 0}
   isOne: 0
   cellColors: []
   players: []

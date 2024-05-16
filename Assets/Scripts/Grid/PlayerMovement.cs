@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GridManager gridManager;
     [SerializeField] private Transform target;
 
+    [SerializeField] private Animator animator;
     [SerializeField] private SkinnedMeshRenderer playerRenderer; // Renderer component to apply color to the player
 
     public bool isMe=false;
@@ -147,33 +148,36 @@ public class PlayerMovement : MonoBehaviour
 
     void MovePlayerAlongPath()
     {
-        // Move the player along the collected path
-        if (path.Count > 1)
+        if (path.Count > 0)
         {
-            transform.position = Vector3.MoveTowards(transform.position, path[1].transform.position, moveSpeed * Time.deltaTime);
-            if (Vector3.Distance(transform.position, path[1].transform.position) < 0.01f)
-            {
-                // Remove the current cell from the path once reached
-                path.RemoveAt(0);
-                
-            }
-        }
-        else if (path.Count == 1)
-        {
-            // Move directly to the last cell if it's the only cell in the path
-            transform.position = Vector3.MoveTowards(transform.position, path[0].transform.position, moveSpeed * Time.deltaTime);
-            if (Vector3.Distance(transform.position, path[0].transform.position) < 0.01f)
-            {
-                // Clear the path once reached the last cell
-                path.Clear();
-                Debug.Log(name+ " FINISHED THE PATH CHECK IT"); 
-                playerData.pathCompletedCounter++;
+        // Move the player towards the first cell in the path
+            GameObject targetCell = path[0].gameObject;
+            transform.position = Vector3.MoveTowards(transform.position, targetCell.transform.position, moveSpeed * Time.deltaTime);
+            
+            //Animation
+            animator.SetBool("walk",true);
 
-                if(transform.position==target.position)
+            //
+            // Check if the player has reached the target position
+            if (Vector3.Distance(transform.position, targetCell.transform.position) < 0.01f)
+            {
+                // Remove the reached cell from the path
+                path.RemoveAt(0);
+
+                // If the path is now empty, the player has finished the path
+                if (path.Count == 0)
                 {
-                    Debug.Log("SUCCESS PATH");
-                    playerData.successPathCompletedCounter++;
-                    
+                    Debug.Log(name + " FINISHED THE PATH CHECK IT");
+                    playerData.pathCompletedCounter++;
+
+                    // Check if the player has reached the final target position
+                    if (Vector3.Distance(transform.position, target.position) < 0.01f)
+                    {
+                        Debug.Log("SUCCESS PATH");
+                        playerData.successPathCompletedCounter++;
+                    }
+
+                    animator.SetBool("walk",false);
                 }
             }
         }

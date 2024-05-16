@@ -19,7 +19,7 @@ public class GridCell : MonoBehaviour
     public int row;
     public int column;
 
-    private GridManager gridManager;
+    [SerializeField] private GridManager gridManager;
     private bool isTouching = false;
     [SerializeField] private bool isOne=false;
     //Bunu daha sonra array olarak tutki ust uste gectiklerinde renkler degisime ugrasin
@@ -30,7 +30,7 @@ public class GridCell : MonoBehaviour
 
     void Start()
     {
-        gridManager = GetComponentInParent<GridManager>();
+        //gridManager = GetComponentInParent<GridManager>();
     }
 
     /*void Update()
