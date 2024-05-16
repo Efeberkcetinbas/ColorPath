@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 809967799661309593}
   - component: {fileID: 1700420931950564115}
   - component: {fileID: 8573783570914668315}
+  - component: {fileID: 8522974860460748945}
   m_Layer: 0
   m_Name: Collision
   m_TagString: Player
@@ -97,6 +98,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &8522974860460748945
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5280932559268517741}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7476531927394915392
 GameObject:
   m_ObjectHideFlags: 0

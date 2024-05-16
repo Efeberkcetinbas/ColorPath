@@ -25,43 +25,11 @@ public class GridCell : MonoBehaviour
     //Bunu daha sonra array olarak tutki ust uste gectiklerinde renkler degisime ugrasin
     public List<Color> cellColors=new List<Color>();
 
+    public List<ParticleSystem> particles=new List<ParticleSystem>();
+
     public List<PlayerMovement> players=new List<PlayerMovement>();
     public List<CellType> cellTypes=new List<CellType>();
 
-    void Start()
-    {
-        //gridManager = GetComponentInParent<GridManager>();
-    }
-
-    /*void Update()
-    {
-        if (isTouching)
-        {
-            // Handle touch input
-            if (Input.touchCount > 0)
-            {
-                Touch touch = Input.GetTouch(0);
-                if (touch.phase == TouchPhase.Moved)
-                {
-                    RaycastHit hit;
-                    Ray ray = Camera.main.ScreenPointToRay(touch.position);
-                    if (Physics.Raycast(ray, out hit))
-                    {
-                        GridCell otherCell = hit.collider.GetComponent<GridCell>();
-                        if (otherCell != null && (otherCell.row != row || otherCell.column != column))
-                        {
-                            //gridManager.HighlightCell(otherCell.row, otherCell.column,cellColor);
-                            
-                        }
-                    }
-                }
-                else if (touch.phase == TouchPhase.Ended)
-                {
-                    //gridManager.ResetCellMaterial(row, column);
-                }
-            }
-        }
-    }*/
 
     void OnTriggerEnter(Collider other)
     {
@@ -77,15 +45,41 @@ public class GridCell : MonoBehaviour
                 if(other.transform.parent.GetComponent<PlayerMovement>().playerType== cellTypes[cellTypes.Count-1])
                 {
                     Debug.Log("PARTICLE AND SUCCESS");
+
                     
                 }
 
                 else
-                    Debug.Log("FAIL");
+                {
+                    other.transform.parent.GetComponent<PlayerMovement>().animator.SetTrigger("dead");
+                    EventManager.Broadcast(GameEvent.OnPlayerDead);
+                }
+                    
             }
         }
     }
 
+    internal void PlayParticles(Color color)
+    {
+        for (int i = 0; i < particles.Count; i++)
+        {
+            
+            SetParticleSystemColor(particles[i],color);
+            ParticleSystem[] childParticles = particles[i].GetComponentsInChildren<ParticleSystem>();
+            for (int j = 0; j < childParticles.Length; j++)
+            {
+                SetParticleSystemColor(childParticles[j], color);
+            }
+        }
+
+        particles[0].Play();
+    }
+
+    private void SetParticleSystemColor(ParticleSystem particleSystem, Color color)
+    {
+        var main = particleSystem.main;
+        main.startColor = color;
+    }
     void OnTriggerExit(Collider other)
     {
         isTouching = false;

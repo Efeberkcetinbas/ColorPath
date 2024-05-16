@@ -78,7 +78,7 @@ public class GridManager : MonoBehaviour
             {
                 cell.GetComponent<GridCell>().cellColors.Add(color);
                 renderer.material.DOColor(cell.GetComponent<GridCell>().cellColors[cell.GetComponent<GridCell>().cellColors.Count-1],.5f);
-                
+                cell.GetComponent<GridCell>().PlayParticles(color);
             }
                 
             else
@@ -89,6 +89,7 @@ public class GridManager : MonoBehaviour
     }
 
     // Reset the material of a specific cell in the grid
+    // Eger Defaulta donuyorsak cicekler acar
     public void ResetCellMaterial(int row, int col)
     {
         if (row >= 0 && row < numRows && col >= 0 && col < numColumns)

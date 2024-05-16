@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 
@@ -16,22 +17,49 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameData gameData;
     [SerializeField] private PathData pathData;
     [SerializeField] private PlayerData playerData;
-    [SerializeField] private Color playerColor; // Color assigned to this player
+    public Color playerColor; // Color assigned to this player
     [SerializeField] private GridManager gridManager;
     [SerializeField] private Transform target;
 
-    [SerializeField] private Animator animator;
+
+    
     [SerializeField] private SkinnedMeshRenderer playerRenderer; // Renderer component to apply color to the player
 
     public bool isMe=false;
     public bool canCountOnMe=true;
+    public Animator animator;
+
     public CellType playerType;
+
+    private bool orderCell=true;
 
     void Start()
     {
-        //playerRenderer = GetComponent<SkinnedMeshRenderer>(); // Get the Renderer component
-        playerRenderer.material.color = playerColor; // Set the player's color
+        OnNextLevel();
     }
+
+    private void OnEnable()
+    {
+        EventManager.AddHandler(GameEvent.OnPlayerDead,OnPlayerDead);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.RemoveHandler(GameEvent.OnPlayerDead,OnPlayerDead);
+    }
+
+    private void OnNextLevel()
+    {
+        playerRenderer.material.color = playerColor; // Set the player's color
+        EventManager.Broadcast(GameEvent.OnPlayerColorUpdate);
+    }
+
+    private void OnPlayerDead()
+    {
+        Debug.Log("PARTICLE");
+    }
+
+
 
     void Update()
     {
@@ -106,6 +134,7 @@ public class PlayerMovement : MonoBehaviour
                 // Add the current cell to the path if it's adjacent to the previous cell
                 path.Add(hitCell);
                 Debug.Log("EVENTSSSS WILLLL BEEE ADDED");
+                EventManager.Broadcast(GameEvent.OnPathAdded);
                 hitCell.players.Add(this);
                 gridManager.HighlightCell(hitCell.row,hitCell.column,playerColor);
                 hitCell.cellTypes.Add(playerType);
@@ -148,18 +177,42 @@ public class PlayerMovement : MonoBehaviour
 
     void MovePlayerAlongPath()
     {
-        if (path.Count > 0)
+        if (path.Count > 0 && orderCell)
         {
         // Move the player towards the first cell in the path
             GameObject targetCell = path[0].gameObject;
-            transform.position = Vector3.MoveTowards(transform.position, targetCell.transform.position, moveSpeed * Time.deltaTime);
-            
+            orderCell=false;
+            //transform.position = Vector3.MoveTowards(transform.position, targetCell.transform.position, moveSpeed * Time.deltaTime);
+            transform.DOJump(targetCell.transform.position,1,1,0.5f).OnComplete(()=>{
+                EventManager.Broadcast(GameEvent.OnPlayerMove);
+                path.RemoveAt(0);
+
+                // If the path is now empty, the player has finished the path
+                if (path.Count == 0)
+                {
+                    Debug.Log(name + " FINISHED THE PATH CHECK IT");
+                    playerData.pathCompletedCounter++;
+
+                        // Check if the player has reached the final target position
+                    if (Vector3.Distance(transform.position, target.position) < 0.01f)
+                    {
+                        Debug.Log("SUCCESS PATH");
+                        playerData.successPathCompletedCounter++;
+                        target.DOLocalMoveY(-1,0.2f);
+                    }
+
+                    //animator.SetBool("walk",false);
+                }
+                orderCell=true;
+                
+                
+            });
             //Animation
-            animator.SetBool("walk",true);
+            //animator.SetBool("walk",true);
 
             //
             // Check if the player has reached the target position
-            if (Vector3.Distance(transform.position, targetCell.transform.position) < 0.01f)
+            /*if (Vector3.Distance(transform.position, targetCell.transform.position) < 0.01f)
             {
                 // Remove the reached cell from the path
                 path.RemoveAt(0);
@@ -175,11 +228,14 @@ public class PlayerMovement : MonoBehaviour
                     {
                         Debug.Log("SUCCESS PATH");
                         playerData.successPathCompletedCounter++;
+                        target.DOLocalMoveY(-1,0.2f);
                     }
 
-                    animator.SetBool("walk",false);
+                    //animator.SetBool("walk",false);
                 }
-            }
+            }*/
         }
     }
+
+    
 }

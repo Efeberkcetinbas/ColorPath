@@ -4,7 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum GameEvent
 {
+    //Player
+    OnPlayerColorUpdate,
+    OnPlayerMove,
+    OnPlayerDead,
 
+    //Grid
+    OnPathAdded,
 
     //Game Management
     OnGameStart,

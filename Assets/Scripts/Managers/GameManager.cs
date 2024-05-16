@@ -21,7 +21,16 @@ public class GameManager : MonoBehaviour
         ClearData();
     }
 
-    
+    private void OnEnable()
+    {
+        EventManager.AddHandler(GameEvent.OnPlayerDead,OnPlayerDead);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.RemoveHandler(GameEvent.OnPlayerDead,OnPlayerDead);
+
+    }
 
     
     void OnGameOver()
@@ -33,7 +42,12 @@ public class GameManager : MonoBehaviour
     }
 
    
-    
+    private void OnPlayerDead()
+    {
+        gameData.isGameEnd=true;
+        pathData.playersCanMove=false;
+    }
+
     void ClearData()
     {
         gameData.isGameEnd=false;
