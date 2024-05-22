@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public TextMeshProUGUI score,highscore,endingScore;
+    public TextMeshProUGUI score,levelText;
 
     public GameData gameData;
     public PlayerData playerData;

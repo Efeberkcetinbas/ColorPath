@@ -8,6 +8,9 @@ public class CameraManager : MonoBehaviour
 {
     public CinemachineVirtualCamera cm;
 
+
+    private CenterPoint centerPoint;
+
     [Header("Shake Control")]
     [SerializeField] private float shakeTime = 0.5f;
     [SerializeField] private float amplitudeGain=1;
@@ -40,7 +43,8 @@ public class CameraManager : MonoBehaviour
 
     private void OnNextLevel()
     {
-        ChangeFieldOfView(80,5);
+        centerPoint=FindObjectOfType<CenterPoint>();
+        ChangeLookAt(centerPoint.transform);
     }
 
     
@@ -55,7 +59,11 @@ public class CameraManager : MonoBehaviour
         else
             Debug.Log($"Noise Component: {noise}");
 
+        OnNextLevel();
+
     }
+
+    
 
     private void Noise(float amplitudeGain,float frequencyGain,float shakeTime) 
     {
@@ -87,6 +95,11 @@ public class CameraManager : MonoBehaviour
     public void ChangeFollow(Transform Ball)
     {
         cm.m_Follow=Ball;
+    }
+
+    public void ChangeLookAt(Transform target)
+    {
+        cm.m_LookAt=target;
     }
 
     private void ChangePriority(int val)

@@ -6,13 +6,11 @@ using UnityEngine.UI;
 
 public class PanelManager : MonoBehaviour
 {
-    [SerializeField] private RectTransform StartPanel,ScoreImage;
+    [SerializeField] private RectTransform StartPanel;
 
     [SerializeField] private List<GameObject> SceneUIs=new List<GameObject>();
-    [SerializeField] private GameObject miniLevel;
     [SerializeField] private Image Fade;
 
-    [SerializeField] private float StartX,StartY,scoreX,oldScoreX;
 
     public GameData gameData;
 
@@ -37,9 +35,8 @@ public class PanelManager : MonoBehaviour
     {
         gameData.isGameEnd=false;
         StartPanel.gameObject.SetActive(false);
-        ScoreImage.DOAnchorPosX(oldScoreX,1f);
 
-        EventManager.Broadcast(GameEvent.OnGameStart);
+        //EventManager.Broadcast(GameEvent.OnGameStart);
         
     }
 
@@ -54,8 +51,8 @@ public class PanelManager : MonoBehaviour
 
     private void OnNextLevel()
     {
-        StartPanel.gameObject.SetActive(true);
-        StartPanel.DOAnchorPos(Vector2.zero,0.1f);
+        /*StartPanel.gameObject.SetActive(true);
+        StartPanel.DOAnchorPos(Vector2.zero,0.1f);*/
         StartCoroutine(Blink(Fade.gameObject,Fade));
     }
 

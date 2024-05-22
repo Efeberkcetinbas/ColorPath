@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aedcb3c37d150841933ab8860006f66, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  pathCompletedCounter: 3
+  numberOfPlayers: 1
+  pathCompletedCounter: 0
   successPathCompletedCounter: 0

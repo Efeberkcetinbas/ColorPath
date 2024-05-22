@@ -8,7 +8,6 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] private PlayerMovement selectedPlayer; // Currently selected player
 
-    private int numberOfPlayers;
     private int counter;
 
 
@@ -16,7 +15,7 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField] private PathData pathData;
     [SerializeField] private GameData gameData;
-
+    [SerializeField] private PlayerData playerData;
 
     private WaitForSeconds waitForSeconds;
     void Start()
@@ -29,22 +28,30 @@ public class PlayerManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.AddHandler(GameEvent.OnGameStart,OnGameStart);
+        EventManager.AddHandler(GameEvent.OnNextLevel,OnNextLevel);
     }
 
     private void OnDisable()
     {
         EventManager.RemoveHandler(GameEvent.OnGameStart,OnGameStart);
+        EventManager.RemoveHandler(GameEvent.OnNextLevel,OnNextLevel);
     }
 
     private void OnGameStart()
     {
+        Debug.Log(players.Count);
         players.Clear();
         players=FindObjectOfType<LevelProperty>().levelPlayersList;
-        
+        Debug.Log(players.Count);
 
-        numberOfPlayers=players.Count;
+        playerData.numberOfPlayers=players.Count;
         counter=0;
 
+    }
+
+    private void OnNextLevel()
+    {
+        OnGameStart();
     }
     void Update()
     {
@@ -145,10 +152,11 @@ public class PlayerManager : MonoBehaviour
     {
         yield return waitForSeconds;
 
-        if(numberOfPlayers==counter)
+        if(playerData.numberOfPlayers==counter)
         {
             pathData.playersCanMove=true;
             gameData.isGameEnd=true;
+            Debug.Log("START TO MOVE");
 
         }
             

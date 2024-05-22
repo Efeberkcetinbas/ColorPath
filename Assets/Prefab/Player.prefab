@@ -235,10 +235,11 @@ MonoBehaviour:
   playerColor: {r: 1, g: 0.81456906, b: 0.36470592, a: 1}
   gridManager: {fileID: 0}
   target: {fileID: 0}
-  animator: {fileID: 4983482436425880185}
+  character: {fileID: 4808444377597054285}
   playerRenderer: {fileID: 6093305400433391828}
   isMe: 0
   canCountOnMe: 1
+  animator: {fileID: 4983482436425880185}
   playerType: 1
 --- !u!1001 &1512797890804306499
 PrefabInstance:

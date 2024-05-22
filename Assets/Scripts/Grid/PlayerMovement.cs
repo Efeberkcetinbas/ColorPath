@@ -21,7 +21,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GridManager gridManager;
     [SerializeField] private Transform target;
 
-
     
     [SerializeField] private SkinnedMeshRenderer playerRenderer; // Renderer component to apply color to the player
 
@@ -133,7 +132,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 // Add the current cell to the path if it's adjacent to the previous cell
                 path.Add(hitCell);
-                Debug.Log("EVENTSSSS WILLLL BEEE ADDED");
                 EventManager.Broadcast(GameEvent.OnPathAdded);
                 hitCell.players.Add(this);
                 gridManager.HighlightCell(hitCell.row,hitCell.column,playerColor);
@@ -186,7 +184,6 @@ public class PlayerMovement : MonoBehaviour
             transform.DOJump(targetCell.transform.position,1,1,0.5f).OnComplete(()=>{
                 EventManager.Broadcast(GameEvent.OnPlayerMove);
                 path.RemoveAt(0);
-
                 // If the path is now empty, the player has finished the path
                 if (path.Count == 0)
                 {
@@ -200,40 +197,13 @@ public class PlayerMovement : MonoBehaviour
                         playerData.successPathCompletedCounter++;
                         target.DOLocalMoveY(-1,0.2f);
                     }
-
+                    EventManager.Broadcast(GameEvent.OnPlayerPathComplete);
                     //animator.SetBool("walk",false);
                 }
                 orderCell=true;
                 
-                
             });
-            //Animation
-            //animator.SetBool("walk",true);
-
-            //
-            // Check if the player has reached the target position
-            /*if (Vector3.Distance(transform.position, targetCell.transform.position) < 0.01f)
-            {
-                // Remove the reached cell from the path
-                path.RemoveAt(0);
-
-                // If the path is now empty, the player has finished the path
-                if (path.Count == 0)
-                {
-                    Debug.Log(name + " FINISHED THE PATH CHECK IT");
-                    playerData.pathCompletedCounter++;
-
-                    // Check if the player has reached the final target position
-                    if (Vector3.Distance(transform.position, target.position) < 0.01f)
-                    {
-                        Debug.Log("SUCCESS PATH");
-                        playerData.successPathCompletedCounter++;
-                        target.DOLocalMoveY(-1,0.2f);
-                    }
-
-                    //animator.SetBool("walk",false);
-                }
-            }*/
+            
         }
     }
 

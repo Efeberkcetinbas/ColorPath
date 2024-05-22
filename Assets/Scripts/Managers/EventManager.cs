@@ -8,6 +8,7 @@ public enum GameEvent
     OnPlayerColorUpdate,
     OnPlayerMove,
     OnPlayerDead,
+    OnPlayerPathComplete,
 
     //Grid
     OnPathAdded,

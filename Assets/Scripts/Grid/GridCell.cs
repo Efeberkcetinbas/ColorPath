@@ -21,11 +21,13 @@ public class GridCell : MonoBehaviour
 
     [SerializeField] private GridManager gridManager;
     private bool isTouching = false;
-    [SerializeField] private bool isOne=false;
+    [SerializeField] private ParticleSystem dust;
     //Bunu daha sonra array olarak tutki ust uste gectiklerinde renkler degisime ugrasin
     public List<Color> cellColors=new List<Color>();
 
     public List<ParticleSystem> particles=new List<ParticleSystem>();
+
+    
 
     public List<PlayerMovement> players=new List<PlayerMovement>();
     public List<CellType> cellTypes=new List<CellType>();
@@ -45,7 +47,7 @@ public class GridCell : MonoBehaviour
                 if(other.transform.parent.GetComponent<PlayerMovement>().playerType== cellTypes[cellTypes.Count-1])
                 {
                     Debug.Log("PARTICLE AND SUCCESS");
-
+                    //dust.Play();
                     
                 }
 
