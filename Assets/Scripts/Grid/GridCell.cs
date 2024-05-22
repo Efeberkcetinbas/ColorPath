@@ -57,7 +57,7 @@ public class GridCell : MonoBehaviour
                 if(other.transform.parent.GetComponent<PlayerMovement>().playerType== cellTypes[cellTypes.Count-1])
                 {
                     Debug.Log("PARTICLE AND SUCCESS");
-                    //dust.Play();
+                    dust.Play();
                     
                 }
 
