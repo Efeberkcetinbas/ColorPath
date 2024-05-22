@@ -29,12 +29,14 @@ public class PlayerManager : MonoBehaviour
     {
         EventManager.AddHandler(GameEvent.OnGameStart,OnGameStart);
         EventManager.AddHandler(GameEvent.OnNextLevel,OnNextLevel);
+        EventManager.AddHandler(GameEvent.OnRestartLevel,OnRestartLevel);
     }
 
     private void OnDisable()
     {
         EventManager.RemoveHandler(GameEvent.OnGameStart,OnGameStart);
         EventManager.RemoveHandler(GameEvent.OnNextLevel,OnNextLevel);
+        EventManager.RemoveHandler(GameEvent.OnRestartLevel,OnRestartLevel);
     }
 
     private void OnGameStart()
@@ -52,6 +54,11 @@ public class PlayerManager : MonoBehaviour
     private void OnNextLevel()
     {
         OnGameStart();
+    }
+
+    private void OnRestartLevel()
+    {
+        counter=0;
     }
     void Update()
     {

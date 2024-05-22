@@ -40,10 +40,16 @@ public class LevelManager : MonoBehaviour
 
     public void RestartLevel()
     {
-        LoadLevel();
+        
+        EventManager.Broadcast(GameEvent.OnRestartLevel);
     }
 
+    public void UndoButton()
+    {
+        EventManager.Broadcast(GameEvent.OnUndo);
+    }
 
+    
     
     
 }

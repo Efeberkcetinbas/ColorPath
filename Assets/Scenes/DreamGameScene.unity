@@ -1055,7 +1055,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 179592724}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 834517645}
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+        m_MethodName: RestartLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &179592724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3288,6 +3300,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7476531927394915403, guid: c9d3b1e703478b64bbcced05adfecd0d, type: 3}
+      propertyPath: playerPos
+      value: 
+      objectReference: {fileID: 1501082847}
+    - target: {fileID: 7476531927394915403, guid: c9d3b1e703478b64bbcced05adfecd0d, type: 3}
       propertyPath: playerType
       value: 5
       objectReference: {fileID: 0}
@@ -5228,6 +5244,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7476531927394915403, guid: c9d3b1e703478b64bbcced05adfecd0d, type: 3}
+      propertyPath: playerPos
+      value: 
+      objectReference: {fileID: 2040444475}
+    - target: {fileID: 7476531927394915403, guid: c9d3b1e703478b64bbcced05adfecd0d, type: 3}
       propertyPath: playerType
       value: 6
       objectReference: {fileID: 0}
@@ -7163,10 +7183,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: UNDO
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: dccc647e190bf464990568fff1ffca93, type: 2}
+  m_sharedMaterial: {fileID: 2714986514935387109, guid: dccc647e190bf464990568fff1ffca93, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7190,8 +7210,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -10404,10 +10424,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: TRY
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: dccc647e190bf464990568fff1ffca93, type: 2}
+  m_sharedMaterial: {fileID: 2714986514935387109, guid: dccc647e190bf464990568fff1ffca93, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -10431,8 +10451,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 48
+  m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -11437,6 +11457,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 994754990}
+    - target: {fileID: 7476531927394915403, guid: c9d3b1e703478b64bbcced05adfecd0d, type: 3}
+      propertyPath: playerPos
+      value: 
+      objectReference: {fileID: 2069147177}
     - target: {fileID: 7476531927394915403, guid: c9d3b1e703478b64bbcced05adfecd0d, type: 3}
       propertyPath: gridManager
       value: 

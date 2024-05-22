@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool orderCell=true;
 
+
     void Start()
     {
         OnNextLevel();
@@ -40,11 +41,13 @@ public class PlayerMovement : MonoBehaviour
     private void OnEnable()
     {
         EventManager.AddHandler(GameEvent.OnPlayerDead,OnPlayerDead);
+        EventManager.AddHandler(GameEvent.OnRestartLevel,OnRestartLevel);
     }
 
     private void OnDisable()
     {
         EventManager.RemoveHandler(GameEvent.OnPlayerDead,OnPlayerDead);
+        EventManager.RemoveHandler(GameEvent.OnRestartLevel,OnRestartLevel);
     }
 
     private void OnNextLevel()
@@ -58,7 +61,13 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("PARTICLE");
     }
 
-
+    private void OnRestartLevel()
+    {
+        canCountOnMe=true;
+        path.Clear();
+        tempPath.Clear();
+        
+    }
 
     void Update()
     {

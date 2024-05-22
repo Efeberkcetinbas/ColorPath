@@ -19,10 +19,22 @@ public class GridManager : MonoBehaviour
         InitializeGridCells();
         GenerateGrid();
     }
+    
     void InitializeGridCells()
     {
         // Initialize the 2D array to the correct size
         gridCells = new GameObject[numRows, numColumns];
+    }
+
+    private void OnEnable()
+    {
+        EventManager.AddHandler(GameEvent.OnRestartLevel,OnRestartLevel);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.RemoveHandler(GameEvent.OnRestartLevel,OnRestartLevel);
+
     }
 
     void GenerateGrid()
@@ -87,6 +99,19 @@ public class GridManager : MonoBehaviour
             
         }
     }
+
+    private void OnRestartLevel()
+    {
+        for (int i = 0; i < numRows; i++)
+        {
+            for (int y = 0; y < numColumns; y++)
+            {
+                gridCells[i,y].GetComponent<GridCell>().transform.GetChild(0).GetComponent<Renderer>().material=defaultMaterial;
+            }
+        }
+    }
+
+   
 
     // Reset the material of a specific cell in the grid
     // Eger Defaulta donuyorsak cicekler acar

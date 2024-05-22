@@ -32,6 +32,16 @@ public class GridCell : MonoBehaviour
     public List<PlayerMovement> players=new List<PlayerMovement>();
     public List<CellType> cellTypes=new List<CellType>();
 
+    private void OnEnable()
+    {
+        EventManager.AddHandler(GameEvent.OnRestartLevel,OnRestartLevel);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.RemoveHandler(GameEvent.OnRestartLevel,OnRestartLevel);
+    }
+
 
     void OnTriggerEnter(Collider other)
     {
@@ -59,6 +69,13 @@ public class GridCell : MonoBehaviour
                     
             }
         }
+    }
+
+    private void OnRestartLevel()
+    {
+        cellColors.Clear();
+        players.Clear();
+        cellTypes.Clear();
     }
 
     internal void PlayParticles(Color color)
