@@ -6,11 +6,10 @@ public class LevelManager : MonoBehaviour
 {
 
     [Header("Indexes")]
-    public int levelIndex;
-    
+    [SerializeField] private GameData gameData;   
     public List<GameObject> levels;
 
-    private void Start()
+    private void Awake()
     {
         LoadLevel();
     }
@@ -18,21 +17,22 @@ public class LevelManager : MonoBehaviour
     {
 
 
-        levelIndex = PlayerPrefs.GetInt("LevelNumber");
-        if (levelIndex == levels.Count) levelIndex = 0;
-        PlayerPrefs.SetInt("LevelNumber", levelIndex);
+        gameData.levelIndex = PlayerPrefs.GetInt("LevelNumber");
+        if (gameData.levelIndex == levels.Count) gameData.levelIndex = 0;
+        PlayerPrefs.SetInt("LevelNumber", gameData.levelIndex);
+        
        
 
         for (int i = 0; i < levels.Count; i++)
         {
             levels[i].SetActive(false);
         }
-        levels[levelIndex].SetActive(true);
+        levels[gameData.levelIndex].SetActive(true);
     }
 
     public void LoadNextLevel()
     {
-        PlayerPrefs.SetInt("LevelNumber", levelIndex + 1);
+        PlayerPrefs.SetInt("LevelNumber", gameData.levelIndex + 1);
         PlayerPrefs.SetInt("RealLevel", PlayerPrefs.GetInt("RealLevel", 0) + 1);
         LoadLevel();
         EventManager.Broadcast(GameEvent.OnNextLevel);

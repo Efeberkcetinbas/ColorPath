@@ -9,16 +9,22 @@ public class GameManager : MonoBehaviour
     public PlayerData playerData;
     public PathData pathData;
 
-    [SerializeField] private GameObject FailPanel,SuccessPanel;
     [SerializeField] private Ease ease;
     
 
     public float InitialDifficultyValue;
 
+    private WaitForSeconds waitForSeconds;
+
 
     private void Awake() 
     {
         ClearData(true);
+    }
+
+    private void Start()
+    {
+        waitForSeconds=new WaitForSeconds(2);
     }
 
     private void OnEnable()
@@ -37,17 +43,10 @@ public class GameManager : MonoBehaviour
     }
 
     
-    private void OnGameOver()
-    {
-        FailPanel.SetActive(true);
-        FailPanel.transform.DOScale(Vector3.one,1f).SetEase(ease);
-        gameData.isGameEnd=true;
-
-    }
+    
 
     private void OnNextLevel()
     {
-        SuccessPanel.SetActive(false);
         ClearData(false);
         
     }
@@ -59,8 +58,11 @@ public class GameManager : MonoBehaviour
             if(playerData.successPathCompletedCounter==playerData.numberOfPlayers)
             {
                 Debug.Log("PERFECT. CONG");
+                EventManager.Broadcast(GameEvent.OnSuccess);
+                StartCoroutine(OpenSuccess());
+                //Particle and Success Panel
                 //Dotween ile duzenlenecek
-                SuccessPanel.SetActive(true);
+                //SuccessPanel.SetActive(true);
             }
 
             else
@@ -85,6 +87,19 @@ public class GameManager : MonoBehaviour
         pathData.playersCanMove=false;
         playerData.successPathCompletedCounter=0;
         playerData.pathCompletedCounter=0;
+    }
+
+    private IEnumerator OpenSuccess()
+    {
+        yield return waitForSeconds;
+        OpenSuccessPanel();
+    }
+
+
+    private void OpenSuccessPanel()
+    {
+        //effektif
+        EventManager.Broadcast(GameEvent.OnSuccessUI);
     }
 
     

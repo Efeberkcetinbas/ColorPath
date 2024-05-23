@@ -5,7 +5,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public AudioClip GameLoop,BuffMusic;
-    public AudioClip GameOverSound,PathAddSound,PlayerMoveSound,PlayerDeadSound;
+    public AudioClip GameOverSound,PathAddSound,PlayerMoveSound,PlayerDeadSound,SuccessSound,SuccessUISound;
 
     AudioSource musicSource,effectSource;
 
@@ -23,12 +23,16 @@ public class AudioManager : MonoBehaviour
         EventManager.AddHandler(GameEvent.OnPathAdded,OnPathAdded);
         EventManager.AddHandler(GameEvent.OnPlayerMove,OnPlayerMove);
         EventManager.AddHandler(GameEvent.OnPlayerDead,OnPlayerDead);
+        EventManager.AddHandler(GameEvent.OnSuccess,OnSuccess);
+        EventManager.AddHandler(GameEvent.OnSuccessUI,OnSuccessUI);
     }
     private void OnDisable() 
     {
         EventManager.RemoveHandler(GameEvent.OnPathAdded,OnPathAdded);
         EventManager.RemoveHandler(GameEvent.OnPlayerMove,OnPlayerMove);
         EventManager.RemoveHandler(GameEvent.OnPlayerDead,OnPlayerDead);
+        EventManager.RemoveHandler(GameEvent.OnSuccess,OnSuccess);
+        EventManager.RemoveHandler(GameEvent.OnSuccessUI,OnSuccessUI);
     }
 
     
@@ -52,6 +56,17 @@ public class AudioManager : MonoBehaviour
     {
         effectSource.PlayOneShot(PlayerDeadSound);
     }
+
+    private void OnSuccess()
+    {
+        effectSource.PlayOneShot(SuccessSound);
+    }
+
+    private void OnSuccessUI()
+    {
+        effectSource.PlayOneShot(SuccessUISound);
+    }
+
 
 
 
