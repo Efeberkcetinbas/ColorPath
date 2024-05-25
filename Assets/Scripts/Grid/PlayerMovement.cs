@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool orderCell=true;
 
+    [SerializeField] private Vector3 startPos;
 
     void Start()
     {
@@ -53,12 +54,14 @@ public class PlayerMovement : MonoBehaviour
     private void OnNextLevel()
     {
         playerRenderer.material.color = playerColor; // Set the player's color
+        startPos=transform.position;
         EventManager.Broadcast(GameEvent.OnPlayerColorUpdate);
     }
 
     private void OnPlayerDead()
     {
         Debug.Log("PARTICLE");
+        animator.SetTrigger("dead");
     }
 
     private void OnRestartLevel()
@@ -66,6 +69,9 @@ public class PlayerMovement : MonoBehaviour
         canCountOnMe=true;
         path.Clear();
         tempPath.Clear();
+        DOTween.Kill(transform);
+        transform.DOMove(startPos,0.1f);
+        animator.SetTrigger("idle");
         
     }
 
@@ -190,6 +196,7 @@ public class PlayerMovement : MonoBehaviour
             GameObject targetCell = path[0].gameObject;
             orderCell=false;
             //transform.position = Vector3.MoveTowards(transform.position, targetCell.transform.position, moveSpeed * Time.deltaTime);
+            
             transform.DOJump(targetCell.transform.position,1,1,0.5f).OnComplete(()=>{
                 EventManager.Broadcast(GameEvent.OnPlayerMove);
                 path.RemoveAt(0);

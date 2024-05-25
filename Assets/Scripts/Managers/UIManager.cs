@@ -7,20 +7,27 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public TextMeshProUGUI score,levelText,endLevelText;
+    public TextMeshProUGUI score,levelText;
 
+    [SerializeField] private List<Button> specialButtons=new List<Button>();
     public GameData gameData;
     public PlayerData playerData;
 
     private void OnEnable()
     {
         EventManager.AddHandler(GameEvent.OnUIUpdate, OnUIUpdate);
-        EventManager.AddHandler(GameEvent.OnSuccessUI, OnSuccessUI);
+        EventManager.AddHandler(GameEvent.OnPlayersStartMove, OnPlayersStartMove);
+        EventManager.AddHandler(GameEvent.OnNextLevel, OnNextLevel);
+        EventManager.AddHandler(GameEvent.OnRestartLevel, OnRestartLevel);
+        
+        
     }
     private void OnDisable()
     {
         EventManager.RemoveHandler(GameEvent.OnUIUpdate, OnUIUpdate);
-        EventManager.RemoveHandler(GameEvent.OnSuccessUI, OnSuccessUI);
+        EventManager.RemoveHandler(GameEvent.OnPlayersStartMove, OnPlayersStartMove);
+        EventManager.RemoveHandler(GameEvent.OnNextLevel, OnNextLevel);
+        EventManager.RemoveHandler(GameEvent.OnRestartLevel, OnRestartLevel);
     }
 
     
@@ -30,12 +37,31 @@ public class UIManager : MonoBehaviour
         score.transform.DOScale(new Vector3(1.5f,1.5f,1.5f),0.2f).OnComplete(()=>score.transform.DOScale(new Vector3(1,1f,1f),0.2f));
     }
 
-    private void OnSuccessUI()
-    {
-        endLevelText.SetText("LEVEL " + gameData.levelIndex.ToString());
-    }
+   
 
     
+    private void OnPlayersStartMove()
+    {
+        CheckButtonInteractability(false);
+    }
 
+    private void OnNextLevel()
+    {
+        CheckButtonInteractability(true);
+    }
+
+    private void OnRestartLevel()
+    {
+        CheckButtonInteractability(true);
+    }
+
+
+    private void CheckButtonInteractability(bool val)
+    {
+        for (int i = 0; i < specialButtons.Count; i++)
+        {
+            specialButtons[i].interactable=val;
+        }
+    }
     
 }

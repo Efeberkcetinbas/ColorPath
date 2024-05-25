@@ -11,17 +11,19 @@ public class PanelManager : MonoBehaviour
     [SerializeField] private List<GameObject> SceneUIs=new List<GameObject>();
     [SerializeField] private List<GameObject> SuccessElements=new List<GameObject>();
     [SerializeField] private List<GameObject> FailElements=new List<GameObject>();
+    [SerializeField] private List<GameObject> SpecialElements=new List<GameObject>();
     [SerializeField] private Image Fade;
     [SerializeField] private float sceneX,sceneY,oldSceneX,oldSceneY,duration;
 
 
     public GameData gameData;
 
-    private WaitForSeconds waitForSeconds;
+    private WaitForSeconds waitForSeconds,waitforSecondsSpecial;
 
     private void Start()
     {
         waitForSeconds=new WaitForSeconds(.25f);
+        waitforSecondsSpecial=new WaitForSeconds(1);
     }
 
 
@@ -33,6 +35,10 @@ public class PanelManager : MonoBehaviour
         EventManager.AddHandler(GameEvent.OnNextLevel,OnNextLevel);
         EventManager.AddHandler(GameEvent.OnSuccess,OnSuccess);
         EventManager.AddHandler(GameEvent.OnSuccessUI,OnSuccessUI);
+        EventManager.AddHandler(GameEvent.OnPlayerDead,OnPlayerDead);
+        EventManager.AddHandler(GameEvent.OnFailUI,OnFailUI);
+        EventManager.AddHandler(GameEvent.OnRestartLevel,OnRestartLevel);
+
     }
 
 
@@ -41,6 +47,10 @@ public class PanelManager : MonoBehaviour
         EventManager.RemoveHandler(GameEvent.OnNextLevel,OnNextLevel);
         EventManager.RemoveHandler(GameEvent.OnSuccess,OnSuccess);
         EventManager.RemoveHandler(GameEvent.OnSuccessUI,OnSuccessUI);
+        EventManager.RemoveHandler(GameEvent.OnPlayerDead,OnPlayerDead);
+        EventManager.RemoveHandler(GameEvent.OnFailUI,OnFailUI);
+        EventManager.RemoveHandler(GameEvent.OnRestartLevel,OnRestartLevel);
+
     }
 
     
@@ -50,15 +60,22 @@ public class PanelManager : MonoBehaviour
         StartPanel.gameObject.SetActive(false);
         ScenePanel.gameObject.SetActive(true);
         SetSceneUIPosition(sceneX,sceneY);
-        //EventManager.Broadcast(GameEvent.OnGameStart);
+
+       
+        StartCoroutine(SetElementsDotween(SpecialElements));
+        EventManager.Broadcast(GameEvent.OnGameStart);
         
     }
+
 
     
 
     private void OnRestartLevel()
     {
-        OnNextLevel();
+        FailPanel.gameObject.SetActive(false);
+        StartCoroutine(Blink(Fade.gameObject,Fade));
+        SetActivity(SceneUIs,true);
+        StartCoroutine(SetElementsDotween(SpecialElements));
     }
 
     
@@ -69,11 +86,14 @@ public class PanelManager : MonoBehaviour
         StartPanel.DOAnchorPos(Vector2.zero,0.1f);*/
         SuccessPanel.gameObject.SetActive(false);
         StartCoroutine(Blink(Fade.gameObject,Fade));
+        SetActivity(SceneUIs,true);
+        StartCoroutine(SetElementsDotween(SpecialElements));
     }
 
     private void OnSuccessUI()
     {
         SuccessPanel.gameObject.SetActive(true);
+        SetActivity(SceneUIs,false);
         StartCoroutine(SetElementsDotween(SuccessElements));
     }
   
@@ -108,13 +128,27 @@ public class PanelManager : MonoBehaviour
     {
         for (int i = 0; i < list.Count; i++)
         {
-            SceneUIs[i].SetActive(val);
+            list[i].SetActive(val);
         }
     }
 
     private void OnSuccess()
     {
+        //SetActivity(SceneUIs,false);
         SetSceneUIPosition(oldSceneX,oldSceneY);
+    }
+
+    private void OnPlayerDead()
+    {
+        SetSceneUIPosition(oldSceneX,oldSceneY);
+        
+    }
+
+    private void OnFailUI()
+    {
+        FailPanel.gameObject.SetActive(true);
+        SetActivity(SceneUIs,false);
+        StartCoroutine(SetElementsDotween(FailElements));
     }
 
     private void SetSceneUIPosition(float valX,float valY)

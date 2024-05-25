@@ -63,7 +63,6 @@ public class GridCell : MonoBehaviour
 
                 else
                 {
-                    other.transform.parent.GetComponent<PlayerMovement>().animator.SetTrigger("dead");
                     EventManager.Broadcast(GameEvent.OnPlayerDead);
                 }
                     

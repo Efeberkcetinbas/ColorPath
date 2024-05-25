@@ -9,6 +9,8 @@ public enum GameEvent
     OnPlayerMove,
     OnPlayerDead,
     OnPlayerPathComplete,
+    OnPlayersStartMove,
+    
 
     //Grid
     OnPathAdded,
@@ -17,13 +19,13 @@ public enum GameEvent
     OnGameStart,
     OnIncreaseScore,
     OnUIUpdate,
-    OnUIGameOver,
+    
     OnNextLevel,
     OnSuccess,
     OnSuccessUI,
+    OnFailUI,
     OnRestartLevel,
     OnUndo,
-    OnGameOver
 }
 public class EventManager
 {

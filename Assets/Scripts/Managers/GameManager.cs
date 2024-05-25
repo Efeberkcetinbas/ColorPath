@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
         EventManager.AddHandler(GameEvent.OnPlayerDead,OnPlayerDead);
         EventManager.AddHandler(GameEvent.OnPlayerPathComplete,OnPlayerPathComplete);
         EventManager.AddHandler(GameEvent.OnNextLevel,OnNextLevel);
+        EventManager.AddHandler(GameEvent.OnRestartLevel,OnRestartLevel);
+
     }
 
     private void OnDisable()
@@ -39,6 +41,7 @@ public class GameManager : MonoBehaviour
         EventManager.RemoveHandler(GameEvent.OnPlayerDead,OnPlayerDead);
         EventManager.RemoveHandler(GameEvent.OnPlayerPathComplete,OnPlayerPathComplete);
         EventManager.RemoveHandler(GameEvent.OnNextLevel,OnNextLevel);
+        EventManager.RemoveHandler(GameEvent.OnRestartLevel,OnRestartLevel);
 
     }
 
@@ -49,6 +52,11 @@ public class GameManager : MonoBehaviour
     {
         ClearData(false);
         
+    }
+
+    private void OnRestartLevel()
+    {
+        ClearData(false);
     }
 
     private void OnPlayerPathComplete()
@@ -68,6 +76,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 Debug.Log("END FAIL");
+                EventManager.Broadcast(GameEvent.OnPlayerDead);
             }
         }
         else
@@ -79,6 +88,7 @@ public class GameManager : MonoBehaviour
     {
         gameData.isGameEnd=true;
         pathData.playersCanMove=false;
+        StartCoroutine(OpenFail());
     }
 
     void ClearData(bool val)
@@ -100,6 +110,19 @@ public class GameManager : MonoBehaviour
     {
         //effektif
         EventManager.Broadcast(GameEvent.OnSuccessUI);
+    }
+
+    private IEnumerator OpenFail()
+    {
+        yield return waitForSeconds;
+        OpenFailPanel();
+    }
+
+
+    private void OpenFailPanel()
+    {
+        //effektif
+        EventManager.Broadcast(GameEvent.OnFailUI);
     }
 
     

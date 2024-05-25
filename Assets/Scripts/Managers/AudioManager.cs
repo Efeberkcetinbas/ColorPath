@@ -5,7 +5,8 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public AudioClip GameLoop,BuffMusic;
-    public AudioClip GameOverSound,PathAddSound,PlayerMoveSound,PlayerDeadSound,SuccessSound,SuccessUISound;
+    public AudioClip GameOverSound,PathAddSound,PlayerMoveSound,PlayerDeadSound,SuccessSound,SuccessUISound,RestartSound
+    ,PlayersStartMoveSound,NextLevelSound,StartSound,FailUISound;
 
     AudioSource musicSource,effectSource;
 
@@ -25,6 +26,12 @@ public class AudioManager : MonoBehaviour
         EventManager.AddHandler(GameEvent.OnPlayerDead,OnPlayerDead);
         EventManager.AddHandler(GameEvent.OnSuccess,OnSuccess);
         EventManager.AddHandler(GameEvent.OnSuccessUI,OnSuccessUI);
+        EventManager.AddHandler(GameEvent.OnFailUI,OnFailUI);
+        EventManager.AddHandler(GameEvent.OnPlayersStartMove,OnPlayersStartMove);
+        EventManager.AddHandler(GameEvent.OnRestartLevel,OnRestartLevel);
+        EventManager.AddHandler(GameEvent.OnNextLevel,OnNextLevel);
+        EventManager.AddHandler(GameEvent.OnGameStart,OnGameStart);
+
     }
     private void OnDisable() 
     {
@@ -33,6 +40,12 @@ public class AudioManager : MonoBehaviour
         EventManager.RemoveHandler(GameEvent.OnPlayerDead,OnPlayerDead);
         EventManager.RemoveHandler(GameEvent.OnSuccess,OnSuccess);
         EventManager.RemoveHandler(GameEvent.OnSuccessUI,OnSuccessUI);
+        EventManager.AddHandler(GameEvent.OnFailUI,OnFailUI);
+        EventManager.RemoveHandler(GameEvent.OnPlayersStartMove,OnPlayersStartMove);
+        EventManager.RemoveHandler(GameEvent.OnRestartLevel,OnRestartLevel);
+        EventManager.RemoveHandler(GameEvent.OnNextLevel,OnNextLevel);
+        EventManager.RemoveHandler(GameEvent.OnGameStart,OnGameStart);
+
     }
 
     
@@ -67,7 +80,29 @@ public class AudioManager : MonoBehaviour
         effectSource.PlayOneShot(SuccessUISound);
     }
 
+    private void OnPlayersStartMove()
+    {
+        effectSource.PlayOneShot(PlayersStartMoveSound);
+    }
 
+    private void OnRestartLevel()
+    {
+        effectSource.PlayOneShot(RestartSound);
+    }
 
+    private void OnNextLevel()
+    {
+        effectSource.PlayOneShot(NextLevelSound);
+    }
+
+    private void OnGameStart()
+    {
+        effectSource.PlayOneShot(StartSound);
+    }
+
+    private void OnFailUI()
+    {
+        effectSource.PlayOneShot(FailUISound);
+    }
 
 }
