@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   increaseScore: 0
-  levelIndex: 1
+  levelIndex: 0
   levelNumber: 0
   isGameEnd: 1
