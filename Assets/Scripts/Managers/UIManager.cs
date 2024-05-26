@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
         EventManager.AddHandler(GameEvent.OnPlayersStartMove, OnPlayersStartMove);
         EventManager.AddHandler(GameEvent.OnNextLevel, OnNextLevel);
         EventManager.AddHandler(GameEvent.OnRestartLevel, OnRestartLevel);
+        EventManager.AddHandler(GameEvent.OnLevelUIUpdate,OnLevelUIUpdate);
         
         
     }
@@ -28,6 +29,7 @@ public class UIManager : MonoBehaviour
         EventManager.RemoveHandler(GameEvent.OnPlayersStartMove, OnPlayersStartMove);
         EventManager.RemoveHandler(GameEvent.OnNextLevel, OnNextLevel);
         EventManager.RemoveHandler(GameEvent.OnRestartLevel, OnRestartLevel);
+        EventManager.RemoveHandler(GameEvent.OnLevelUIUpdate,OnLevelUIUpdate);
     }
 
     
@@ -37,6 +39,10 @@ public class UIManager : MonoBehaviour
         score.transform.DOScale(new Vector3(1.5f,1.5f,1.5f),0.2f).OnComplete(()=>score.transform.DOScale(new Vector3(1,1f,1f),0.2f));
     }
 
+    private void OnLevelUIUpdate()
+    {
+        levelText.SetText("LEVEL " + (gameData.levelNumber+1).ToString());
+    }
    
 
     

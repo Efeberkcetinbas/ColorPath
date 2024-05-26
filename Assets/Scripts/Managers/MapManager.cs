@@ -34,11 +34,15 @@ public class MapManager : MonoBehaviour
         for (int i = 0; i < levelButtons.Count; i++)
         {
             levelButtons[i].GetChild(0).GetComponent<Image>().color=defaultColor;
-            levelButtons[i].GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().SetText((i+1).ToString());
+            levelButtons[i].GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().SetText((i+1+gameData.levelNumber).ToString());
         }
 
-        levelButtons[gameData.levelIndex].GetChild(0).GetComponent<Image>().color=selectedColor;
-        levelButtons[gameData.levelIndex].localScale=Vector3.one*1.25f;
+        /*levelButtons[gameData.levelIndex].GetChild(0).GetComponent<Image>().color=selectedColor;
+        levelButtons[gameData.levelIndex].localScale=Vector3.one*1.25f;*/
+
+        levelButtons[0].GetChild(0).GetComponent<Image>().color=selectedColor;
+        levelButtons[0].localScale=Vector3.one*1.25f;
+
     }
 
     private void OnNextLevel()

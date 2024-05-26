@@ -19,6 +19,7 @@ public enum GameEvent
     OnGameStart,
     OnIncreaseScore,
     OnUIUpdate,
+    OnLevelUIUpdate,
     
     OnNextLevel,
     OnSuccess,
@@ -40,6 +41,8 @@ public class EventManager
         if(!eventTable.ContainsKey(gameEvent))
             eventTable[gameEvent]=action;
         else eventTable[gameEvent]+=action;
+
+        Debug.Log(eventTable);
     }
 
     public static void RemoveHandler(GameEvent gameEvent,Action action)

@@ -18,9 +18,16 @@ public class LevelManager : MonoBehaviour
 
 
         gameData.levelIndex = PlayerPrefs.GetInt("LevelNumber");
-        if (gameData.levelIndex == levels.Count) gameData.levelIndex = 0;
+        if (gameData.levelIndex == levels.Count)
+        {
+            gameData.levelIndex = 0;
+            //Tekrar ettigi icin event firlat bastaki yerlerine gitsin playerlar.
+        }
         PlayerPrefs.SetInt("LevelNumber", gameData.levelIndex);
         
+        gameData.levelNumber=PlayerPrefs.GetInt("RealLevel");
+
+        EventManager.Broadcast(GameEvent.OnLevelUIUpdate);
        
 
         for (int i = 0; i < levels.Count; i++)
