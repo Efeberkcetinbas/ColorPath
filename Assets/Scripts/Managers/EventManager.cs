@@ -10,6 +10,8 @@ public enum GameEvent
     OnPlayerDead,
     OnPlayerPathComplete,
     OnPlayersStartMove,
+    OnPlayerSelection,
+    OnPlayerNull,
     
 
     //Grid
@@ -20,6 +22,7 @@ public enum GameEvent
     OnIncreaseScore,
     OnUIUpdate,
     OnLevelUIUpdate,
+    OnOpenPlayButton,
     
     OnNextLevel,
     OnSuccess,

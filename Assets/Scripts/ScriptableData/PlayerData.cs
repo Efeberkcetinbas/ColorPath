@@ -9,5 +9,7 @@ public class PlayerData : ScriptableObject
     public int numberOfPlayers;
     public int pathCompletedCounter;
     public int successPathCompletedCounter;
+
+    public Color selectedColor;
     
 }

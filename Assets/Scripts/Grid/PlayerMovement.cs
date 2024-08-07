@@ -71,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
         tempPath.Clear();
         DOTween.Kill(transform);
         transform.DOMove(startPos,0.1f);
+        target.DOMoveY(0,0.1f);
         animator.SetTrigger("idle");
         
     }
@@ -118,6 +119,8 @@ public class PlayerMovement : MonoBehaviour
     void StartDragging(Vector2 touchPosition)
     {
         // Perform a raycast to detect the grid cell the user started dragging from
+        
+        
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(touchPosition);
 
@@ -150,6 +153,8 @@ public class PlayerMovement : MonoBehaviour
                 EventManager.Broadcast(GameEvent.OnPathAdded);
                 hitCell.players.Add(this);
                 gridManager.HighlightCell(hitCell.row,hitCell.column,playerColor);
+                playerData.selectedColor=playerColor;
+                //EventManager.Broadcast(GameEvent.OnPlayerSelection);
                 hitCell.cellTypes.Add(playerType);
             }
         }
@@ -197,7 +202,9 @@ public class PlayerMovement : MonoBehaviour
             orderCell=false;
             //transform.position = Vector3.MoveTowards(transform.position, targetCell.transform.position, moveSpeed * Time.deltaTime);
             
-            transform.DOJump(targetCell.transform.position,1,1,0.5f).OnComplete(()=>{
+            //TREN OLSUN PLAYER
+            transform.DOLookAt(targetCell.transform.position,0.1f);
+            transform.DOMove(targetCell.transform.position,0.5f).OnComplete(()=>{
                 EventManager.Broadcast(GameEvent.OnPlayerMove);
                 path.RemoveAt(0);
                 // If the path is now empty, the player has finished the path
@@ -213,6 +220,13 @@ public class PlayerMovement : MonoBehaviour
                         playerData.successPathCompletedCounter++;
                         target.DOLocalMoveY(-1,0.2f);
                     }
+                    else
+                    {
+                        Debug.Log("FAILLLLLL PATH");
+                        EventManager.Broadcast(GameEvent.OnPlayerDead);
+                    }
+                        
+
                     EventManager.Broadcast(GameEvent.OnPlayerPathComplete);
                     //animator.SetBool("walk",false);
                 }

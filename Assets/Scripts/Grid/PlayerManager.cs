@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerManager : MonoBehaviour
 {
     public List<PlayerMovement> players=new List<PlayerMovement>(); // List of all players with PlayerMovement script attached
 
-    [SerializeField] private PlayerMovement selectedPlayer; // Currently selected player
+    public PlayerMovement selectedPlayer; // Currently selected player
 
     private int counter;
 
@@ -106,6 +107,9 @@ public class PlayerManager : MonoBehaviour
                 selectedPlayer.isMe=true;
                 Debug.Log(selectedPlayer.name);
                 canCount=true;
+                playerData.selectedColor=selectedPlayer.playerColor;
+                selectedPlayer.transform.DOScale(transform.localScale*1.5f,0.1f).OnComplete(()=>selectedPlayer.transform.DOScale(transform.localScale,0.1f));
+                EventManager.Broadcast(GameEvent.OnPlayerSelection);
                 //Burada liste kontrolunu yapabilirsin
             }
 
@@ -144,6 +148,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         selectedPlayer=null;
+        EventManager.Broadcast(GameEvent.OnPlayerNull);
         
 
         StartCoroutine(CheckCounter());
@@ -158,15 +163,17 @@ public class PlayerManager : MonoBehaviour
         yield return waitForSeconds;
 
         if(playerData.numberOfPlayers==counter)
-        {
-            pathData.playersCanMove=true;
-            gameData.isGameEnd=true;
-            Debug.Log("START TO MOVE");
-            EventManager.Broadcast(GameEvent.OnPlayersStartMove);
-
-        }
+            EventManager.Broadcast(GameEvent.OnOpenPlayButton);
             
 
         
+    }
+
+    public void OnPlayersMove()
+    {
+        pathData.playersCanMove=true;
+        gameData.isGameEnd=true;
+        Debug.Log("START TO MOVE");
+        EventManager.Broadcast(GameEvent.OnPlayersStartMove);    
     }
 }

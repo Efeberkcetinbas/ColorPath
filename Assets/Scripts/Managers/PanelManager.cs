@@ -12,11 +12,14 @@ public class PanelManager : MonoBehaviour
     [SerializeField] private List<GameObject> SuccessElements=new List<GameObject>();
     [SerializeField] private List<GameObject> FailElements=new List<GameObject>();
     [SerializeField] private List<GameObject> SpecialElements=new List<GameObject>();
-    [SerializeField] private Image Fade;
+    [SerializeField] private Image Fade,ColorSquare;
     [SerializeField] private float sceneX,sceneY,oldSceneX,oldSceneY,duration;
+
+    [SerializeField] private Button playButton;
 
 
     public GameData gameData;
+    public PlayerData playerData;
 
     private WaitForSeconds waitForSeconds,waitforSecondsSpecial;
 
@@ -24,6 +27,8 @@ public class PanelManager : MonoBehaviour
     {
         waitForSeconds=new WaitForSeconds(.25f);
         waitforSecondsSpecial=new WaitForSeconds(1);
+        ColorSquare.color=Color.white;
+        playButton.interactable=false;
     }
 
 
@@ -38,6 +43,9 @@ public class PanelManager : MonoBehaviour
         EventManager.AddHandler(GameEvent.OnPlayerDead,OnPlayerDead);
         EventManager.AddHandler(GameEvent.OnFailUI,OnFailUI);
         EventManager.AddHandler(GameEvent.OnRestartLevel,OnRestartLevel);
+        EventManager.AddHandler(GameEvent.OnPlayerSelection,OnPlayerSelection);
+        EventManager.AddHandler(GameEvent.OnPlayerNull,OnPlayerNull);
+        EventManager.AddHandler(GameEvent.OnOpenPlayButton,OnOpenPlayButton);
 
     }
 
@@ -50,6 +58,9 @@ public class PanelManager : MonoBehaviour
         EventManager.RemoveHandler(GameEvent.OnPlayerDead,OnPlayerDead);
         EventManager.RemoveHandler(GameEvent.OnFailUI,OnFailUI);
         EventManager.RemoveHandler(GameEvent.OnRestartLevel,OnRestartLevel);
+        EventManager.RemoveHandler(GameEvent.OnPlayerSelection,OnPlayerSelection);
+        EventManager.RemoveHandler(GameEvent.OnPlayerNull,OnPlayerNull);
+        EventManager.RemoveHandler(GameEvent.OnOpenPlayButton,OnOpenPlayButton);
 
     }
 
@@ -72,10 +83,13 @@ public class PanelManager : MonoBehaviour
 
     private void OnRestartLevel()
     {
+        ColorSquare.color=Color.white;
         FailPanel.gameObject.SetActive(false);
         StartCoroutine(Blink(Fade.gameObject,Fade));
         SetActivity(SceneUIs,true);
         StartCoroutine(SetElementsDotween(SpecialElements));
+        playButton.interactable=false;
+        
     }
 
     
@@ -84,6 +98,7 @@ public class PanelManager : MonoBehaviour
     {
         /*StartPanel.gameObject.SetActive(true);
         StartPanel.DOAnchorPos(Vector2.zero,0.1f);*/
+        ColorSquare.color=Color.white;
         SuccessPanel.gameObject.SetActive(false);
         StartCoroutine(Blink(Fade.gameObject,Fade));
         SetActivity(SceneUIs,true);
@@ -154,6 +169,21 @@ public class PanelManager : MonoBehaviour
     private void SetSceneUIPosition(float valX,float valY)
     {
         ScenePanel.DOAnchorPos(new Vector2(valX,valY),duration);
+    }
+
+    private void OnPlayerSelection()
+    {
+        ColorSquare.color=playerData.selectedColor;
+    }
+
+    private void OnPlayerNull()
+    {
+        ColorSquare.color=Color.white;
+    }
+
+    private void OnOpenPlayButton()
+    {
+        playButton.interactable=true;
     }
 
 }
