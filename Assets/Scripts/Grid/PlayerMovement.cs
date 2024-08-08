@@ -113,6 +113,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 MovePlayerAlongPath();
             }
+            
+            /*else
+            {
+                EventManager.Broadcast(GameEvent.OnPlayerStopsMove);
+            }*/
         }
     }
 
@@ -204,7 +209,7 @@ public class PlayerMovement : MonoBehaviour
             
             //TREN OLSUN PLAYER
             transform.DOLookAt(targetCell.transform.position,0.1f);
-            transform.DOMove(targetCell.transform.position,0.5f).OnComplete(()=>{
+            transform.DOJump(targetCell.transform.position,1,1,0.5f).OnComplete(()=>{
                 EventManager.Broadcast(GameEvent.OnPlayerMove);
                 path.RemoveAt(0);
                 // If the path is now empty, the player has finished the path
@@ -235,6 +240,8 @@ public class PlayerMovement : MonoBehaviour
             });
             
         }
+
+        
     }
 
     

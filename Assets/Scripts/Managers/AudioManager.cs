@@ -27,7 +27,7 @@ public class AudioManager : MonoBehaviour
         EventManager.AddHandler(GameEvent.OnSuccess,OnSuccess);
         EventManager.AddHandler(GameEvent.OnSuccessUI,OnSuccessUI);
         EventManager.AddHandler(GameEvent.OnFailUI,OnFailUI);
-        EventManager.AddHandler(GameEvent.OnPlayersStartMove,OnPlayersStartMove);
+        EventManager.AddHandler(GameEvent.OnOpenPlayButton,OnOpenPlayButton);
         EventManager.AddHandler(GameEvent.OnRestartLevel,OnRestartLevel);
         EventManager.AddHandler(GameEvent.OnNextLevel,OnNextLevel);
         EventManager.AddHandler(GameEvent.OnGameStart,OnGameStart);
@@ -41,7 +41,7 @@ public class AudioManager : MonoBehaviour
         EventManager.RemoveHandler(GameEvent.OnSuccess,OnSuccess);
         EventManager.RemoveHandler(GameEvent.OnSuccessUI,OnSuccessUI);
         EventManager.AddHandler(GameEvent.OnFailUI,OnFailUI);
-        EventManager.RemoveHandler(GameEvent.OnPlayersStartMove,OnPlayersStartMove);
+        EventManager.RemoveHandler(GameEvent.OnOpenPlayButton,OnOpenPlayButton);
         EventManager.RemoveHandler(GameEvent.OnRestartLevel,OnRestartLevel);
         EventManager.RemoveHandler(GameEvent.OnNextLevel,OnNextLevel);
         EventManager.RemoveHandler(GameEvent.OnGameStart,OnGameStart);
@@ -80,7 +80,7 @@ public class AudioManager : MonoBehaviour
         effectSource.PlayOneShot(SuccessUISound);
     }
 
-    private void OnPlayersStartMove()
+    private void OnOpenPlayButton()
     {
         effectSource.PlayOneShot(PlayersStartMoveSound);
     }

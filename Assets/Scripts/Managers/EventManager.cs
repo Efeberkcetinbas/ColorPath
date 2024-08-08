@@ -10,6 +10,7 @@ public enum GameEvent
     OnPlayerDead,
     OnPlayerPathComplete,
     OnPlayersStartMove,
+    OnPlayerStopsMove,
     OnPlayerSelection,
     OnPlayerNull,
     
@@ -45,7 +46,7 @@ public class EventManager
             eventTable[gameEvent]=action;
         else eventTable[gameEvent]+=action;
 
-        Debug.Log(eventTable);
+        //Debug.Log(eventTable);
     }
 
     public static void RemoveHandler(GameEvent gameEvent,Action action)

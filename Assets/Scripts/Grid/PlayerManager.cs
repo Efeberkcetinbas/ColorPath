@@ -108,7 +108,7 @@ public class PlayerManager : MonoBehaviour
                 Debug.Log(selectedPlayer.name);
                 canCount=true;
                 playerData.selectedColor=selectedPlayer.playerColor;
-                selectedPlayer.transform.DOScale(transform.localScale*1.5f,0.1f).OnComplete(()=>selectedPlayer.transform.DOScale(transform.localScale,0.1f));
+                //selectedPlayer.transform.DOScale(transform.localScale*1.2f,0.1f).OnComplete(()=>selectedPlayer.transform.DOScale(transform.localScale,0.1f));
                 EventManager.Broadcast(GameEvent.OnPlayerSelection);
                 //Burada liste kontrolunu yapabilirsin
             }

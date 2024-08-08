@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
         EventManager.AddHandler(GameEvent.OnNextLevel, OnNextLevel);
         EventManager.AddHandler(GameEvent.OnRestartLevel, OnRestartLevel);
         EventManager.AddHandler(GameEvent.OnLevelUIUpdate,OnLevelUIUpdate);
+        //EventManager.AddHandler(GameEvent.OnPlayerStopsMove, OnPlayerStopsMove);
         
         
     }
@@ -30,6 +31,7 @@ public class UIManager : MonoBehaviour
         EventManager.RemoveHandler(GameEvent.OnNextLevel, OnNextLevel);
         EventManager.RemoveHandler(GameEvent.OnRestartLevel, OnRestartLevel);
         EventManager.RemoveHandler(GameEvent.OnLevelUIUpdate,OnLevelUIUpdate);
+        //EventManager.RemoveHandler(GameEvent.OnPlayerStopsMove, OnPlayerStopsMove);
     }
 
     
@@ -45,7 +47,10 @@ public class UIManager : MonoBehaviour
     }
    
 
-    
+    private void OnPlayerStopsMove()
+    {
+        CheckButtonInteractability(true);
+    }
     private void OnPlayersStartMove()
     {
         CheckButtonInteractability(false);

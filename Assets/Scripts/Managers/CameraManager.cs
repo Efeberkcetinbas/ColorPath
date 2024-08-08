@@ -10,6 +10,7 @@ public class CameraManager : MonoBehaviour
 
 
     private CenterPoint centerPoint;
+    private LevelCameraProperties cameraPosition;
 
     [Header("Shake Control")]
     [SerializeField] private float shakeTime = 0.5f;
@@ -44,6 +45,8 @@ public class CameraManager : MonoBehaviour
     private void OnNextLevel()
     {
         centerPoint=FindObjectOfType<CenterPoint>();
+        cameraPosition=FindObjectOfType<LevelCameraProperties>();
+        cm.transform.position=cameraPosition.cameraPosition;
         ChangeLookAt(centerPoint.transform);
     }
 

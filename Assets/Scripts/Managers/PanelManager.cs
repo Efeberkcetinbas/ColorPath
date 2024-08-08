@@ -28,7 +28,8 @@ public class PanelManager : MonoBehaviour
         waitForSeconds=new WaitForSeconds(.25f);
         waitforSecondsSpecial=new WaitForSeconds(1);
         ColorSquare.color=Color.white;
-        playButton.interactable=false;
+        ResetPlayButton();
+        
     }
 
 
@@ -88,8 +89,7 @@ public class PanelManager : MonoBehaviour
         StartCoroutine(Blink(Fade.gameObject,Fade));
         SetActivity(SceneUIs,true);
         StartCoroutine(SetElementsDotween(SpecialElements));
-        playButton.interactable=false;
-        
+        ResetPlayButton();
     }
 
     
@@ -103,6 +103,7 @@ public class PanelManager : MonoBehaviour
         StartCoroutine(Blink(Fade.gameObject,Fade));
         SetActivity(SceneUIs,true);
         StartCoroutine(SetElementsDotween(SpecialElements));
+        ResetPlayButton();
     }
 
     private void OnSuccessUI()
@@ -183,7 +184,14 @@ public class PanelManager : MonoBehaviour
 
     private void OnOpenPlayButton()
     {
+        playButton.transform.DOScale(Vector3.one*1.2f,0.1f);
         playButton.interactable=true;
+    }
+
+    private void ResetPlayButton()
+    {
+        playButton.interactable=false;
+        playButton.transform.DOScale(Vector3.one,0.1f);
     }
 
 }
