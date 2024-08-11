@@ -21,6 +21,8 @@ public class GridCell : MonoBehaviour
 
     [SerializeField] private GridManager gridManager;
     private bool isTouching = false;
+
+    public bool isTarget;
     [SerializeField] private ParticleSystem dust;
     //Bunu daha sonra array olarak tutki ust uste gectiklerinde renkler degisime ugrasin
     public List<Color> cellColors=new List<Color>();

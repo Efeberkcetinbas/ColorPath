@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private List<Vector3> tempPath=new List<Vector3>();
     
     private bool isDragging = false; // Flag to track if the user is currently dragging
+    private bool hasReachedTarget = false;
 
     [SerializeField] private GameData gameData;
     [SerializeField] private PathData pathData;
@@ -73,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
         transform.DOMove(startPos,0.1f);
         target.DOMoveY(0,0.1f);
         animator.SetTrigger("idle");
+        hasReachedTarget=false;
         
     }
 
@@ -144,27 +146,42 @@ public class PlayerMovement : MonoBehaviour
 
     internal void ContinueDragging(Vector2 touchPosition)
     {
-        // Perform a raycast to detect the grid cell the user is currently dragging over
+         // Perform a raycast to detect the grid cell the user is currently dragging over
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(touchPosition);
 
         if (Physics.Raycast(ray, out hit))
         {
             GridCell hitCell = hit.collider.GetComponent<GridCell>();
-            if (hitCell != null && IsAdjacentToPreviousCell(hitCell) && !path.Contains(hitCell))
+            if (hitCell != null && !hasReachedTarget)
             {
-                // Add the current cell to the path if it's adjacent to the previous cell
-                path.Add(hitCell);
-                EventManager.Broadcast(GameEvent.OnPathAdded);
-                hitCell.players.Add(this);
-                gridManager.HighlightCell(hitCell.row,hitCell.column,playerColor);
-                playerData.selectedColor=playerColor;
-                //EventManager.Broadcast(GameEvent.OnPlayerSelection);
-                hitCell.cellTypes.Add(playerType);
+                // Check if the current cell is the target cell
+                if (hitCell.isTarget)
+                {
+                    // Add the target cell to the path and mark that the target is reached
+                    path.Add(hitCell);
+                    EventManager.Broadcast(GameEvent.OnPathAdded);
+                    hitCell.players.Add(this);
+                    gridManager.HighlightCell(hitCell.row, hitCell.column, playerColor);
+                    playerData.selectedColor = playerColor;
+                    hitCell.cellTypes.Add(playerType);
+                    
+                    hasReachedTarget = true; // Prevent further path drawing
+                    
+                }
+                else if (IsAdjacentToPreviousCell(hitCell) && !path.Contains(hitCell))
+                {
+                    // Add the current cell to the path if it's adjacent to the previous cell
+                    path.Add(hitCell);
+                    EventManager.Broadcast(GameEvent.OnPathAdded);
+                    hitCell.players.Add(this);
+                    gridManager.HighlightCell(hitCell.row, hitCell.column, playerColor);
+                    playerData.selectedColor = playerColor;
+                    hitCell.cellTypes.Add(playerType);
+                }
             }
         }
     }
-
     void EndDragging()
     {
         isDragging = false;
@@ -180,6 +197,8 @@ public class PlayerMovement : MonoBehaviour
 
        
     }
+
+    
 
     bool IsAdjacentToPreviousCell(GridCell cell)
     {

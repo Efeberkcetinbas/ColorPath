@@ -184,7 +184,7 @@ public class PanelManager : MonoBehaviour
 
     private void OnOpenPlayButton()
     {
-        playButton.transform.DOScale(Vector3.one*1.2f,0.1f);
+        playButton.transform.DOScale(Vector3.one*1.5f,0.1f);
         playButton.interactable=true;
     }
 

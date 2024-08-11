@@ -13,6 +13,7 @@ public class PlayerManager : MonoBehaviour
 
 
     private bool canCount;
+    private bool openPlayButton;
 
     [SerializeField] private PathData pathData;
     [SerializeField] private GameData gameData;
@@ -44,7 +45,7 @@ public class PlayerManager : MonoBehaviour
         players.Clear();
         players=FindObjectOfType<LevelProperty>().levelPlayersList;
         Debug.Log(players.Count);
-
+        openPlayButton=false;
         playerData.numberOfPlayers=players.Count;
         counter=0;
 
@@ -58,6 +59,7 @@ public class PlayerManager : MonoBehaviour
     private void OnRestartLevel()
     {
         counter=0;
+        openPlayButton=false;
     }
     void Update()
     {
@@ -151,6 +153,7 @@ public class PlayerManager : MonoBehaviour
         EventManager.Broadcast(GameEvent.OnPlayerNull);
         
 
+
         StartCoroutine(CheckCounter());
         
 
@@ -162,8 +165,11 @@ public class PlayerManager : MonoBehaviour
     {
         yield return waitForSeconds;
 
-        if(playerData.numberOfPlayers==counter)
+        if(playerData.numberOfPlayers==counter && !openPlayButton)
+        {
             EventManager.Broadcast(GameEvent.OnOpenPlayButton);
+            openPlayButton=true;
+        }
             
 
         
