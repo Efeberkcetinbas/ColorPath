@@ -25,12 +25,16 @@ public enum GameEvent
     OnLevelUIUpdate,
     OnOpenPlayButton,
     
+    
     OnNextLevel,
     OnSuccess,
     OnSuccessUI,
     OnFailUI,
     OnRestartLevel,
     OnUndo,
+
+    //Life Management
+    
 }
 public class EventManager
 {

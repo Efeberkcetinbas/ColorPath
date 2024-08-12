@@ -16,4 +16,5 @@ MonoBehaviour:
   increaseScore: 0
   levelIndex: 2
   levelNumber: 2
+  lifeTime: 5
   isGameEnd: 1
