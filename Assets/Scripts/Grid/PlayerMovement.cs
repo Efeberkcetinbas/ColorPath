@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private PlayerData playerData;
     public Color playerColor; // Color assigned to this player
     [SerializeField] private GridManager gridManager;
+    private PlayerManager playerManager;
     [SerializeField] private Transform target;
 
     
@@ -54,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnNextLevel()
     {
+        playerManager=FindObjectOfType<PlayerManager>();
         playerRenderer.material.color = playerColor; // Set the player's color
         startPos=transform.position;
         EventManager.Broadcast(GameEvent.OnPlayerColorUpdate);
@@ -63,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log("PARTICLE");
         animator.SetTrigger("dead");
+        Debug.Log("COLLISION HAS HAPPENED");
     }
 
     private void OnRestartLevel()
@@ -167,6 +170,8 @@ public class PlayerMovement : MonoBehaviour
                     hitCell.cellTypes.Add(playerType);
                     
                     hasReachedTarget = true; // Prevent further path drawing
+                    playerManager.counter++;
+                    StartCoroutine(playerManager.CheckCounter());
                     
                 }
                 else if (IsAdjacentToPreviousCell(hitCell) && !path.Contains(hitCell))
@@ -192,7 +197,7 @@ public class PlayerMovement : MonoBehaviour
             tempPath.Add(cell.transform.position);
         }
 
-
+        
         
 
        
@@ -246,8 +251,12 @@ public class PlayerMovement : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("FAILLLLLL PATH");
-                        EventManager.Broadcast(GameEvent.OnPlayerDead);
+                        if(!gameData.isGameEnd)
+                        {
+                            Debug.Log("FAILLLLLL PATH");
+                            EventManager.Broadcast(GameEvent.OnPlayerDead);    
+                        }
+                        
                     }
                         
 

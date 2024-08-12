@@ -9,7 +9,7 @@ public class PlayerManager : MonoBehaviour
 
     public PlayerMovement selectedPlayer; // Currently selected player
 
-    private int counter;
+    internal int counter;
 
 
     private bool canCount;
@@ -142,8 +142,8 @@ public class PlayerManager : MonoBehaviour
         //selectedPlayer = null; // Deselect the player when touch ends
         if(selectedPlayer!=null)
         {
-            if(canCount && selectedPlayer.canCountOnMe)
-                counter++;
+            /*if(canCount && selectedPlayer.canCountOnMe)
+                counter++;*/
 
             selectedPlayer.canCountOnMe=false;
 
@@ -154,14 +154,14 @@ public class PlayerManager : MonoBehaviour
         
 
 
-        StartCoroutine(CheckCounter());
+        //StartCoroutine(CheckCounter());
         
 
 
         
     }
 
-    private IEnumerator CheckCounter()
+    internal IEnumerator CheckCounter()
     {
         yield return waitForSeconds;
 

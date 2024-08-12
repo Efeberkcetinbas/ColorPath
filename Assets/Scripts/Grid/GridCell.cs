@@ -21,6 +21,7 @@ public class GridCell : MonoBehaviour
 
     [SerializeField] private GridManager gridManager;
     private bool isTouching = false;
+    private bool isHandledCollision=false;
 
     public bool isTarget;
     [SerializeField] private ParticleSystem dust;
@@ -65,7 +66,12 @@ public class GridCell : MonoBehaviour
 
                 else
                 {
-                    EventManager.Broadcast(GameEvent.OnPlayerDead);
+                    if(!isHandledCollision)
+                    {
+                        EventManager.Broadcast(GameEvent.OnPlayerDead);
+                        Debug.Log("GRID CELL FAIL");
+                        isHandledCollision=true;
+                    }
                 }
                     
             }
@@ -77,6 +83,7 @@ public class GridCell : MonoBehaviour
         cellColors.Clear();
         players.Clear();
         cellTypes.Clear();
+        isHandledCollision=false;
     }
 
     internal void PlayParticles(Color color)
