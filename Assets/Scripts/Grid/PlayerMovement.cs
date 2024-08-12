@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GridManager gridManager;
     private PlayerManager playerManager;
     [SerializeField] private Transform target;
+    private GridCell startCell;
 
     
     [SerializeField] private SkinnedMeshRenderer playerRenderer; // Renderer component to apply color to the player
@@ -36,10 +37,14 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Vector3 startPos;
 
+
     void Start()
     {
         OnNextLevel();
+        StartCoroutine(StarterAddCellToPath(startCell));
     }
+
+    
 
     private void OnEnable()
     {
@@ -66,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("PARTICLE");
         animator.SetTrigger("dead");
         Debug.Log("COLLISION HAS HAPPENED");
+        
     }
 
     private void OnRestartLevel()
@@ -75,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
         tempPath.Clear();
         DOTween.Kill(transform);
         transform.DOMove(startPos,0.1f);
+        StartCoroutine(StarterAddCellToPath(startCell));
         target.DOMoveY(0,0.1f);
         animator.SetTrigger("idle");
         hasReachedTarget=false;
@@ -149,44 +156,74 @@ public class PlayerMovement : MonoBehaviour
 
     internal void ContinueDragging(Vector2 touchPosition)
     {
-         // Perform a raycast to detect the grid cell the user is currently dragging over
-        RaycastHit hit;
+        // Perform a raycast to detect the grid cell the user is currently dragging over
         Ray ray = Camera.main.ScreenPointToRay(touchPosition);
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
             GridCell hitCell = hit.collider.GetComponent<GridCell>();
             if (hitCell != null && !hasReachedTarget)
             {
-                // Check if the current cell is the target cell
-                if (hitCell.isTarget)
+                // Ensure that the target cell is only added if it's adjacent to the last cell in the path
+                // and if the path already contains at least one cell
+                if (hitCell.isTarget && path.Count > 0 && IsAdjacentToPreviousCell(hitCell))
                 {
-                    // Add the target cell to the path and mark that the target is reached
-                    path.Add(hitCell);
-                    EventManager.Broadcast(GameEvent.OnPathAdded);
-                    hitCell.players.Add(this);
-                    gridManager.HighlightCell(hitCell.row, hitCell.column, playerColor);
-                    playerData.selectedColor = playerColor;
-                    hitCell.cellTypes.Add(playerType);
-                    
+                    Debug.Log("KAFA DURDU");
+                    AddCellToPath(hitCell);
                     hasReachedTarget = true; // Prevent further path drawing
                     playerManager.counter++;
                     StartCoroutine(playerManager.CheckCounter());
-                    
                 }
-                else if (IsAdjacentToPreviousCell(hitCell) && !path.Contains(hitCell))
+                else if (IsAdjacentToPreviousCell(hitCell) && !path.Contains(hitCell) && !hitCell.isTarget)
                 {
+                    Debug.Log("KAFA STOp");
                     // Add the current cell to the path if it's adjacent to the previous cell
-                    path.Add(hitCell);
-                    EventManager.Broadcast(GameEvent.OnPathAdded);
-                    hitCell.players.Add(this);
-                    gridManager.HighlightCell(hitCell.row, hitCell.column, playerColor);
-                    playerData.selectedColor = playerColor;
-                    hitCell.cellTypes.Add(playerType);
+                    AddCellToPath(hitCell);
                 }
             }
         }
     }
+
+    private void AddCellToPath(GridCell cell)
+    {
+        path.Add(cell);
+        EventManager.Broadcast(GameEvent.OnPathAdded);
+        cell.players.Add(this);
+        gridManager.HighlightCell(cell.row, cell.column, playerColor);
+        playerData.selectedColor = playerColor;
+        cell.cellTypes.Add(playerType);
+    }
+
+    private IEnumerator StarterAddCellToPath(GridCell cell)
+    {
+        yield return new WaitForSeconds(.5f);
+        GetGridCellAtExactPosition(startPos,1);
+    }
+
+    private GridCell GetGridCellAtExactPosition(Vector3 position, float radius)
+    {
+        // Check for colliders within a small sphere around the position
+        Collider[] colliders = Physics.OverlapSphere(position, radius);
+        
+        foreach (var collider in colliders)
+        {
+            GridCell cell = collider.GetComponent<GridCell>();
+            if (cell != null)
+            {
+                // Verify the position is exactly the same
+                if (Vector3.Distance(position, cell.transform.position) < 0.01f) // Adjust tolerance as needed
+                {
+                    path.Add(cell);
+                    cell.players.Add(this);
+                    gridManager.HighlightCell(cell.row, cell.column, playerColor);
+                    playerData.selectedColor = playerColor;
+                    cell.cellTypes.Add(playerType);
+                }
+            }
+        }
+        return null; // Return null if no GridCell was found
+    }
+
     void EndDragging()
     {
         isDragging = false;
@@ -222,12 +259,13 @@ public class PlayerMovement : MonoBehaviour
         return true; // Return true if there's no previous cell (first cell in the path)
     }
 
+    //1 ler aslinda 0di !!!!!!!
     void MovePlayerAlongPath()
     {
-        if (path.Count > 0 && orderCell)
+        if (path.Count > 1 && orderCell)
         {
         // Move the player towards the first cell in the path
-            GameObject targetCell = path[0].gameObject;
+            GameObject targetCell = path[1].gameObject;
             orderCell=false;
             //transform.position = Vector3.MoveTowards(transform.position, targetCell.transform.position, moveSpeed * Time.deltaTime);
             
@@ -237,7 +275,7 @@ public class PlayerMovement : MonoBehaviour
                 EventManager.Broadcast(GameEvent.OnPlayerMove);
                 path.RemoveAt(0);
                 // If the path is now empty, the player has finished the path
-                if (path.Count == 0)
+                if (path.Count == 1)
                 {
                     Debug.Log(name + " FINISHED THE PATH CHECK IT");
                     playerData.pathCompletedCounter++;

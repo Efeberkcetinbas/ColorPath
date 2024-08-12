@@ -57,6 +57,15 @@ public class GameManager : MonoBehaviour
     private void OnRestartLevel()
     {
         ClearData(false);
+        StartCoroutine(StartAgain());
+    }
+
+
+    private IEnumerator StartAgain()
+    {
+        gameData.isGameEnd=true;
+        yield return new WaitForSeconds(1);
+        gameData.isGameEnd=false;
     }
 
     private void OnPlayerPathComplete()

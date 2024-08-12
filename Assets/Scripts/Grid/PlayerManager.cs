@@ -99,6 +99,7 @@ public class PlayerManager : MonoBehaviour
             PlayerMovement player = hitObject.GetComponent<PlayerMovement>();
             if (player != null && players.Contains(player))
             {
+                Debug.Log("PLAYER CHOOSEN");
                 // Select the touched player
                 for (int i = 0; i < players.Count; i++)
                 {
