@@ -779,6 +779,7 @@ PlayerSettings:
   vrEditorSettings: {}
   cloudServicesEnabled:
     UNet: 1
+    Unity Ads: 1
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -792,11 +793,11 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 0
-  cloudProjectId: 
+  cloudProjectId: 9d51e0de-fcd5-418d-a092-de19cd7dfd35
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: ColorPath
+  organizationId: berkefefast
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 

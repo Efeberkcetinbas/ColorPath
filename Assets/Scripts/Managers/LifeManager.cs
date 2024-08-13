@@ -14,6 +14,7 @@ public class LifeManager : MonoBehaviour
     [Header("Life")]
     [SerializeField] private Image lifeAmountProgress;
     [SerializeField] private TextMeshProUGUI lifeText;
+    [SerializeField] private TextMeshProUGUI timerText,timerCounterText,timerFailText,timerFailCounterText; // Add a reference for the timer UI
 
     private DateTime lastLifeIncreaseTime;
 
@@ -24,11 +25,13 @@ public class LifeManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.AddHandler(GameEvent.OnPlayerDead, OnPlayerDead);
+        EventManager.AddHandler(GameEvent.OnLifeFull, OnLifeFull);
     }
 
     private void OnDisable()
     {
         EventManager.RemoveHandler(GameEvent.OnPlayerDead, OnPlayerDead);
+        EventManager.RemoveHandler(GameEvent.OnLifeFull, OnLifeFull);
     }
 
     private void Start()
@@ -98,6 +101,8 @@ public class LifeManager : MonoBehaviour
     {
         while (true)
         {
+            UpdateTimer(); // Update the timer UI every check interval
+
             yield return new WaitForSecondsRealtime(checkIntervalInSeconds); // Wait for the specified check interval
 
             // Recalculate the time elapsed to handle cases where the game is not running
@@ -111,7 +116,35 @@ public class LifeManager : MonoBehaviour
                 lastLifeIncreaseTime = DateTime.Now.AddMinutes(-(minutesPassed % restoreIntervalInMinutes));
                 UpdateLifeProgress();
                 SaveLife();
+                EventManager.Broadcast(GameEvent.OnUpdateLife);
             }
+
         }
+    }
+
+    private void OnLifeFull()
+    {
+        gameData.lifeTime = 5; // Set the life amount to maximum
+        UpdateLifeProgress(); // Update the UI to reflect the change
+        SaveLife(); // Save the updated life amount to PlayerPrefs
+    }
+
+    private void UpdateTimer()
+    {
+        TimeSpan timeUntilNextLife = GetTimeUntilNextLife();
+        timerText.SetText(timeUntilNextLife.ToString(@"hh\:mm")); // Display in hh:mm format
+        timerFailText.SetText(timeUntilNextLife.ToString(@"hh\:mm")); // Display in hh:mm format
+        timerCounterText.SetText(gameData.lifeTime.ToString());
+        timerFailCounterText.SetText(gameData.lifeTime.ToString());
+    }
+
+    private TimeSpan GetTimeUntilNextLife()
+    {
+        // Calculate the time until the next life restoration
+        TimeSpan timeElapsed = DateTime.Now - lastLifeIncreaseTime;
+        int minutesPassed = (int)timeElapsed.TotalMinutes;
+        int nextLifeRestoreTime = ((minutesPassed / restoreIntervalInMinutes) + 1) * restoreIntervalInMinutes;
+        int minutesUntilNextLife = nextLifeRestoreTime - minutesPassed;
+        return TimeSpan.FromMinutes(minutesUntilNextLife);
     }
 }

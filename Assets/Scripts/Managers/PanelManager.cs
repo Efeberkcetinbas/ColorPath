@@ -15,7 +15,10 @@ public class PanelManager : MonoBehaviour
     [SerializeField] private Image Fade,ColorSquare;
     [SerializeField] private float sceneX,sceneY,oldSceneX,oldSceneY,duration;
 
-    [SerializeField] private Button playButton;
+    [SerializeField] private Button playButton,resetButton;
+    [SerializeField] private Button startGameButton,restartLevelButton;
+
+    [SerializeField] private GameObject startLifePanel,failLifePanel;
 
 
     public GameData gameData;
@@ -28,8 +31,35 @@ public class PanelManager : MonoBehaviour
         waitForSeconds=new WaitForSeconds(.25f);
         waitforSecondsSpecial=new WaitForSeconds(1);
         ColorSquare.color=Color.white;
-        ResetPlayButton();
+        ResetPlayButton(); 
+        CheckLifeCounter(startGameButton,startLifePanel);
+
         
+        
+    }
+
+
+    private void CheckLifeCounter(Button button,GameObject lifePanelObject)
+    {
+        if(gameData.lifeTime==0)
+        {
+            button.interactable=false;
+            lifePanelObject.SetActive(true);
+            
+        }
+
+        else
+        {
+            button.interactable=true;
+            lifePanelObject.SetActive(true);
+        }
+            
+    }
+
+    private void OnUpdateLife()
+    {
+        CheckLifeCounter(startGameButton,startLifePanel);
+        CheckLifeCounter(restartLevelButton,failLifePanel);
     }
 
 
@@ -47,6 +77,7 @@ public class PanelManager : MonoBehaviour
         EventManager.AddHandler(GameEvent.OnPlayerSelection,OnPlayerSelection);
         EventManager.AddHandler(GameEvent.OnPlayerNull,OnPlayerNull);
         EventManager.AddHandler(GameEvent.OnOpenPlayButton,OnOpenPlayButton);
+        EventManager.AddHandler(GameEvent.OnUpdateLife,OnUpdateLife);
 
     }
 
@@ -62,6 +93,7 @@ public class PanelManager : MonoBehaviour
         EventManager.RemoveHandler(GameEvent.OnPlayerSelection,OnPlayerSelection);
         EventManager.RemoveHandler(GameEvent.OnPlayerNull,OnPlayerNull);
         EventManager.RemoveHandler(GameEvent.OnOpenPlayButton,OnOpenPlayButton);
+        EventManager.RemoveHandler(GameEvent.OnUpdateLife,OnUpdateLife);
 
     }
 
@@ -165,6 +197,7 @@ public class PanelManager : MonoBehaviour
         FailPanel.gameObject.SetActive(true);
         SetActivity(SceneUIs,false);
         StartCoroutine(SetElementsDotween(FailElements));
+        CheckLifeCounter(restartLevelButton,failLifePanel);
     }
 
     private void SetSceneUIPosition(float valX,float valY)
@@ -186,12 +219,14 @@ public class PanelManager : MonoBehaviour
     {
         playButton.transform.DOScale(Vector3.one*1.5f,0.1f);
         playButton.interactable=true;
+        resetButton.interactable=false;
     }
 
     private void ResetPlayButton()
     {
         playButton.interactable=false;
         playButton.transform.DOScale(Vector3.one,0.1f);
+        resetButton.interactable=true;
     }
 
 }
