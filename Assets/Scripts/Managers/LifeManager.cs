@@ -119,6 +119,8 @@ public class LifeManager : MonoBehaviour
                 EventManager.Broadcast(GameEvent.OnUpdateLife);
             }
 
+            
+
         }
     }
 
@@ -131,11 +133,19 @@ public class LifeManager : MonoBehaviour
 
     private void UpdateTimer()
     {
-        TimeSpan timeUntilNextLife = GetTimeUntilNextLife();
-        timerText.SetText(timeUntilNextLife.ToString(@"hh\:mm")); // Display in hh:mm format
-        timerFailText.SetText(timeUntilNextLife.ToString(@"hh\:mm")); // Display in hh:mm format
-        timerCounterText.SetText(gameData.lifeTime.ToString());
-        timerFailCounterText.SetText(gameData.lifeTime.ToString());
+        if (gameData.lifeTime >= 5)
+        {
+            timerText.SetText("Full"); // Display "Full" when lifeTime is 5
+            timerFailText.SetText("Full"); // Display "Full" in the fail timer as well
+        }
+        else
+        {
+            TimeSpan timeUntilNextLife = GetTimeUntilNextLife();
+            timerText.SetText(timeUntilNextLife.ToString(@"hh\:mm")); // Display in hh:mm format
+            timerFailText.SetText(timeUntilNextLife.ToString(@"hh\:mm")); // Display in hh:mm format
+        }
+        timerCounterText.SetText(gameData.lifeTime.ToString()); // Update life count
+        timerFailCounterText.SetText(gameData.lifeTime.ToString()); // Update life count in fail text
     }
 
     private TimeSpan GetTimeUntilNextLife()
