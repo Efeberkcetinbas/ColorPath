@@ -17,6 +17,8 @@ public enum GameEvent
 
     //Grid
     OnPathAdded,
+    OnFalseDrag,
+    OnStopFalseDrag,
 
     //Game Management
     OnGameStart,

@@ -29,11 +29,15 @@ public class CameraManager : MonoBehaviour
     private void OnEnable() 
     {
         EventManager.AddHandler(GameEvent.OnNextLevel,OnNextLevel);
+        EventManager.AddHandler(GameEvent.OnHitTarget,OnHitTarget);
+        EventManager.AddHandler(GameEvent.OnFalseDrag,OnFalseDrag);
     }
 
     private void OnDisable() 
     {
         EventManager.RemoveHandler(GameEvent.OnNextLevel,OnNextLevel);
+        EventManager.RemoveHandler(GameEvent.OnHitTarget,OnHitTarget);
+        EventManager.RemoveHandler(GameEvent.OnFalseDrag,OnFalseDrag);
 
     }
 
@@ -50,8 +54,15 @@ public class CameraManager : MonoBehaviour
         ChangeLookAt(centerPoint.transform);
     }
 
+    private void OnHitTarget()
+    {
+        Noise(0.2f,0.2f,shakeTime);
+    }
     
-    
+    private void OnFalseDrag()
+    {
+        Noise(amplitudeGain,frequencyGain,shakeTime);
+    }
     
 
     private void Start() 

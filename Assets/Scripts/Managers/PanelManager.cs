@@ -18,7 +18,7 @@ public class PanelManager : MonoBehaviour
     [SerializeField] private Button playButton,resetButton;
     [SerializeField] private Button startGameButton,restartLevelButton;
 
-    [SerializeField] private GameObject startLifePanel,failLifePanel;
+    [SerializeField] private GameObject startLifePanel,failLifePanel,falseDragPanel;
 
 
     public GameData gameData;
@@ -78,6 +78,7 @@ public class PanelManager : MonoBehaviour
         EventManager.AddHandler(GameEvent.OnPlayerNull,OnPlayerNull);
         EventManager.AddHandler(GameEvent.OnOpenPlayButton,OnOpenPlayButton);
         EventManager.AddHandler(GameEvent.OnUpdateLife,OnUpdateLife);
+        EventManager.AddHandler(GameEvent.OnFalseDrag,OnFalseDrag);
 
     }
 
@@ -94,6 +95,7 @@ public class PanelManager : MonoBehaviour
         EventManager.RemoveHandler(GameEvent.OnPlayerNull,OnPlayerNull);
         EventManager.RemoveHandler(GameEvent.OnOpenPlayButton,OnOpenPlayButton);
         EventManager.RemoveHandler(GameEvent.OnUpdateLife,OnUpdateLife);
+        EventManager.RemoveHandler(GameEvent.OnFalseDrag,OnFalseDrag);
 
     }
 
@@ -192,6 +194,19 @@ public class PanelManager : MonoBehaviour
         
     }
 
+    private void OnFalseDrag()
+    {
+        StartCoroutine(SetActivity());
+    }
+
+    private IEnumerator SetActivity()
+    {
+        falseDragPanel.SetActive(true);
+        falseDragPanel.transform.DOScale(Vector3.one,0.25f).SetEase(Ease.InBounce);
+        yield return waitforSecondsSpecial;
+        falseDragPanel.transform.DOScale(Vector3.zero,0.25f).SetEase(Ease.InBounce).OnComplete(()=>falseDragPanel.SetActive(false));
+
+    }
     private void OnFailUI()
     {
         FailPanel.gameObject.SetActive(true);
@@ -227,6 +242,7 @@ public class PanelManager : MonoBehaviour
         playButton.interactable=false;
         playButton.transform.DOScale(Vector3.one,0.1f);
         resetButton.interactable=true;
+        falseDragPanel.SetActive(false);
     }
 
 }

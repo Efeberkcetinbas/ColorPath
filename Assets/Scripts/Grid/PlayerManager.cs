@@ -104,16 +104,21 @@ public class PlayerManager : MonoBehaviour
                 for (int i = 0; i < players.Count; i++)
                 {
                     players[i].isMe=false;
+                    players[i].handHere=false;
                 }
                 
                 selectedPlayer = player;
                 selectedPlayer.isMe=true;
+                selectedPlayer.handHere=true;
                 Debug.Log(selectedPlayer.name);
                 canCount=true;
                 playerData.selectedColor=selectedPlayer.playerColor;
                 //selectedPlayer.transform.DOScale(transform.localScale*1.2f,0.1f).OnComplete(()=>selectedPlayer.transform.DOScale(transform.localScale,0.1f));
                 EventManager.Broadcast(GameEvent.OnPlayerSelection);
+                EventManager.Broadcast(GameEvent.OnStopFalseDrag);
                 //Burada liste kontrolunu yapabilirsin
+
+                
             }
 
             else
@@ -124,6 +129,20 @@ public class PlayerManager : MonoBehaviour
                 }
 
                 canCount=false;
+                Debug.Log("BOS YERE DOKUNUYORSUN");
+                EventManager.Broadcast(GameEvent.OnFalseDrag);
+
+                //
+
+
+            
+                
+
+
+
+
+
+                //
 
             }
         }

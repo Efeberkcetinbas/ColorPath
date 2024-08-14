@@ -37,6 +37,10 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Vector3 startPos;
 
+    public bool handHere;
+
+    [SerializeField] private GameObject selectMeBall;
+
 
     void Start()
     {
@@ -50,12 +54,17 @@ public class PlayerMovement : MonoBehaviour
     {
         EventManager.AddHandler(GameEvent.OnPlayerDead,OnPlayerDead);
         EventManager.AddHandler(GameEvent.OnRestartLevel,OnRestartLevel);
+        EventManager.AddHandler(GameEvent.OnFalseDrag,OnFalseDrag);
+        EventManager.AddHandler(GameEvent.OnStopFalseDrag,OnStopFalseDrag);
+
     }
 
     private void OnDisable()
     {
         EventManager.RemoveHandler(GameEvent.OnPlayerDead,OnPlayerDead);
         EventManager.RemoveHandler(GameEvent.OnRestartLevel,OnRestartLevel);
+        EventManager.RemoveHandler(GameEvent.OnFalseDrag,OnFalseDrag);
+        EventManager.RemoveHandler(GameEvent.OnStopFalseDrag,OnStopFalseDrag);
     }
 
     private void OnNextLevel()
@@ -147,11 +156,27 @@ public class PlayerMovement : MonoBehaviour
             if (hitCell != null)
             {
                 // Clear existing path and add the starting cell to the path
-                path.Clear();
-                path.Add(hitCell);
+                /*path.Clear();
+                path.Add(hitCell);*/
                 isDragging = true;
+                Debug.Log("INSIDE THE NULL CHECK");
             }
+
+            Debug.Log("OUTSIDE THE NULL CHECK");
         }
+    }
+
+    private void OnFalseDrag()
+    {
+        if(handHere)
+        {
+            selectMeBall.SetActive(true);
+        }
+    }
+
+    private void OnStopFalseDrag()
+    {
+        selectMeBall.SetActive(false);
     }
 
     internal void ContinueDragging(Vector2 touchPosition)
@@ -181,6 +206,8 @@ public class PlayerMovement : MonoBehaviour
                     // Add the current cell to the path if it's adjacent to the previous cell
                     AddCellToPath(hitCell);
                 }
+
+                
             }
         }
     }
