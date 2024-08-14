@@ -80,7 +80,9 @@ public class LifeManager : MonoBehaviour
         {
             gameData.lifeTime--;
             UpdateLifeProgress();
+            UpdateTimer();
             SaveLife();
+
         }
     }
 

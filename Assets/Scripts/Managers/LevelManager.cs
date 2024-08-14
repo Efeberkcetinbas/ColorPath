@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
 
@@ -20,7 +20,8 @@ public class LevelManager : MonoBehaviour
         gameData.levelIndex = PlayerPrefs.GetInt("LevelNumber");
         if (gameData.levelIndex == levels.Count)
         {
-            gameData.levelIndex = 0;
+            gameData.levelIndex = 9;
+            EventManager.Broadcast(GameEvent.OnRestartLevel);
             //Tekrar ettigi icin event firlat bastaki yerlerine gitsin playerlar.
         }
         PlayerPrefs.SetInt("LevelNumber", gameData.levelIndex);

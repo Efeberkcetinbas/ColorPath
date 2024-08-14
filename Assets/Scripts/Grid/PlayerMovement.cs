@@ -169,6 +169,7 @@ public class PlayerMovement : MonoBehaviour
                 if (hitCell.isTarget && path.Count > 0 && IsAdjacentToPreviousCell(hitCell))
                 {
                     Debug.Log("KAFA DURDU");
+                    EventManager.Broadcast(GameEvent.OnHitTarget);
                     AddCellToPath(hitCell);
                     hasReachedTarget = true; // Prevent further path drawing
                     playerManager.counter++;
