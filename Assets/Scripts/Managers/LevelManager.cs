@@ -21,7 +21,8 @@ public class LevelManager : MonoBehaviour
         if (gameData.levelIndex == levels.Count)
         {
             gameData.levelIndex = 9;
-            EventManager.Broadcast(GameEvent.OnRestartLevel);
+            SceneManager.LoadScene(0);
+
             //Tekrar ettigi icin event firlat bastaki yerlerine gitsin playerlar.
         }
         PlayerPrefs.SetInt("LevelNumber", gameData.levelIndex);
@@ -36,7 +37,11 @@ public class LevelManager : MonoBehaviour
             levels[i].SetActive(false);
         }
         levels[gameData.levelIndex].SetActive(true);
+
+        
     }
+
+    
 
     public void LoadNextLevel()
     {

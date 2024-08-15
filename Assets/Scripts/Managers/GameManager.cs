@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
         {
             if(playerData.successPathCompletedCounter==playerData.numberOfPlayers)
             {
-                Debug.Log("PERFECT. CONG");
+                //Debug.Log("PERFECT. CONG");
                 EventManager.Broadcast(GameEvent.OnSuccess);
                 StartCoroutine(OpenSuccess());
                 //Particle and Success Panel
@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
 
             else
             {
-                Debug.Log("END FAIL");
+                //Debug.Log("END FAIL");
                 EventManager.Broadcast(GameEvent.OnPlayerDead);
             }
         }

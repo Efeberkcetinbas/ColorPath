@@ -42,6 +42,7 @@ public class CrossColorTutorial : MonoBehaviour
         {
             firstPointer.SetActive(false);
             secondPointer.SetActive(true);
+            overlapText.SetActive(true);
             firstCollider.enabled=true;
             isFirst=false;
         }
@@ -60,7 +61,7 @@ public class CrossColorTutorial : MonoBehaviour
     {
         firstPointer.SetActive(false);
         secondPointer.SetActive(false);
-        overlapText.SetActive(true);
+        overlapText.SetActive(false);
     }
 
     

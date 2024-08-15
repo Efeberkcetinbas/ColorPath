@@ -38,6 +38,8 @@ public class PanelManager : MonoBehaviour
         
     }
 
+   
+
 
     private void CheckLifeCounter(Button button,GameObject lifePanelObject)
     {

@@ -41,10 +41,11 @@ public class PlayerManager : MonoBehaviour
 
     private void OnGameStart()
     {
-        Debug.Log(players.Count);
+        //Debug.Log(players.Count);
         players.Clear();
-        players=FindObjectOfType<LevelProperty>().levelPlayersList;
-        Debug.Log(players.Count);
+        FindObjectOfType<LevelProperty>().SetTempList();
+        players=FindObjectOfType<LevelProperty>().tempList;
+        //Debug.Log(players.Count);
         openPlayButton=false;
         playerData.numberOfPlayers=players.Count;
         counter=0;
@@ -99,7 +100,7 @@ public class PlayerManager : MonoBehaviour
             PlayerMovement player = hitObject.GetComponent<PlayerMovement>();
             if (player != null && players.Contains(player))
             {
-                Debug.Log("PLAYER CHOOSEN");
+                //Debug.Log("PLAYER CHOOSEN");
                 // Select the touched player
                 for (int i = 0; i < players.Count; i++)
                 {
@@ -110,7 +111,7 @@ public class PlayerManager : MonoBehaviour
                 selectedPlayer = player;
                 selectedPlayer.isMe=true;
                 selectedPlayer.handHere=true;
-                Debug.Log(selectedPlayer.name);
+                //Debug.Log(selectedPlayer.name);
                 canCount=true;
                 playerData.selectedColor=selectedPlayer.playerColor;
                 //selectedPlayer.transform.DOScale(transform.localScale*1.2f,0.1f).OnComplete(()=>selectedPlayer.transform.DOScale(transform.localScale,0.1f));
@@ -129,7 +130,7 @@ public class PlayerManager : MonoBehaviour
                 }
 
                 canCount=false;
-                Debug.Log("BOS YERE DOKUNUYORSUN");
+                //Debug.Log("BOS YERE DOKUNUYORSUN");
                 EventManager.Broadcast(GameEvent.OnFalseDrag);
 
                 //
@@ -199,7 +200,7 @@ public class PlayerManager : MonoBehaviour
     {
         pathData.playersCanMove=true;
         gameData.isGameEnd=true;
-        Debug.Log("START TO MOVE");
+        //Debug.Log("START TO MOVE");
         EventManager.Broadcast(GameEvent.OnPlayersStartMove);    
     }
 }

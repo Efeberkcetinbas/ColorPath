@@ -77,9 +77,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnPlayerDead()
     {
-        Debug.Log("PARTICLE");
+        //Debug.Log("PARTICLE");
         animator.SetTrigger("dead");
-        Debug.Log("COLLISION HAS HAPPENED");
+        //Debug.Log("COLLISION HAS HAPPENED");
         
     }
 
@@ -159,10 +159,10 @@ public class PlayerMovement : MonoBehaviour
                 /*path.Clear();
                 path.Add(hitCell);*/
                 isDragging = true;
-                Debug.Log("INSIDE THE NULL CHECK");
+                //Debug.Log("INSIDE THE NULL CHECK");
             }
 
-            Debug.Log("OUTSIDE THE NULL CHECK");
+            //Debug.Log("OUTSIDE THE NULL CHECK");
         }
     }
 
@@ -193,7 +193,7 @@ public class PlayerMovement : MonoBehaviour
                 // and if the path already contains at least one cell
                 if (hitCell.isTarget && path.Count > 0 && IsAdjacentToPreviousCell(hitCell))
                 {
-                    Debug.Log("KAFA DURDU");
+                    //Debug.Log("KAFA DURDU");
                     EventManager.Broadcast(GameEvent.OnHitTarget);
                     AddCellToPath(hitCell);
                     hasReachedTarget = true; // Prevent further path drawing
@@ -202,7 +202,7 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else if (IsAdjacentToPreviousCell(hitCell) && !path.Contains(hitCell) && !hitCell.isTarget)
                 {
-                    Debug.Log("KAFA STOp");
+                    //Debug.Log("KAFA STOp");
                     // Add the current cell to the path if it's adjacent to the previous cell
                     AddCellToPath(hitCell);
                 }
@@ -305,13 +305,13 @@ public class PlayerMovement : MonoBehaviour
                 // If the path is now empty, the player has finished the path
                 if (path.Count == 1)
                 {
-                    Debug.Log(name + " FINISHED THE PATH CHECK IT");
+                    //Debug.Log(name + " FINISHED THE PATH CHECK IT");
                     playerData.pathCompletedCounter++;
 
                         // Check if the player has reached the final target position
                     if (Vector3.Distance(transform.position, target.position) < 0.01f)
                     {
-                        Debug.Log("SUCCESS PATH");
+                        //Debug.Log("SUCCESS PATH");
                         playerData.successPathCompletedCounter++;
                         target.DOLocalMoveY(-1,0.2f);
                     }
@@ -319,7 +319,7 @@ public class PlayerMovement : MonoBehaviour
                     {
                         if(!gameData.isGameEnd)
                         {
-                            Debug.Log("FAILLLLLL PATH");
+                            //Debug.Log("FAILLLLLL PATH");
                             EventManager.Broadcast(GameEvent.OnPlayerDead);    
                         }
                         

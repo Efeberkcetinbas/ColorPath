@@ -51,7 +51,7 @@ public class GridCell : MonoBehaviour
         isTouching = true;
         if(other.CompareTag("Player"))
         {
-            Debug.Log("ENTER PLAYER" + other.name);
+            //Debug.Log("ENTER PLAYER" + other.name);
 
             if(cellTypes.Count>0)
             {
@@ -59,7 +59,7 @@ public class GridCell : MonoBehaviour
                 //Parenta ver
                 if(other.transform.parent.GetComponent<PlayerMovement>().playerType== cellTypes[cellTypes.Count-1])
                 {
-                    Debug.Log("PARTICLE AND SUCCESS");
+                    //Debug.Log("PARTICLE AND SUCCESS");
                     dust.Play();
                     
                 }
@@ -69,7 +69,7 @@ public class GridCell : MonoBehaviour
                     if(!isHandledCollision)
                     {
                         EventManager.Broadcast(GameEvent.OnPlayerDead);
-                        Debug.Log("GRID CELL FAIL");
+                        //Debug.Log("GRID CELL FAIL");
                         isHandledCollision=true;
                     }
                 }
