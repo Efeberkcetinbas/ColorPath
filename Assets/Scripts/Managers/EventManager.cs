@@ -27,6 +27,7 @@ public enum GameEvent
     OnLevelUIUpdate,
     OnOpenPlayButton,
     OnLifeFull,
+    OnLifeFullUI,
     OnUpdateLife,
     OnHitTarget,
     

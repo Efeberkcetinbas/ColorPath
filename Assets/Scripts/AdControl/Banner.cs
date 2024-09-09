@@ -1,56 +1,48 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Advertisements;
- 
+using System.Collections;
+
 public class Banner : MonoBehaviour
 {
  
-    [Header("Banner Ad Settings")]
-    [SerializeField] BannerPosition _bannerPosition;
+    [SerializeField] BannerPosition _bannerPosition = BannerPosition.BOTTOM_CENTER;
     [SerializeField] string _androidAdUnitId = "Banner_Android";
     [SerializeField] string _iOSAdUnitId = "Banner_iOS";
-    string _adUnitId = null;
+    private string _adUnitId;
 
-    private void OnEnable()
+    void OnEnable()
     {
-        EventManager.AddHandler(GameEvent.OnGameStart, ShowBannerAd);
         EventManager.AddHandler(GameEvent.OnSuccessUI, ShowBannerAd);
         EventManager.AddHandler(GameEvent.OnFailUI, ShowBannerAd);
         EventManager.AddHandler(GameEvent.OnNextLevel, HideBannerAd);
-        EventManager.AddHandler(GameEvent.OnGameStart,HideBannerAd);
+        EventManager.AddHandler(GameEvent.OnGameStart, HideBannerAd);
+        EventManager.AddHandler(GameEvent.OnRestartLevel,HideBannerAd);
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
-        EventManager.RemoveHandler(GameEvent.OnGameStart, ShowBannerAd);
         EventManager.RemoveHandler(GameEvent.OnSuccessUI, ShowBannerAd);
         EventManager.RemoveHandler(GameEvent.OnFailUI, ShowBannerAd);
         EventManager.RemoveHandler(GameEvent.OnNextLevel, HideBannerAd);
-        EventManager.RemoveHandler(GameEvent.OnGameStart,HideBannerAd);
+        EventManager.RemoveHandler(GameEvent.OnGameStart, HideBannerAd);
+        EventManager.RemoveHandler(GameEvent.OnRestartLevel,HideBannerAd);
     }
 
-    private void Start()
+    void Start()
     {
-        if (Advertisement.isInitialized)
-        {
-            // Get the Ad Unit ID for the current platform
-#if UNITY_IOS
+        // Set the correct Ad Unit ID based on platform
+        #if UNITY_IOS
             _adUnitId = _iOSAdUnitId;
-#elif UNITY_ANDROID
+        #elif UNITY_ANDROID
             _adUnitId = _androidAdUnitId;
-#endif
+        #endif
 
-            // Set the banner position
-            Advertisement.Banner.SetPosition(_bannerPosition);
+        // Set the banner position
+        Advertisement.Banner.SetPosition(_bannerPosition);
 
-            // Load the banner ad
-            LoadBanner();
-        }
-        else
-        {
-            // Initialize Unity Ads
-            Advertisement.Initialize("YOUR_GAME_ID", true); // Replace "YOUR_GAME_ID" with your actual game ID
-        }
+        // Load the banner ad
+        LoadBanner();
     }
 
     public void LoadBanner()
@@ -67,6 +59,8 @@ public class Banner : MonoBehaviour
     void OnBannerLoaded()
     {
         Debug.Log("Banner loaded");
+        // Optionally show the banner after it's loaded
+        Advertisement.Banner.Show(_adUnitId);
     }
 
     void OnBannerError(string message)
@@ -74,19 +68,12 @@ public class Banner : MonoBehaviour
         Debug.Log($"Banner Error: {message}");
     }
 
-    void ShowBannerAd()
+    public void ShowBannerAd()
     {
-        if (Advertisement.IsReady(_adUnitId))
-        {
-            Advertisement.Banner.Show(_adUnitId);
-        }
-        else
-        {
-            Debug.Log("Banner ad is not ready to be shown.");
-        }
+        Advertisement.Banner.Show(_adUnitId);
     }
 
-    void HideBannerAd()
+    public void HideBannerAd()
     {
         Advertisement.Banner.Hide();
     }

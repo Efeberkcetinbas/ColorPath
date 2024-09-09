@@ -188,6 +188,7 @@ public class PlayerManager : MonoBehaviour
 
         if(playerData.numberOfPlayers==counter && !openPlayButton)
         {
+            OnPlayersMove();
             EventManager.Broadcast(GameEvent.OnOpenPlayButton);
             openPlayButton=true;
         }
@@ -203,4 +204,5 @@ public class PlayerManager : MonoBehaviour
         //Debug.Log("START TO MOVE");
         EventManager.Broadcast(GameEvent.OnPlayersStartMove);    
     }
+    
 }

@@ -131,6 +131,7 @@ public class LifeManager : MonoBehaviour
         gameData.lifeTime = 5; // Set the life amount to maximum
         UpdateLifeProgress(); // Update the UI to reflect the change
         SaveLife(); // Save the updated life amount to PlayerPrefs
+        EventManager.Broadcast(GameEvent.OnLifeFullUI);
     }
 
     private void UpdateTimer()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
-    [SerializeField] private GameObject swipePointer,pointFinger,swipeText;
+    [SerializeField] private GameObject swipePointer,swipeText;
 
 
     private void OnEnable()
@@ -23,13 +23,11 @@ public class TutorialManager : MonoBehaviour
     {
         swipePointer.SetActive(false);
         swipeText.SetActive(false);
-        pointFinger.SetActive(true);
     }
 
     private void OnPlayersStartMove()
     {
         swipePointer.SetActive(false);
         swipeText.SetActive(false);
-        pointFinger.SetActive(false);
     }
 }

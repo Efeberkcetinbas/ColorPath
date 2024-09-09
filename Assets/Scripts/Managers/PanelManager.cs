@@ -31,7 +31,7 @@ public class PanelManager : MonoBehaviour
         waitForSeconds=new WaitForSeconds(.25f);
         waitforSecondsSpecial=new WaitForSeconds(1);
         ColorSquare.color=Color.white;
-        ResetPlayButton(); 
+        //ResetPlayButton(); 
         CheckLifeCounter(startGameButton,startLifePanel);
 
         
@@ -58,6 +58,8 @@ public class PanelManager : MonoBehaviour
             
     }
 
+    
+
     private void OnUpdateLife()
     {
         CheckLifeCounter(startGameButton,startLifePanel);
@@ -78,9 +80,10 @@ public class PanelManager : MonoBehaviour
         EventManager.AddHandler(GameEvent.OnRestartLevel,OnRestartLevel);
         EventManager.AddHandler(GameEvent.OnPlayerSelection,OnPlayerSelection);
         EventManager.AddHandler(GameEvent.OnPlayerNull,OnPlayerNull);
-        EventManager.AddHandler(GameEvent.OnOpenPlayButton,OnOpenPlayButton);
+        //EventManager.AddHandler(GameEvent.OnOpenPlayButton,OnOpenPlayButton);
         EventManager.AddHandler(GameEvent.OnUpdateLife,OnUpdateLife);
         EventManager.AddHandler(GameEvent.OnFalseDrag,OnFalseDrag);
+        EventManager.AddHandler(GameEvent.OnLifeFullUI,OnLifeFullUI);
 
     }
 
@@ -95,9 +98,10 @@ public class PanelManager : MonoBehaviour
         EventManager.RemoveHandler(GameEvent.OnRestartLevel,OnRestartLevel);
         EventManager.RemoveHandler(GameEvent.OnPlayerSelection,OnPlayerSelection);
         EventManager.RemoveHandler(GameEvent.OnPlayerNull,OnPlayerNull);
-        EventManager.RemoveHandler(GameEvent.OnOpenPlayButton,OnOpenPlayButton);
+        //EventManager.RemoveHandler(GameEvent.OnOpenPlayButton,OnOpenPlayButton);
         EventManager.RemoveHandler(GameEvent.OnUpdateLife,OnUpdateLife);
         EventManager.RemoveHandler(GameEvent.OnFalseDrag,OnFalseDrag);
+        EventManager.RemoveHandler(GameEvent.OnLifeFullUI,OnLifeFullUI);
 
     }
 
@@ -115,7 +119,10 @@ public class PanelManager : MonoBehaviour
         
     }
 
-
+    private void OnLifeFullUI()
+    {
+        OnUpdateLife();
+    }
     
 
     private void OnRestartLevel()
@@ -125,7 +132,7 @@ public class PanelManager : MonoBehaviour
         StartCoroutine(Blink(Fade.gameObject,Fade));
         SetActivity(SceneUIs,true);
         StartCoroutine(SetElementsDotween(SpecialElements));
-        ResetPlayButton();
+        //ResetPlayButton();
     }
 
     
@@ -139,7 +146,7 @@ public class PanelManager : MonoBehaviour
         StartCoroutine(Blink(Fade.gameObject,Fade));
         SetActivity(SceneUIs,true);
         StartCoroutine(SetElementsDotween(SpecialElements));
-        ResetPlayButton();
+        //ResetPlayButton();
     }
 
     private void OnSuccessUI()
