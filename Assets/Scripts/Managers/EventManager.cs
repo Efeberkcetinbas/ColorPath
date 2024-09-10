@@ -14,6 +14,9 @@ public enum GameEvent
     OnPlayerSelection,
     OnPlayerNull,
     
+    //Environment
+    OnButtonPressed,
+    OnWallBreak,
 
     //Grid
     OnPathAdded,

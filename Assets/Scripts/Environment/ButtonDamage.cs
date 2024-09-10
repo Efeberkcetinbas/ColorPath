@@ -37,9 +37,13 @@ public class ButtonDamage : MonoBehaviour
                 {
                     button.transform.DOLocalMoveY(-1,0.1f);
                     check=true;
+                    EventManager.Broadcast(GameEvent.OnButtonPressed);
                     for (int i = 0; i < damageableObject.Count; i++)
                     {
-                        damageableObject[i].SetActive(false);    
+                        damageableObject[i].transform.DOLocalMoveY(-2,0.5f).OnComplete(()=>{
+                            damageableObject[i].SetActive(false);    
+                        });
+                        
                     }
                     
                 }
@@ -56,6 +60,7 @@ public class ButtonDamage : MonoBehaviour
         for (int i = 0; i < damageableObject.Count; i++)
         {
             damageableObject[i].SetActive(true);    
+            damageableObject[i].transform.DOLocalMoveY(0,0.2f);
         }
     }
     

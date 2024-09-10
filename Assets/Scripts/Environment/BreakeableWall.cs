@@ -43,7 +43,8 @@ public class BreakeableWall : MonoBehaviour
                 
                 if(other.transform.parent.GetComponent<PlayerMovement>() == targetBall)
                 {
-                    wall.transform.DOLocalMoveY(-1,0.1f);
+                    wall.transform.DOLocalMoveY(-2,0.1f);
+                    EventManager.Broadcast(GameEvent.OnWallBreak);
                     PlayParticles(targetBall.playerColor);
                     check=true;
                 }
