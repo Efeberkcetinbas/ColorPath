@@ -49,6 +49,7 @@ public class PlayerManager : MonoBehaviour
         openPlayButton=false;
         playerData.numberOfPlayers=players.Count;
         counter=0;
+        gameData.isPlayerDead=false;
 
     }
 
@@ -61,6 +62,7 @@ public class PlayerManager : MonoBehaviour
     {
         counter=0;
         openPlayButton=false;
+        gameData.isPlayerDead=false;
     }
     void Update()
     {

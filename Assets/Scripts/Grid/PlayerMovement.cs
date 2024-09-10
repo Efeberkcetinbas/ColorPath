@@ -321,7 +321,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                     else
                     {
-                        if(!gameData.isGameEnd)
+                        if(!gameData.isGameEnd && !gameData.isPlayerDead)
                         {
                             //Debug.Log("FAILLLLLL PATH");
                             EventManager.Broadcast(GameEvent.OnPlayerDead);    

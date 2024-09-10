@@ -5051,6 +5051,8 @@ MonoBehaviour:
   row: 0
   column: 0
   gridManager: {fileID: 0}
+  gameData: {fileID: 11400000, guid: 845345965026ea8449aeb7b03d01fb1b, type: 2}
+  isTarget: 0
   dust: {fileID: 7040663945310460287}
   cellColors: []
   particles:

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using Unity.VisualScripting;
 
 
 
@@ -17,6 +16,7 @@ public class BreakeableWall : MonoBehaviour
     [SerializeField] private PlayerMovement targetBall;
     [SerializeField] private Transform wall;
     [SerializeField] private PathData pathData;
+    [SerializeField] private GameData gameData;
     [SerializeField] private List<ParticleSystem> particles=new List<ParticleSystem>();
 
     private void Start() 
@@ -51,7 +51,8 @@ public class BreakeableWall : MonoBehaviour
 
                 else
                 {
-                    EventManager.Broadcast(GameEvent.OnPlayerDead);
+                    if(!gameData.isPlayerDead)
+                        EventManager.Broadcast(GameEvent.OnPlayerDead);
                 }
 
             }

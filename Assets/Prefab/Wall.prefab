@@ -116,6 +116,7 @@ MonoBehaviour:
   targetBall: {fileID: 0}
   wall: {fileID: 6539370236117872749}
   pathData: {fileID: 11400000, guid: e2dd2110dc93c2e409cd76192e28a193, type: 2}
+  gameData: {fileID: 11400000, guid: 845345965026ea8449aeb7b03d01fb1b, type: 2}
   particles:
   - {fileID: 9061076789585688649}
   - {fileID: 9060624203233823025}

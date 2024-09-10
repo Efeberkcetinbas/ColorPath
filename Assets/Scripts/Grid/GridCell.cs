@@ -20,6 +20,7 @@ public class GridCell : MonoBehaviour
     public int column;
 
     [SerializeField] private GridManager gridManager;
+    [SerializeField] private GameData gameData;
     private bool isTouching = false;
     private bool isHandledCollision=false;
 
@@ -68,9 +69,13 @@ public class GridCell : MonoBehaviour
                 {
                     if(!isHandledCollision)
                     {
-                        EventManager.Broadcast(GameEvent.OnPlayerDead);
-                        //Debug.Log("GRID CELL FAIL");
-                        isHandledCollision=true;
+                        if(!gameData.isPlayerDead)
+                        {
+                            EventManager.Broadcast(GameEvent.OnPlayerDead);
+                            //Debug.Log("GRID CELL FAIL");
+                            isHandledCollision=true;
+                        }
+                        
                     }
                 }
                     

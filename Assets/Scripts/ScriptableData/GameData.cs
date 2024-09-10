@@ -14,4 +14,5 @@ public class GameData : ScriptableObject
     public int lifeTime;
 
     public bool isGameEnd=false;
+    public bool isPlayerDead=false;
 }

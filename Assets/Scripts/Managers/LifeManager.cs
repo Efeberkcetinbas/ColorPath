@@ -14,7 +14,7 @@ public class LifeManager : MonoBehaviour
     [Header("Life")]
     [SerializeField] private Image lifeAmountProgress;
     [SerializeField] private TextMeshProUGUI lifeText;
-    [SerializeField] private TextMeshProUGUI timerText,timerCounterText,timerFailText,timerFailCounterText; // Add a reference for the timer UI
+    [SerializeField] private TextMeshProUGUI timerText,startLifeText,timerFailText,failLifeText; // Add a reference for the timer UI
 
     private DateTime lastLifeIncreaseTime;
 
@@ -129,6 +129,8 @@ public class LifeManager : MonoBehaviour
     private void OnLifeFull()
     {
         gameData.lifeTime = 5; // Set the life amount to maximum
+        startLifeText.SetText(gameData.lifeTime.ToString()); // Update life count
+        failLifeText.SetText(gameData.lifeTime.ToString()); // Update life count in fail text
         UpdateLifeProgress(); // Update the UI to reflect the change
         SaveLife(); // Save the updated life amount to PlayerPrefs
         EventManager.Broadcast(GameEvent.OnLifeFullUI);
@@ -147,8 +149,8 @@ public class LifeManager : MonoBehaviour
             timerText.SetText(timeUntilNextLife.ToString(@"hh\:mm")); // Display in hh:mm format
             timerFailText.SetText(timeUntilNextLife.ToString(@"hh\:mm")); // Display in hh:mm format
         }
-        timerCounterText.SetText(gameData.lifeTime.ToString()); // Update life count
-        timerFailCounterText.SetText(gameData.lifeTime.ToString()); // Update life count in fail text
+        startLifeText.SetText(gameData.lifeTime.ToString()); // Update life count
+        failLifeText.SetText(gameData.lifeTime.ToString()); // Update life count in fail text
     }
 
     private TimeSpan GetTimeUntilNextLife()

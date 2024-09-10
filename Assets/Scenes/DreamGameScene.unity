@@ -4168,6 +4168,7 @@ GameObject:
   - component: {fileID: 130721864}
   - component: {fileID: 130721863}
   - component: {fileID: 130721862}
+  - component: {fileID: 130721865}
   m_Layer: 5
   m_Name: RewardedVideo
   m_TagString: Untagged
@@ -4289,6 +4290,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 130721860}
   m_CullTransparentMesh: 1
+--- !u!95 &130721865
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130721860}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 806e7ccf0ed360e48903d549afac62f9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &148716435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7693,9 +7714,9 @@ MonoBehaviour:
   lifeAmountProgress: {fileID: 1747396098}
   lifeText: {fileID: 150279900}
   timerText: {fileID: 1520680967}
-  timerCounterText: {fileID: 1101367196}
+  startLifeText: {fileID: 1101367196}
   timerFailText: {fileID: 1012731866}
-  timerFailCounterText: {fileID: 2146091619}
+  failLifeText: {fileID: 2146091619}
   checkIntervalInSeconds: 60
   restoreIntervalInMinutes: 15
 --- !u!1001 &246890148

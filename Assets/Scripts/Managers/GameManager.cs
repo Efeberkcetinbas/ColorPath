@@ -85,7 +85,8 @@ public class GameManager : MonoBehaviour
             else
             {
                 //Debug.Log("END FAIL");
-                EventManager.Broadcast(GameEvent.OnPlayerDead);
+                if(!gameData.isPlayerDead)
+                    EventManager.Broadcast(GameEvent.OnPlayerDead);
             }
         }
         else
@@ -97,6 +98,7 @@ public class GameManager : MonoBehaviour
     {
         gameData.isGameEnd=true;
         pathData.playersCanMove=false;
+        gameData.isPlayerDead=true;
         StartCoroutine(OpenFail());
     }
 
