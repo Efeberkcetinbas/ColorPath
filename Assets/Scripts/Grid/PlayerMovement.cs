@@ -41,11 +41,11 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private GameObject selectMeBall;
 
-
     void Start()
     {
         OnNextLevel();
         StartCoroutine(StarterAddCellToPath(startCell));
+
     }
 
     
@@ -149,8 +149,10 @@ public class PlayerMovement : MonoBehaviour
         
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(touchPosition);
+        int wallLayer = LayerMask.NameToLayer("Wall");
+        int layerMask = ~(1 << wallLayer); // Exclude the wall layer
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit,Mathf.Infinity, layerMask))
         {
             GridCell hitCell = hit.collider.GetComponent<GridCell>();
             if (hitCell != null)
@@ -182,9 +184,11 @@ public class PlayerMovement : MonoBehaviour
     internal void ContinueDragging(Vector2 touchPosition)
     {
         // Perform a raycast to detect the grid cell the user is currently dragging over
+        int wallLayer = LayerMask.NameToLayer("Wall");
+        int layerMask = ~(1 << wallLayer); // Exclude the wall layer
         Ray ray = Camera.main.ScreenPointToRay(touchPosition);
 
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (Physics.Raycast(ray, out RaycastHit hit,Mathf.Infinity, layerMask))
         {
             GridCell hitCell = hit.collider.GetComponent<GridCell>();
             if (hitCell != null && !hasReachedTarget)

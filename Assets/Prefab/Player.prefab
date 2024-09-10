@@ -303,6 +303,9 @@ MonoBehaviour:
   startPos: {x: 0, y: 0, z: 0}
   handHere: 0
   selectMeBall: {fileID: 8782543385628235496}
+  ignoredLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &8285442970784541052
 GameObject:
   m_ObjectHideFlags: 0
