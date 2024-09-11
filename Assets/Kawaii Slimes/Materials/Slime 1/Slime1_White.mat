@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Slime1_White
-  m_Shader: {fileID: 4800000, guid: 128c5f1edaefa4c4fb3f9f7a4615edb2, type: 3}
+  m_Shader: {fileID: 4800000, guid: 7cd5de0b884b14f88ab763ef465e1799, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _CLIPPED_ON
@@ -133,7 +133,7 @@ Material:
     - _MinLight: 0
     - _OcclusionStrength: 1
     - _Offset: 0.59
-    - _OtlWidth: 3
+    - _OtlWidth: 0
     - _Outline: 1
     - _Parallax: 0.005
     - _QueueOffset: 0

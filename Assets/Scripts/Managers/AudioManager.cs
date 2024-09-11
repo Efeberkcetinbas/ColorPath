@@ -6,7 +6,7 @@ public class AudioManager : MonoBehaviour
 {
     public AudioClip GameLoop,BuffMusic;
     public AudioClip GameOverSound,PathAddSound,PlayerMoveSound,PlayerDeadSound,SuccessSound,SuccessUISound,RestartSound
-    ,PlayersStartMoveSound,NextLevelSound,StartSound,FailUISound,FalseSound,WallBreakSound,ButtonPressSound;
+    ,PlayersStartMoveSound,NextLevelSound,StartSound,FailUISound,FalseSound,WallBreakSound,ButtonPressSound,HitTargetSound;
 
     AudioSource musicSource,effectSource;
 
@@ -34,6 +34,7 @@ public class AudioManager : MonoBehaviour
         EventManager.AddHandler(GameEvent.OnFalseDrag,OnFalseDrag);
         EventManager.AddHandler(GameEvent.OnWallBreak,OnWallBreak);
         EventManager.AddHandler(GameEvent.OnButtonPressed,OnButtonPressed);
+        EventManager.AddHandler(GameEvent.OnHitTarget,OnHitTarget);
 
     }
     private void OnDisable() 
@@ -51,7 +52,13 @@ public class AudioManager : MonoBehaviour
         EventManager.RemoveHandler(GameEvent.OnFalseDrag,OnFalseDrag);
         EventManager.RemoveHandler(GameEvent.OnWallBreak,OnWallBreak);
         EventManager.RemoveHandler(GameEvent.OnButtonPressed,OnButtonPressed);
+        EventManager.RemoveHandler(GameEvent.OnHitTarget,OnHitTarget);
 
+    }
+
+    private void OnHitTarget()
+    {
+        effectSource.PlayOneShot(HitTargetSound);
     }
 
     

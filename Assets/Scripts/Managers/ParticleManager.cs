@@ -23,10 +23,10 @@ public class ParticleManager : MonoBehaviour
 
     private void OnSuccess()
     {
-        OpenClose(true);
 
         for (int i = 0; i < successParticles.Count; i++)
         {
+            successParticles[i].gameObject.SetActive(true);
             successParticles[i].Play();
         }
     }

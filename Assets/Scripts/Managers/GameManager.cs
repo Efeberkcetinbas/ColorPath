@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-
+using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public GameData gameData;
@@ -16,6 +16,11 @@ public class GameManager : MonoBehaviour
 
     private WaitForSeconds waitForSeconds;
 
+    [Header("Exit Confirmation")]
+    [SerializeField] private GameObject confirmationPanel;
+    [SerializeField] private Button yesButton;
+    [SerializeField] private Button noButton;
+
 
     private void Awake() 
     {
@@ -25,7 +30,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         waitForSeconds=new WaitForSeconds(2);
+        StartExitPanel();
     }
+
+    
 
     private void OnEnable()
     {
@@ -45,8 +53,47 @@ public class GameManager : MonoBehaviour
 
     }
 
+    #region Graceful Exit
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            // Show the confirmation panel when back button is pressed
+            if (confirmationPanel.activeSelf == false)
+            {
+                confirmationPanel.SetActive(true);
+            }
+        }
+    }
+
+    private void StartExitPanel()
+    {
+        confirmationPanel.SetActive(false);
+
+        // Add listeners for the buttons
+        yesButton.onClick.AddListener(OnYesButtonClicked);
+        noButton.onClick.AddListener(OnNoButtonClicked);
+    }
     
-    
+    private void OnYesButtonClicked()
+    {
+        // Quit the application
+        Application.Quit();
+
+        // For Android, make sure to use the AndroidJavaObject for exiting
+        #if UNITY_ANDROID
+        AndroidJavaObject activity = new AndroidJavaClass("com.unity3d.player.UnityPlayer").GetStatic<AndroidJavaObject>("currentActivity");
+        activity.Call("finish");
+        #endif
+    }
+
+    private void OnNoButtonClicked()
+    {
+        // Hide the confirmation panel and resume the game
+        confirmationPanel.SetActive(false);
+    }
+
+    #endregion
 
     private void OnNextLevel()
     {

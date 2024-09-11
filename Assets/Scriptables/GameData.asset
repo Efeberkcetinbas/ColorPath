@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   score: 0
-  increaseScore: 0
-  levelIndex: 2
-  levelNumber: 2
+  increaseScore: 1
+  levelIndex: 0
+  levelNumber: 0
   lifeTime: 5
-  isGameEnd: 1
+  isGameEnd: 0
+  isPlayerDead: 0

@@ -38,12 +38,12 @@ public class UIManager : MonoBehaviour
     private void OnUIUpdate()
     {
         score.SetText(gameData.score.ToString());
-        score.transform.DOScale(new Vector3(1.5f,1.5f,1.5f),0.2f).OnComplete(()=>score.transform.DOScale(new Vector3(1,1f,1f),0.2f));
+        //score.transform.DOScale(new Vector3(1.5f,1.5f,1.5f),0.2f).OnComplete(()=>score.transform.DOScale(new Vector3(1,1f,1f),0.2f));
     }
 
     private void OnLevelUIUpdate()
     {
-        levelText.SetText("LEVEL " + (gameData.levelNumber+1).ToString());
+        levelText.SetText("LVL " + (gameData.levelNumber+1).ToString());
     }
    
 

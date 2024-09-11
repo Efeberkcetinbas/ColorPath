@@ -14,12 +14,11 @@ public class LifeManager : MonoBehaviour
     [Header("Life")]
     [SerializeField] private Image lifeAmountProgress;
     [SerializeField] private TextMeshProUGUI lifeText;
-    [SerializeField] private TextMeshProUGUI timerText,startLifeText,timerFailText,failLifeText; // Add a reference for the timer UI
+    [SerializeField] private TextMeshProUGUI timerText, startLifeText, timerFailText, failLifeText;
 
-    private DateTime lastLifeIncreaseTime;
+    private DateTime lastLifeDecreaseTime; // Track when the life was last decreased
 
     [Header("Life Regeneration Settings")]
-    [SerializeField] private int checkIntervalInSeconds = 60; // Interval to check life regeneration (in seconds)
     [SerializeField] private int restoreIntervalInMinutes = 15; // Interval to restore life (in minutes)
 
     private void OnEnable()
@@ -37,52 +36,93 @@ public class LifeManager : MonoBehaviour
     private void Start()
     {
         CheckStore();
-        RestoreLifeOverTime();
         lifeText.SetText(gameData.lifeTime.ToString());
         UpdateLifeProgress();
-        StartCoroutine(LifeRegenerationCoroutine());
     }
+
+    private void Update()
+    {
+        if (gameData.lifeTime < 5)
+        {
+            TimeSpan timeUntilNextLife = GetTimeUntilNextLife();
+            timerText.SetText(timeUntilNextLife.ToString(@"mm\:ss"));
+            timerFailText.SetText(timeUntilNextLife.ToString(@"mm\:ss"));
+
+            if (timeUntilNextLife.TotalSeconds <= 0)
+            {
+                RestoreLifeOverTime();
+                UpdateLifeProgress();
+                SaveLife();
+            }
+        }
+        else
+        {
+            timerText.SetText("Full");
+            timerFailText.SetText("Full");
+        }
+
+        startLifeText.SetText(gameData.lifeTime.ToString());
+        failLifeText.SetText(gameData.lifeTime.ToString());
+    }
+
+    
 
     private void CheckStore()
     {
         if (!PlayerPrefs.HasKey("LifeAmount"))
         {
-            // Initialize default values
             gameData.lifeTime = 5;
             PlayerPrefs.SetInt("LifeAmount", gameData.lifeTime);
-            lastLifeIncreaseTime = DateTime.Now;
-            PlayerPrefs.SetString("LastLifeIncreaseTime", lastLifeIncreaseTime.ToString());
+            lastLifeDecreaseTime = DateTime.Now;
+            PlayerPrefs.SetString("LastLifeDecreaseTime", lastLifeDecreaseTime.ToString());
         }
         else
         {
             gameData.lifeTime = PlayerPrefs.GetInt("LifeAmount");
-            lastLifeIncreaseTime = DateTime.Parse(PlayerPrefs.GetString("LastLifeIncreaseTime", DateTime.Now.ToString()));
+            lastLifeDecreaseTime = DateTime.Parse(PlayerPrefs.GetString("LastLifeDecreaseTime", DateTime.Now.ToString()));
+
+            // Calculate how much time has passed since the last life decrease
+            TimeSpan timeElapsedSinceLastLifeDecrease = DateTime.Now - lastLifeDecreaseTime;
+            int minutesPassed = (int)timeElapsedSinceLastLifeDecrease.TotalMinutes;
+            int livesToRestore = minutesPassed / restoreIntervalInMinutes;
+
+            if (livesToRestore > 0 && gameData.lifeTime < 5)
+            {
+                gameData.lifeTime += Mathf.Min(livesToRestore, 5 - gameData.lifeTime);
+                lastLifeDecreaseTime = lastLifeDecreaseTime.AddMinutes(livesToRestore * restoreIntervalInMinutes);
+                SaveLife();
+            }
         }
     }
 
     private void RestoreLifeOverTime()
     {
-        TimeSpan timeElapsed = DateTime.Now - lastLifeIncreaseTime;
+        TimeSpan timeElapsed = DateTime.Now - lastLifeDecreaseTime;
         int minutesPassed = (int)timeElapsed.TotalMinutes;
         int livesToRestore = minutesPassed / restoreIntervalInMinutes;
 
         if (livesToRestore > 0 && gameData.lifeTime < 5)
         {
             gameData.lifeTime += Mathf.Min(livesToRestore, 5 - gameData.lifeTime);
-            lastLifeIncreaseTime = DateTime.Now.AddMinutes(-(minutesPassed % restoreIntervalInMinutes));
+            lastLifeDecreaseTime = lastLifeDecreaseTime.AddMinutes(livesToRestore * restoreIntervalInMinutes);
             SaveLife();
         }
     }
 
     private void OnPlayerDead()
     {
-        if (gameData.lifeTime > 0) // Prevent life count from going negative
+        if (gameData.lifeTime > 0)
         {
             gameData.lifeTime--;
             UpdateLifeProgress();
-            UpdateTimer();
             SaveLife();
 
+            // Only start tracking the timer if life is below 5, but don't reset it to 15 minutes
+            if (gameData.lifeTime < 5 && lastLifeDecreaseTime == DateTime.MinValue)
+            {
+                lastLifeDecreaseTime = DateTime.Now;
+                SaveLife();
+            }
         }
     }
 
@@ -96,70 +136,26 @@ public class LifeManager : MonoBehaviour
     private void SaveLife()
     {
         PlayerPrefs.SetInt("LifeAmount", gameData.lifeTime);
-        PlayerPrefs.SetString("LastLifeIncreaseTime", lastLifeIncreaseTime.ToString());
-    }
-
-    private IEnumerator LifeRegenerationCoroutine()
-    {
-        while (true)
-        {
-            UpdateTimer(); // Update the timer UI every check interval
-
-            yield return new WaitForSecondsRealtime(checkIntervalInSeconds); // Wait for the specified check interval
-
-            // Recalculate the time elapsed to handle cases where the game is not running
-            TimeSpan timeElapsed = DateTime.Now - lastLifeIncreaseTime;
-            int minutesPassed = (int)timeElapsed.TotalMinutes;
-            int livesToRestore = minutesPassed / restoreIntervalInMinutes;
-
-            if (livesToRestore > 0 && gameData.lifeTime < 5)
-            {
-                gameData.lifeTime += Mathf.Min(livesToRestore, 5 - gameData.lifeTime);
-                lastLifeIncreaseTime = DateTime.Now.AddMinutes(-(minutesPassed % restoreIntervalInMinutes));
-                UpdateLifeProgress();
-                SaveLife();
-                EventManager.Broadcast(GameEvent.OnUpdateLife);
-            }
-
-            
-
-        }
-    }
-
-    private void OnLifeFull()
-    {
-        gameData.lifeTime = 5; // Set the life amount to maximum
-        startLifeText.SetText(gameData.lifeTime.ToString()); // Update life count
-        failLifeText.SetText(gameData.lifeTime.ToString()); // Update life count in fail text
-        UpdateLifeProgress(); // Update the UI to reflect the change
-        SaveLife(); // Save the updated life amount to PlayerPrefs
-        EventManager.Broadcast(GameEvent.OnLifeFullUI);
-    }
-
-    private void UpdateTimer()
-    {
-        if (gameData.lifeTime >= 5)
-        {
-            timerText.SetText("Full"); // Display "Full" when lifeTime is 5
-            timerFailText.SetText("Full"); // Display "Full" in the fail timer as well
-        }
-        else
-        {
-            TimeSpan timeUntilNextLife = GetTimeUntilNextLife();
-            timerText.SetText(timeUntilNextLife.ToString(@"hh\:mm")); // Display in hh:mm format
-            timerFailText.SetText(timeUntilNextLife.ToString(@"hh\:mm")); // Display in hh:mm format
-        }
-        startLifeText.SetText(gameData.lifeTime.ToString()); // Update life count
-        failLifeText.SetText(gameData.lifeTime.ToString()); // Update life count in fail text
+        PlayerPrefs.SetString("LastLifeDecreaseTime", lastLifeDecreaseTime.ToString());
     }
 
     private TimeSpan GetTimeUntilNextLife()
     {
-        // Calculate the time until the next life restoration
-        TimeSpan timeElapsed = DateTime.Now - lastLifeIncreaseTime;
+        TimeSpan timeElapsed = DateTime.Now - lastLifeDecreaseTime;
         int minutesPassed = (int)timeElapsed.TotalMinutes;
-        int nextLifeRestoreTime = ((minutesPassed / restoreIntervalInMinutes) + 1) * restoreIntervalInMinutes;
+        int nextLifeRestoreTime = restoreIntervalInMinutes;
         int minutesUntilNextLife = nextLifeRestoreTime - minutesPassed;
-        return TimeSpan.FromMinutes(minutesUntilNextLife);
+        int secondsPassed = (int)timeElapsed.TotalSeconds % 60;
+        return TimeSpan.FromMinutes(minutesUntilNextLife) - TimeSpan.FromSeconds(secondsPassed);
+    }
+
+    private void OnLifeFull()
+    {
+        gameData.lifeTime = 5;
+        startLifeText.SetText(gameData.lifeTime.ToString());
+        failLifeText.SetText(gameData.lifeTime.ToString());
+        UpdateLifeProgress();
+        SaveLife();
+        EventManager.Broadcast(GameEvent.OnLifeFullUI);
     }
 }

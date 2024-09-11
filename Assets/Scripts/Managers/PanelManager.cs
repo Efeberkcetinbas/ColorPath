@@ -122,6 +122,7 @@ public class PanelManager : MonoBehaviour
     private void OnLifeFullUI()
     {
         OnUpdateLife();
+        EventManager.Broadcast(GameEvent.OnRestartLevel);
     }
     
 

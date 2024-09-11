@@ -316,6 +316,7 @@ public class PlayerMovement : MonoBehaviour
                     if (Vector3.Distance(transform.position, target.position) < 0.01f)
                     {
                         //Debug.Log("SUCCESS PATH");
+                        EventManager.Broadcast(GameEvent.OnIncreaseScore);
                         playerData.successPathCompletedCounter++;
                         target.DOLocalMoveY(-1,0.2f);
                     }
