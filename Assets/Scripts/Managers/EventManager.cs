@@ -18,6 +18,9 @@ public enum GameEvent
     OnButtonPressed,
     OnWallBreak,
 
+    //Incrementals
+    OnTeleportRandomPlayer,
+
     //Grid
     OnPathAdded,
     OnFalseDrag,

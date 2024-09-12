@@ -12094,9 +12094,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1430260145}
     m_Modifications:
+    - target: {fileID: 127810, guid: 420efef954f5ffb4dbc9b8bfc8ecb849, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 129898, guid: 420efef954f5ffb4dbc9b8bfc8ecb849, type: 3}
       propertyPath: m_Name
       value: ConfettiBlastRainbow
+      objectReference: {fileID: 0}
+    - target: {fileID: 192986, guid: 420efef954f5ffb4dbc9b8bfc8ecb849, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 420096, guid: 420efef954f5ffb4dbc9b8bfc8ecb849, type: 3}
       propertyPath: m_RootOrder
@@ -14066,6 +14074,7 @@ GameObject:
   - component: {fileID: 417098176}
   - component: {fileID: 417098179}
   - component: {fileID: 417098178}
+  - component: {fileID: 417098180}
   m_Layer: 5
   m_Name: Order
   m_TagString: Untagged
@@ -14133,6 +14142,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 417098175}
   m_CullTransparentMesh: 1
+--- !u!114 &417098180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417098175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 417098178}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 682719916}
+        m_TargetAssemblyTypeName: IncrementalManager, Assembly-CSharp
+        m_MethodName: UseSpecial
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &417876481
 GameObject:
   m_ObjectHideFlags: 0
@@ -24452,42 +24517,43 @@ MonoBehaviour:
     info: Explode the obstacles
     price: 3
   ease: 19
-  redoType: {fileID: 431613557}
-  orderType: {fileID: 476692470}
-  teleportType: {fileID: 1043693001}
-  bombType: {fileID: 1887564648}
-  redoLock: {fileID: 853466792}
-  orderLock: {fileID: 1234958709}
-  teleportLock: {fileID: 1402724931}
-  bombLock: {fileID: 257239810}
-  redoPlus: {fileID: 655656929}
-  orderPlus: {fileID: 1597710519}
-  teleportPlus: {fileID: 1078713536}
-  bombPlus: {fileID: 1078713536}
-  redoInfo: {fileID: 835879167}
-  orderInfo: {fileID: 1404983673}
-  teleportInfo: {fileID: 1717630517}
-  bombInfo: {fileID: 106216985}
-  redoAmount: 2
-  orderAmount: 2
-  teleportAmount: 2
-  bombAmount: 2
-  redoPrice: 0
-  orderPrice: 1
-  teleportPrice: 2
-  bombPrice: 3
-  redoLevel: 1
-  orderLevel: 2
-  teleportLevel: 1
-  bombLevel: 2
-  redoLevelText: {fileID: 445727022}
-  orderLevelText: {fileID: 449907286}
-  teleportLevelText: {fileID: 537271061}
-  bombLevelText: {fileID: 1687752309}
-  redoAmountText: {fileID: 835879169}
-  orderAmountText: {fileID: 1404983675}
-  teleportAmountText: {fileID: 1717630519}
-  bombAmountText: {fileID: 106216987}
+  specialTypes:
+  - {fileID: 431613557}
+  - {fileID: 476692470}
+  - {fileID: 1043693001}
+  - {fileID: 1887564648}
+  specialLocks:
+  - {fileID: 853466792}
+  - {fileID: 1234958709}
+  - {fileID: 1402724931}
+  - {fileID: 257239810}
+  specialPluses:
+  - {fileID: 655656929}
+  - {fileID: 1597710519}
+  - {fileID: 1078713536}
+  - {fileID: 787959652}
+  specialInfos:
+  - {fileID: 835879167}
+  - {fileID: 1404983673}
+  - {fileID: 1717630517}
+  - {fileID: 106216985}
+  specialAmounts: 00000000000000000000000000000000
+  specialPrices: 01000000010000000200000002000000
+  specialAmountTexts:
+  - {fileID: 835879169}
+  - {fileID: 1404983675}
+  - {fileID: 1717630519}
+  - {fileID: 106216987}
+  specialLevelTexts:
+  - {fileID: 445727022}
+  - {fileID: 449907286}
+  - {fileID: 537271061}
+  - {fileID: 1687752309}
+  specialActionButtons:
+  - {fileID: 1972182455}
+  - {fileID: 417098180}
+  - {fileID: 1179981521}
+  - {fileID: 1890620216}
 --- !u!1001 &684911037
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44436,6 +44502,7 @@ GameObject:
   - component: {fileID: 1179981517}
   - component: {fileID: 1179981520}
   - component: {fileID: 1179981519}
+  - component: {fileID: 1179981521}
   m_Layer: 5
   m_Name: Teleport
   m_TagString: Untagged
@@ -44503,6 +44570,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1179981516}
   m_CullTransparentMesh: 1
+--- !u!114 &1179981521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179981516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1179981519}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 682719916}
+        m_TargetAssemblyTypeName: IncrementalManager, Assembly-CSharp
+        m_MethodName: UseSpecial
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1180378186
 GameObject:
   m_ObjectHideFlags: 0
@@ -72083,6 +72206,7 @@ GameObject:
   - component: {fileID: 1890620212}
   - component: {fileID: 1890620215}
   - component: {fileID: 1890620214}
+  - component: {fileID: 1890620216}
   m_Layer: 5
   m_Name: Bomb
   m_TagString: Untagged
@@ -72150,6 +72274,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890620211}
   m_CullTransparentMesh: 1
+--- !u!114 &1890620216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890620211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1890620214}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 682719916}
+        m_TargetAssemblyTypeName: IncrementalManager, Assembly-CSharp
+        m_MethodName: UseSpecial
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1902244203 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 101807734622016508, guid: c488142847817d741851430d1d705a93, type: 3}
@@ -74270,6 +74450,7 @@ GameObject:
   - component: {fileID: 1972182452}
   - component: {fileID: 1972182454}
   - component: {fileID: 1972182453}
+  - component: {fileID: 1972182455}
   m_Layer: 5
   m_Name: ReDo
   m_TagString: Untagged
@@ -74337,6 +74518,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972182451}
   m_CullTransparentMesh: 1
+--- !u!114 &1972182455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972182451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1972182453}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 682719916}
+        m_TargetAssemblyTypeName: IncrementalManager, Assembly-CSharp
+        m_MethodName: UseSpecial
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1972793211
 PrefabInstance:
   m_ObjectHideFlags: 0

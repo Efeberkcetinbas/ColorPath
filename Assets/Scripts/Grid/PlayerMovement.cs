@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private List<Vector3> tempPath=new List<Vector3>();
     
     private bool isDragging = false; // Flag to track if the user is currently dragging
+    private bool isTeleport=false;
     private bool hasReachedTarget = false;
 
     [SerializeField] private GameData gameData;
@@ -73,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
         playerRenderer.material.color = playerColor; // Set the player's color
         startPos=transform.position;
         EventManager.Broadcast(GameEvent.OnPlayerColorUpdate);
+        isTeleport=false;
     }
 
     private void OnPlayerDead()
@@ -93,6 +95,7 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine(StarterAddCellToPath(startCell));
         target.DOMoveY(0,0.1f);
         animator.SetTrigger("idle");
+        isTeleport=false;
         hasReachedTarget=false;
         
     }
@@ -100,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
          // Check for touch input
-        if (isMe && !gameData.isGameEnd)
+        if (isMe && !gameData.isGameEnd && !isTeleport)
         {
             if (Input.touchCount > 0)
             {
@@ -272,6 +275,24 @@ public class PlayerMovement : MonoBehaviour
        
     }
 
+    internal void TeleportToTarget()
+    {
+        EventManager.Broadcast(GameEvent.OnHitTarget);
+        hasReachedTarget = true; // Prevent further path drawing
+        playerManager.counter++;
+        StartCoroutine(playerManager.CheckCounter());
+        isTeleport=true;
+        path.Clear();
+        tempPath.Clear();
+        playerData.pathCompletedCounter++;
+        EventManager.Broadcast(GameEvent.OnIncreaseScore);
+        playerData.successPathCompletedCounter++;
+        target.DOLocalMoveY(-1,0.2f);
+        EventManager.Broadcast(GameEvent.OnPlayerPathComplete);
+        transform.position=target.position;
+        DOTween.Kill(transform);
+        //Particle
+    }
     
 
     bool IsAdjacentToPreviousCell(GridCell cell)
@@ -294,7 +315,7 @@ public class PlayerMovement : MonoBehaviour
     //1 ler aslinda 0di !!!!!!!
     void MovePlayerAlongPath()
     {
-        if (path.Count > 1 && orderCell)
+        if (path.Count > 1 && orderCell && !isTeleport)
         {
         // Move the player towards the first cell in the path
             GameObject targetCell = path[1].gameObject;

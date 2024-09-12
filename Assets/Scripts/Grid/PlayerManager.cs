@@ -11,6 +11,8 @@ public class PlayerManager : MonoBehaviour
 
     internal int counter;
 
+    private int randomIndex;
+
 
     private bool canCount;
     private bool openPlayButton;
@@ -31,12 +33,14 @@ public class PlayerManager : MonoBehaviour
     {
         EventManager.AddHandler(GameEvent.OnNextLevel,OnNextLevel);
         EventManager.AddHandler(GameEvent.OnRestartLevel,OnRestartLevel);
+        EventManager.AddHandler(GameEvent.OnTeleportRandomPlayer,OnTeleportRandomPlayer);
     }
 
     private void OnDisable()
     {
         EventManager.RemoveHandler(GameEvent.OnNextLevel,OnNextLevel);
         EventManager.RemoveHandler(GameEvent.OnRestartLevel,OnRestartLevel);
+        EventManager.RemoveHandler(GameEvent.OnTeleportRandomPlayer,OnTeleportRandomPlayer);
     }
 
     private void OnGameStart()
@@ -51,6 +55,12 @@ public class PlayerManager : MonoBehaviour
         counter=0;
         gameData.isPlayerDead=false;
 
+    }
+
+    private void OnTeleportRandomPlayer()
+    {
+        randomIndex=Random.Range(0,players.Count);
+        players[randomIndex].TeleportToTarget();
     }
 
     private void OnNextLevel()
