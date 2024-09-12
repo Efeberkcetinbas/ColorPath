@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e14db6eb11dc14d4a9aadc380891c5fd, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  score: 0
+  score: 5
   increaseScore: 1
   levelIndex: 0
   levelNumber: 0
-  lifeTime: 5
+  lifeTime: 0
   isGameEnd: 0
   isPlayerDead: 0

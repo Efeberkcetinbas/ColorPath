@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        gameData.score=PlayerPrefs.GetInt("ScoreGame",0);
+        gameData.score=PlayerPrefs.GetInt("ScoreGame",5);
         OnUIUpdate();
     }
 

@@ -33,6 +33,7 @@ public enum GameEvent
     OnLifeFullUI,
     OnUpdateLife,
     OnHitTarget,
+    OnIncrementalPress,
     
     
     OnNextLevel,
