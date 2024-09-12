@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using TMPro;
-using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public TextMeshProUGUI score,levelText;
 
-    [SerializeField] private List<Button> specialButtons=new List<Button>();
+    [SerializeField] private List<GameObject> specialButtons=new List<GameObject>();
     public GameData gameData;
     public PlayerData playerData;
 
@@ -32,6 +31,12 @@ public class UIManager : MonoBehaviour
         EventManager.RemoveHandler(GameEvent.OnRestartLevel, OnRestartLevel);
         EventManager.RemoveHandler(GameEvent.OnLevelUIUpdate,OnLevelUIUpdate);
         //EventManager.RemoveHandler(GameEvent.OnPlayerStopsMove, OnPlayerStopsMove);
+    }
+
+    private void Start()
+    {
+        gameData.score=PlayerPrefs.GetInt("ScoreGame",0);
+        OnUIUpdate();
     }
 
     
@@ -71,7 +76,7 @@ public class UIManager : MonoBehaviour
     {
         for (int i = 0; i < specialButtons.Count; i++)
         {
-            specialButtons[i].interactable=val;
+            specialButtons[i].SetActive(val);
         }
     }
     

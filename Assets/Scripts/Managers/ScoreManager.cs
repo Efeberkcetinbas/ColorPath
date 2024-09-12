@@ -20,8 +20,11 @@ public class ScoreManager : MonoBehaviour
     private void OnIncreaseScore()
     {
         //gameData.score += 50;
+        Debug.Log("ITS HERE WORK");
         DOTween.To(GetScore,ChangeScore,gameData.score+gameData.increaseScore,.5f).OnUpdate(UpdateUI);
     }
+
+    
 
     private int GetScore()
     {
@@ -31,6 +34,7 @@ public class ScoreManager : MonoBehaviour
     private void ChangeScore(int value)
     {
         gameData.score=value;
+        PlayerPrefs.SetInt("ScoreGame",gameData.score);
     }
 
     private void UpdateUI()
