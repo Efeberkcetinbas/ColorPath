@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviour
 
     internal int counter;
 
-    private int randomIndex;
+    internal bool playerStuck;
     private int lastRandomIndex = -1; // Initialize with a value that is not in the range
 
 
@@ -50,6 +50,7 @@ public class PlayerManager : MonoBehaviour
     {
         //Debug.Log(players.Count);
         players.Clear();
+        playerStuck=false;
         FindObjectOfType<LevelProperty>().SetTempList();
         players=FindObjectOfType<LevelProperty>().tempList;
         //Debug.Log(players.Count);
@@ -99,6 +100,7 @@ public class PlayerManager : MonoBehaviour
         counter=0;
         openPlayButton=false;
         gameData.isPlayerDead=false;
+        playerStuck=false;
     }
     void Update()
     {

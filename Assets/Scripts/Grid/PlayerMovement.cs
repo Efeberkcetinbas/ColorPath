@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     public CellType playerType;
 
     private bool orderCell=true;
+    private bool isStuck=false;
 
     [SerializeField] private Vector3 startPos;
 
@@ -148,6 +149,8 @@ public class PlayerMovement : MonoBehaviour
                 EventManager.Broadcast(GameEvent.OnPlayerStopsMove);
             }*/
         }
+
+        
     }
 
     void StartDragging(Vector2 touchPosition)
@@ -208,6 +211,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 // Ensure that the target cell is only added if it's adjacent to the last cell in the path
                 // and if the path already contains at least one cell
+                isDragging=true;
                 if (hitCell.isTarget && path.Count > 0 && IsAdjacentToPreviousCell(hitCell))
                 {
                     //Debug.Log("KAFA DURDU");
@@ -223,6 +227,8 @@ public class PlayerMovement : MonoBehaviour
                     // Add the current cell to the path if it's adjacent to the previous cell
                     AddCellToPath(hitCell);
                 }
+                
+                CheckIfStuck();
 
                 
             }
@@ -284,6 +290,77 @@ public class PlayerMovement : MonoBehaviour
 
        
     }
+
+    private void CheckIfStuck()
+    {
+        if (isDragging && !CanContinueDragging())
+        {
+            isStuck = true;
+            HandleStuckState();
+        }
+        else
+        {
+            isStuck = false;
+        }
+
+    }
+
+    private bool CanContinueDragging()
+    {
+        if (path.Count == 0)
+            return false;
+
+        GridCell lastCell = path[path.Count - 1];
+
+        
+        Vector2[] directions = new Vector2[]
+        {
+            Vector2.up,
+            Vector2.down,
+            Vector2.left,
+            Vector2.right
+        };
+
+        
+        foreach (Vector2 direction in directions)
+        {
+            Vector3 checkPosition = lastCell.transform.position + new Vector3(direction.x, 0, direction.y);
+            RaycastHit hit;
+            Ray ray = new Ray(checkPosition + Vector3.up * 10, Vector3.down); // Raycast from above to check for cell
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                GridCell adjacentCell = hit.collider.GetComponent<GridCell>();
+                if (adjacentCell != null && !path.Contains(adjacentCell) && IsAdjacentToPreviousCell(adjacentCell))
+                {
+                    // If we find an adjacent cell that can be added to the path, the player is not stuck
+                    return true;
+                }
+            }
+        }
+
+        // Check if the player is at the target cell
+        if (lastCell.isTarget)
+        {
+            return true; // Allow dragging if the player is at the target cell
+        }
+
+        // If no valid adjacent cells were found and player is not at the target cell, the player is stuck
+        return false;
+    }
+    private void HandleStuckState()
+    {
+        // Handle the stuck state
+        if(!playerManager.playerStuck)
+        {
+            Debug.Log("Player is stuck!");
+            EventManager.Broadcast(GameEvent.OnPlayerDead);
+            playerManager.playerStuck=true;
+            
+        }
+        
+    }
+
 
     internal void TeleportToTarget()
     {
