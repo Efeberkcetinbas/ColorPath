@@ -15,4 +15,5 @@ public class GameData : ScriptableObject
 
     public bool isGameEnd=false;
     public bool isPlayerDead=false;
+    public bool isPlayerGhost=false;
 }

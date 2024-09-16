@@ -20,6 +20,7 @@ public enum GameEvent
 
     //Incrementals
     OnTeleportRandomPlayer,
+    OnGhost,
 
     //Grid
     OnPathAdded,
@@ -34,6 +35,7 @@ public enum GameEvent
     OnOpenPlayButton,
     OnLifeFull,
     OnLifeFullUI,
+    OnLifeIncrease,
     OnUpdateLife,
     OnHitTarget,
     OnIncrementalPress,

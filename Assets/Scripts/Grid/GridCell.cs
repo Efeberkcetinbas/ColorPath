@@ -69,7 +69,7 @@ public class GridCell : MonoBehaviour
                 {
                     if(!isHandledCollision)
                     {
-                        if(!gameData.isPlayerDead)
+                        if(!gameData.isPlayerDead && !gameData.isPlayerGhost)
                         {
                             EventManager.Broadcast(GameEvent.OnPlayerDead);
                             //Debug.Log("GRID CELL FAIL");

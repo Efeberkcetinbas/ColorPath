@@ -84,6 +84,7 @@ public class PanelManager : MonoBehaviour
         EventManager.AddHandler(GameEvent.OnUpdateLife,OnUpdateLife);
         EventManager.AddHandler(GameEvent.OnFalseDrag,OnFalseDrag);
         EventManager.AddHandler(GameEvent.OnLifeFullUI,OnLifeFullUI);
+        EventManager.AddHandler(GameEvent.OnLifeIncrease,OnLifeIncrease);
 
     }
 
@@ -102,6 +103,7 @@ public class PanelManager : MonoBehaviour
         EventManager.RemoveHandler(GameEvent.OnUpdateLife,OnUpdateLife);
         EventManager.RemoveHandler(GameEvent.OnFalseDrag,OnFalseDrag);
         EventManager.RemoveHandler(GameEvent.OnLifeFullUI,OnLifeFullUI);
+        EventManager.RemoveHandler(GameEvent.OnLifeIncrease,OnLifeIncrease);
 
     }
 
@@ -223,6 +225,11 @@ public class PanelManager : MonoBehaviour
         SetActivity(SceneUIs,false);
         StartCoroutine(SetElementsDotween(FailElements));
         CheckLifeCounter(restartLevelButton,failLifePanel);
+    }
+
+    private void OnLifeIncrease()
+    {
+        restartLevelButton.interactable=true;
     }
 
     private void SetSceneUIPosition(float valX,float valY)

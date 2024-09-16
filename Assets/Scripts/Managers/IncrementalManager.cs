@@ -135,17 +135,15 @@ public class IncrementalManager : MonoBehaviour
             switch (index)
             {
                 case 0:
-                    Debug.Log("Special Skill 1 activated!");
+                    EventManager.Broadcast(GameEvent.OnRestartLevel);
                     break;
                 case 1:
-                    Debug.Log("Special Skill 2 activated!");
+                    EventManager.Broadcast(GameEvent.OnGhost);
                     break;
                 case 2:
-                    Debug.Log("Special Skill 3 activated!");
                     EventManager.Broadcast(GameEvent.OnTeleportRandomPlayer);
                     break;
                 case 3:
-                    Debug.Log("Special Skill 4 activated!");
                     break;
                 default:
                     Debug.Log("Invalid skill index");
@@ -162,6 +160,7 @@ public class IncrementalManager : MonoBehaviour
             // Save the new amount
             PlayerPrefs.SetInt($"specialAmount_{index}", specialAmounts[index]);
             CheckGreaterThanZero(specialPluses[index], specialInfos[index], specialAmounts[index]);
+            EventManager.Broadcast(GameEvent.OnIncrementalPress);
         }
         else
         {
@@ -193,10 +192,11 @@ public class IncrementalManager : MonoBehaviour
     {
         if (selectedIndex < 0 || selectedIndex >= specialPrices.Count) return;
 
-        if (gameData.score >= specialPrices[selectedIndex])
+        if (gameData.score >= incrementalDataList[selectedIndex].price)
         {
             BuyItem(selectedIndex);
             EnableSpecialButtons(selectedIndex);
+            EventManager.Broadcast(GameEvent.OnIncrementalPress);
             
         }
     }
@@ -206,7 +206,7 @@ public class IncrementalManager : MonoBehaviour
         specialAmounts[index] = 2;
         UpdateAmountText(specialAmountTexts[index], specialAmounts[index]);
 
-        gameData.score -= specialPrices[index];
+        gameData.score -= incrementalDataList[index].price;
         PlayerPrefs.SetInt("ScoreGame", gameData.score);
         EventManager.Broadcast(GameEvent.OnUIUpdate);
 

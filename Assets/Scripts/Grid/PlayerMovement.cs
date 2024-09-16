@@ -41,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     public bool handHere;
 
     [SerializeField] private GameObject selectMeBall;
+    [SerializeField] private GameObject ghost;
 
     void Start()
     {
@@ -57,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
         EventManager.AddHandler(GameEvent.OnRestartLevel,OnRestartLevel);
         EventManager.AddHandler(GameEvent.OnFalseDrag,OnFalseDrag);
         EventManager.AddHandler(GameEvent.OnStopFalseDrag,OnStopFalseDrag);
+        EventManager.AddHandler(GameEvent.OnGhost,OnGhost);
 
     }
 
@@ -66,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
         EventManager.RemoveHandler(GameEvent.OnRestartLevel,OnRestartLevel);
         EventManager.RemoveHandler(GameEvent.OnFalseDrag,OnFalseDrag);
         EventManager.RemoveHandler(GameEvent.OnStopFalseDrag,OnStopFalseDrag);
+        EventManager.RemoveHandler(GameEvent.OnGhost,OnGhost);
     }
 
     private void OnNextLevel()
@@ -75,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
         startPos=transform.position;
         EventManager.Broadcast(GameEvent.OnPlayerColorUpdate);
         isTeleport=false;
+        ghost.SetActive(false);
     }
 
     private void OnPlayerDead()
@@ -96,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
         target.DOMoveY(0,0.1f);
         animator.SetTrigger("idle");
         isTeleport=false;
+        ghost.SetActive(false);
         hasReachedTarget=false;
         
     }
@@ -177,6 +182,11 @@ public class PlayerMovement : MonoBehaviour
         {
             selectMeBall.SetActive(true);
         }
+    }
+
+    private void OnGhost()
+    {
+        ghost.SetActive(true);
     }
 
     private void OnStopFalseDrag()

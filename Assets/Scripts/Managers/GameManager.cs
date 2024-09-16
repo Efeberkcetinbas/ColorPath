@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         waitForSeconds=new WaitForSeconds(2);
+        gameData.increaseScore=5;
         StartExitPanel();
     }
 
@@ -153,6 +154,7 @@ public class GameManager : MonoBehaviour
     {
         gameData.isGameEnd=val;
         pathData.playersCanMove=false;
+        gameData.isPlayerGhost=false;
         playerData.successPathCompletedCounter=0;
         playerData.pathCompletedCounter=0;
     }

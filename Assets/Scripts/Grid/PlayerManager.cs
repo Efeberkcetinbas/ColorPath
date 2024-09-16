@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
     internal int counter;
 
     private int randomIndex;
+    private int lastRandomIndex = -1; // Initialize with a value that is not in the range
 
 
     private bool canCount;
@@ -34,6 +35,7 @@ public class PlayerManager : MonoBehaviour
         EventManager.AddHandler(GameEvent.OnNextLevel,OnNextLevel);
         EventManager.AddHandler(GameEvent.OnRestartLevel,OnRestartLevel);
         EventManager.AddHandler(GameEvent.OnTeleportRandomPlayer,OnTeleportRandomPlayer);
+        EventManager.AddHandler(GameEvent.OnGhost,OnGhost);
     }
 
     private void OnDisable()
@@ -41,6 +43,7 @@ public class PlayerManager : MonoBehaviour
         EventManager.RemoveHandler(GameEvent.OnNextLevel,OnNextLevel);
         EventManager.RemoveHandler(GameEvent.OnRestartLevel,OnRestartLevel);
         EventManager.RemoveHandler(GameEvent.OnTeleportRandomPlayer,OnTeleportRandomPlayer);
+        EventManager.RemoveHandler(GameEvent.OnGhost,OnGhost);
     }
 
     private void OnGameStart()
@@ -57,10 +60,33 @@ public class PlayerManager : MonoBehaviour
 
     }
 
+    private void OnGhost()
+    {
+        gameData.isPlayerGhost=true;
+    }
+
     private void OnTeleportRandomPlayer()
     {
-        randomIndex=Random.Range(0,players.Count);
+        int randomIndex;
+
+        if (players.Count <= 1)
+        {
+            randomIndex = 0; // If only one player exists or the count is 1, use index 0.
+        }
+        else
+        {
+            randomIndex = Random.Range(0, players.Count - 1); // Generate random number
+            if (randomIndex >= lastRandomIndex)
+            {
+                randomIndex++; // Skip the last random index
+            }
+        }
+
+        // Teleport the player at the new random index
         players[randomIndex].TeleportToTarget();
+
+        // Update the lastRandomIndex to the new one
+        lastRandomIndex = randomIndex;
     }
 
     private void OnNextLevel()

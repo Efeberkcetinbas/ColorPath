@@ -105,6 +105,7 @@ public class LifeManager : MonoBehaviour
         {
             gameData.lifeTime += Mathf.Min(livesToRestore, 5 - gameData.lifeTime);
             lastLifeDecreaseTime = lastLifeDecreaseTime.AddMinutes(livesToRestore * restoreIntervalInMinutes);
+            EventManager.Broadcast(GameEvent.OnLifeIncrease);
             SaveLife();
         }
     }
