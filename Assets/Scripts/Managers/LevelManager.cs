@@ -9,9 +9,12 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameData gameData;   
     public List<GameObject> levels;
 
+    private bool isRestart=false;
+
     private void Awake()
     {
         LoadLevel();
+        isRestart=false;
     }
     private void LoadLevel()
     {
@@ -20,8 +23,9 @@ public class LevelManager : MonoBehaviour
         gameData.levelIndex = PlayerPrefs.GetInt("LevelNumber");
         if (gameData.levelIndex == levels.Count)
         {
-            gameData.levelIndex = 9;
-            SceneManager.LoadScene(0);
+            gameData.levelIndex = 2;
+            isRestart=true;
+            //SceneManager.LoadScene(0);
 
             //Tekrar ettigi icin event firlat bastaki yerlerine gitsin playerlar.
         }
@@ -38,6 +42,10 @@ public class LevelManager : MonoBehaviour
         }
         levels[gameData.levelIndex].SetActive(true);
 
+        if(isRestart)
+        {
+            RestartLevel();
+        }
         
     }
 
