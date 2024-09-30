@@ -23,7 +23,7 @@ public class LevelManager : MonoBehaviour
         gameData.levelIndex = PlayerPrefs.GetInt("LevelNumber");
         if (gameData.levelIndex == levels.Count)
         {
-            gameData.levelIndex = 2;
+            gameData.levelIndex = 13;
             isRestart=true;
             //SceneManager.LoadScene(0);
 

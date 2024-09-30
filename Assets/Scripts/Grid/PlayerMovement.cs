@@ -353,7 +353,7 @@ public class PlayerMovement : MonoBehaviour
         // Handle the stuck state
         if(!playerManager.playerStuck)
         {
-            Debug.Log("Player is stuck!");
+            
             EventManager.Broadcast(GameEvent.OnPlayerDead);
             playerManager.playerStuck=true;
             
