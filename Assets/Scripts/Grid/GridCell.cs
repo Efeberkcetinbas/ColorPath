@@ -120,8 +120,7 @@ public class GridCell : MonoBehaviour
         {
             if(cellTypes.Count>0)
             {
-            //Eger altinda baska bir renk yoksa
-                gridManager.ResetCellMaterial(row, column);
+                ResetCellMaterialInRowColumn();
                 if(players.Count!=0)
                 {
                     players.RemoveAt(players.Count-1);
@@ -130,5 +129,10 @@ public class GridCell : MonoBehaviour
             }
             
         }
+    }
+
+    internal void ResetCellMaterialInRowColumn()
+    {
+        gridManager.ResetCellMaterial(row, column);
     }
 }

@@ -285,6 +285,26 @@ public class PlayerMovement : MonoBehaviour
             tempPath.Add(cell.transform.position);
         }
 
+        if(!hasReachedTarget && !gameData.isGameEnd)
+        {
+            for (int i = 0; i < path.Count; i++)
+            {
+                GridCell cell = path[i];
+                cell.ResetCellMaterialInRowColumn();
+                Debug.Log(cell.name);
+                cell.cellColors.Clear();
+                cell.cellTypes.Clear();
+                cell.players.Clear();
+            }
+            
+
+            path.Clear();
+            tempPath.Clear();
+            Debug.Log("CALL");
+
+            StartCoroutine(StarterAddCellToPath(startCell));   
+        }
+
         
         
 
